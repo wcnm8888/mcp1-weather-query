@@ -1,0 +1,24 @@
+# Project-local runtimes and environments
+.runtime/
+.venv/
+
+# Python caches and test artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Build artifacts (F-002 and later)
+build/
+dist/
+*.egg-info/
+
+# Local secrets and editor/OS noise
+.env
+.env.*
+.DS_Store
+Thumbs.db
+*.log
