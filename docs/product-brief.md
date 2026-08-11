@@ -8,7 +8,7 @@ Datawhale 案例适合作为学习动机，但其天气实现使用 HelloAgents 
 
 ## 项目目标
 
-1. 用当前官方 Python MCP SDK 的 FastMCP 构建最小 MCP Server。
+1. 用当前官方 Python MCP SDK v2 的 `MCPServer`（v1 `FastMCP` 的后继 API）构建最小 MCP Server。
 2. 通过 stdio 被 MCP Inspector 或兼容 Host 启动和调用。
 3. 设计一个名称、描述、输入 Schema、输出 Schema 和失败语义都明确的只读 Tool。
 4. 用单元、协议集成和 stdio 冒烟测试形成可复现的本地学习闭环。

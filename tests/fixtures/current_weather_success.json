@@ -1,0 +1,40 @@
+{
+  "requested_location": "北京",
+  "country_code": "CN",
+  "resolved_location": {
+    "name": "北京市",
+    "country": "中国",
+    "country_code": "CN",
+    "admin1": "北京市",
+    "latitude": 39.9042,
+    "longitude": 116.4074,
+    "timezone": "Asia/Shanghai"
+  },
+  "current": {
+    "time": "2026-08-11T14:00:00+08:00",
+    "interval_seconds": 900,
+    "is_day": true,
+    "temperature_c": 31.2,
+    "apparent_temperature_c": 34.1,
+    "relative_humidity_percent": 61,
+    "precipitation_mm": 0.0,
+    "weather_code": 1,
+    "condition": "Mainly clear",
+    "wind_speed_kmh": 8.4,
+    "wind_direction_degrees": 170
+  },
+  "metadata": {
+    "units": {
+      "temperature_c": "°C",
+      "apparent_temperature_c": "°C",
+      "relative_humidity_percent": "%",
+      "precipitation_mm": "mm",
+      "wind_speed_kmh": "km/h",
+      "wind_direction_degrees": "°"
+    },
+    "provider": "Open-Meteo",
+    "model_based_current_conditions": true,
+    "attribution": "Weather data by Open-Meteo.com",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/"
+  }
+}

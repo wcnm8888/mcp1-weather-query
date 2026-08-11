@@ -1,0 +1,15 @@
+{
+  "results": [
+    {
+      "id": 1816670,
+      "name": "Beijing",
+      "latitude": 39.9075,
+      "longitude": 116.3972,
+      "country_code": "CN",
+      "timezone": "Asia/Shanghai",
+      "country": "China",
+      "admin1": "Beijing"
+    }
+  ],
+  "generationtime_ms": 0.42
+}
