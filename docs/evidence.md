@@ -1158,3 +1158,23 @@ D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没�
   `stdout_protocol_only=true`、`stderr_traceback=false`、exit code 0。
 - 未触发 GitHub Actions，未登录 PyPI、配置 Pending Publisher/GitHub environment、创建 tag、
   上传制品、commit、push 或 PR。Step 4 已完成，等待用户明确允许进入 Step 5。
+
+## R-001 / Step 5 Git/PR 交付（PR CI 待完成）
+
+日期：2026-08-12
+
+- 用户明确允许进入 R-001 Step 5 Git/PR 交付；该授权不包含 PyPI 登录、Publisher 配置、
+  tag、发布 job、制品上传、合并或 Step 6。
+- 刷新远程后确认 `main == origin/main == 0d5d7be9271b71143cdbcdf768bfbde5ed4393d0`，
+  当前分支为 `release/r-001-pypi-0.1.0`，全部 13 个文件均属于 R-001。
+- 提交前门禁通过：46 packages、Ruff format 44 files、lint、严格 mypy 27 source files、
+  pytest `85 passed, 1 skipped in 5.49s`、`git diff --check`；唯一 skip 为默认关闭的 live contract。
+- 精确暂存 13 个文件并通过 `git diff --cached --check`；未包含构建产物、日志、凭据、
+  本机配置、`src/`、`pyproject.toml`、`uv.lock`、`server.json` 或 CHANGELOG 变更。
+- 创建提交 `5f245ee6acc382400b28c557388a4aa114a9fb53`：
+  `ci(release): prepare trusted PyPI publishing`，并推送远程同名分支。
+- GitHub 连接器创建 PR 时发生传输错误且未产生 PR；按已批准 GitHub 交付流程使用已认证
+  `gh` 后备，创建以 `main` 为目标的 Draft PR #7：
+  `https://github.com/wcnm8888/mcp1-weather-query/pull/7`。
+- PR 初始检查只出现 `Validate and build distributions`，没有 publish job；当前仍需等待
+  最新文档提交对应的 PR CI 完成后，才能把 Step 5 写成通过。

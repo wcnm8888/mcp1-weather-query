@@ -1,6 +1,6 @@
 # R-001 L 级 QA 清单
 
-> 状态：`active / step_5_in_progress / git_delivery_authorized`。本清单用于 R-001 的独立 QA 与发布授权审计；勾选项必须
+> 状态：`active / step_5_pr_open / awaiting_pr_ci`。本清单用于 R-001 的独立 QA 与发布授权审计；勾选项必须
 > 有可复核证据。它不是发布证明，也不授权任何外部写入。
 
 ## 身份与公开边界

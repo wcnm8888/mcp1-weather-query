@@ -5,7 +5,7 @@
 - F-001：已完成、合并、归档并关闭。
 - F-002：已完成、合并、归档并关闭；PR #3 与收口 PR #4 均已合并。
 - D-001：已完成、合并、归档并关闭；PR #5 已合并。
-- R-001：任务卡已批准，Step 5 Git/PR 交付已获授权并进行中。
+- R-001：任务卡已批准，Step 5 Draft PR #7 已创建，等待最新 PR CI。
 - 当前分支：`release/r-001-pypi-0.1.0`（仅本地，尚未提交或推送）。
 - 起点基线：`main == origin/main == 0d5d7be9271b71143cdbcdf768bfbde5ed4393d0`。
 - 外部发布：未授权、未执行。
@@ -32,6 +32,10 @@
 
 R-001 Step 4 的独立 QA、新 live contract 和用户 UAT 已完成。用户已允许 Step 5 的精确
 commit、push、Draft PR 和 PR 检查；仍不授权发布 job、PyPI 登录/配置/上传或 tag。
+
+- 创建并推送提交 `5f245ee6acc382400b28c557388a4aa114a9fb53`。
+- 创建 Draft PR #7：`https://github.com/wcnm8888/mcp1-weather-query/pull/7`，目标为 `main`。
+- 当前 PR 检查只有 `Validate and build distributions`；等待最新提交对应的最终结果。
 
 ## R-001 Step 2 结果
 

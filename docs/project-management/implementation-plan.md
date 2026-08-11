@@ -4,7 +4,7 @@
 
 - 活动任务：R-001 PyPI 首次外部发布
 - 等级：L
-- 状态：`step_5_in_progress / git_delivery_authorized`
+- 状态：`step_5_pr_open / awaiting_pr_ci`
 - 起点：`main == origin/main == 0d5d7be9271b71143cdbcdf768bfbde5ed4393d0`
 - 本地分支：`release/r-001-pypi-0.1.0`
 - 外部发布：未授权、未执行
@@ -104,9 +104,9 @@
 
 ## 当前门禁
 
-Step 4 的独立 QA、新 live contract 和用户 UAT 已通过。用户已明确允许进入 Step 5，当前
-只执行精确 commit、push、Draft PR 和 PR 非发布 CI 验证；不得进入 Step 6、登录 PyPI、
-配置 Publisher、创建 tag 或上传。
+Step 5 已创建并推送提交 `5f245ee6acc382400b28c557388a4aa114a9fb53`，Draft PR #7
+以 `main` 为目标。当前等待最新 PR CI，必须确认 PR 只运行 build/QA 且没有执行 publish；
+不得进入 Step 6、登录 PyPI、配置 Publisher、创建 tag 或上传。
 
 ## 历史计划
 
@@ -248,8 +248,9 @@ Step 4 的独立 QA、新 live contract 和用户 UAT 已通过。用户已明�
 
 ## 下一门禁
 
-R-001 Step 5 已获授权。完成精确 Git/PR 交付与 PR CI 后停止；不得自动进入 Step 6、登录
-PyPI、配置 Pending Publisher、创建/推送 tag、上传制品或进入 R-002。
+等待 Draft PR #7 的最新 CI。通过后记录“PR 只检查、不发布”证据并停在用户审查/合并
+门禁；不得自动进入 Step 6、登录 PyPI、配置 Pending Publisher、创建/推送 tag、上传制品
+或进入 R-002。
 
 ## 当前验证
 

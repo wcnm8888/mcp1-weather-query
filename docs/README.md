@@ -18,8 +18,8 @@
 - 验收证据：[`evidence.md`](evidence.md)
 - 已归档任务卡：[`archive/task-cards/`](archive/task-cards/)
 
-F-001、F-002 与 D-001 的完整任务卡均已归档并关闭。R-001 是唯一活动任务；Step 5
-Git/PR 交付已获授权并正在执行。
+F-001、F-002 与 D-001 的完整任务卡均已归档并关闭。R-001 是唯一活动任务；Draft PR #7
+已创建，等待最新 PR CI 完成。
 
 ## 权威文档映射
 
@@ -51,7 +51,7 @@ Git/PR 交付已获授权并正在执行。
 
 ## 当前状态
 
-- 活动任务：R-001 PyPI 首次外部发布；Step 5 Git/PR 交付进行中。
+- 活动任务：R-001 PyPI 首次外部发布；Step 5 Draft PR #7 等待 CI。
 - roadmap：已批准；F-001、F-002、D-001 均已关闭，R-001 已批准，R-002 未启动。
 - Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；R-001 起点为同步后的 `0d5d7be`，当前仅本地分支 `release/r-001-pypi-0.1.0`。
 - 实现/测试：唯一 `get_current_weather` MCP Tool、固定候选 wheel/sdist、双干净安装和

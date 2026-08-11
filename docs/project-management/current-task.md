@@ -3,7 +3,7 @@
 ## 生命周期状态
 
 - 任务编号：`R-001`
-- 状态：`approved / step_5_in_progress / git_delivery_authorized`
+- 状态：`approved / step_5_pr_open / awaiting_pr_ci`
 - 风险等级：`L`（公开发布、供应链配置和不可覆盖版本）
 - 起点提交：`0d5d7be9271b71143cdbcdf768bfbde5ed4393d0`
 - 本地分支：`release/r-001-pypi-0.1.0`
@@ -167,6 +167,10 @@ attestation 已核验、公共安装和 stdio 验证通过、文档/Git 收口�
 Step 4 的独立 QA、新 live contract 和用户 UAT 已通过；用户已明确允许进入 Step 5
 Git/PR 交付。当前批准仍不授权：进入 Step 6、登录 PyPI、配置 Pending Publisher、创建或
 推送 tag、上传任何制品、触发发布 job 或进入 R-002。
+
+Step 5 已创建提交 `5f245ee6acc382400b28c557388a4aa114a9fb53`，推送
+`release/r-001-pypi-0.1.0` 并创建以 `main` 为目标的 Draft PR #7。当前等待最新 PR CI；
+用户审查/合并以及后续 Publisher 配置仍是独立门禁。
 
 ## 历史任务卡
 
