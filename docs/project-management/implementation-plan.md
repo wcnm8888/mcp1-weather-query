@@ -3,10 +3,10 @@
 ## 当前状态
 
 - 当前任务：F-001 一个 Tool 的本地天气闭环
-- 当前 Step：Step 6 本地 QA 与精确提交已完成，等待远程 PR 交付授权
+- 当前 Step：Step 6 draft PR #1 已创建，等待用户审查/合并决策
 - 当前分支：`feat/f-001-local-weather-tool`
-- 下一步：等待远程仓库信息，以及配置 remote、push、创建 PR 的明确授权
-- 禁止：自动创建远程、push、创建 PR、进入后续任务、打包或发布
+- 下一步：等待用户决定是否将 draft PR #1 标记 ready 或合并
+- 禁止：自动标记 ready、合并、关闭 F-001、进入后续任务、打包或发布
 
 ## Step 0：执行基线与本地 Git 启动
 
@@ -92,7 +92,7 @@
 
 ## Step 6：独立 QA、文档与 Git 收口
 
-状态：`local_completed / awaiting_remote_pr_authorization`
+状态：`draft_pr_open / awaiting_user_review`
 
 - [x] 审查完整已跟踪 diff 和全部未跟踪源码、测试、配置与文档。
 - [x] 复核唯一 Tool、稳定错误、固定端点、stdout/stderr、现代/Legacy 协议证据和敏感信息边界。
@@ -101,8 +101,10 @@
 - [x] 核实并停止一个遗留的项目 Playwright CLI daemon；未触碰用户编辑器或其他项目进程。
 - [x] 用户选择远程 PR 流程。
 - [x] 形成精确本地提交；提交哈希以 Git 事实为准，不在提交内容中自引用。
-- [ ] 获得远程仓库信息和外部写入授权后，另行配置 remote、push 并创建 PR。
-- [ ] PR 交付完成前不关闭 F-001、不进入 F-002。
+- [x] 创建 private GitHub 仓库 `wcnm8888/mcp1-weather-query`，配置 `origin` 并推送 `main`/功能分支。
+- [x] 创建 draft PR #1：`feat/f-001-local-weather-tool` → `main`；核验为 OPEN、MERGEABLE。
+- [ ] 用户审查并决定是否标记 ready 或合并。
+- [ ] 未经确认不关闭 F-001、不进入 F-002。
 
 ## 停止条件
 

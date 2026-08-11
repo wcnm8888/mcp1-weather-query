@@ -6,7 +6,7 @@
 
 | 编号 | 任务 | 状态 | 用户价值 | 主要范围 | 非目标 | 依赖 | 等级 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| F-001 | 一个 Tool 的本地天气闭环 | **本地完成；等待远程 PR** | 用户能在 Inspector/Host 通过 stdio 查询当前天气并获得结构化结果 | Python 工程基线、官方 SDK v2、Open-Meteo 适配器、一个 Tool、错误映射、现代/Legacy stdio 测试、Inspector 人工验收 | 打包发布、第二 Tool、HTTP、Agent | 已选择远程 PR；等待 remote/push/PR 授权 | M 内的首个垂直切片 |
+| F-001 | 一个 Tool 的本地天气闭环 | **draft PR #1 已创建；等待审查** | 用户能在 Inspector/Host 通过 stdio 查询当前天气并获得结构化结果 | Python 工程基线、官方 SDK v2、Open-Meteo 适配器、一个 Tool、错误映射、现代/Legacy stdio 测试、Inspector 人工验收 | 打包发布、第二 Tool、HTTP、Agent | PR 为 OPEN、MERGEABLE；等待用户 ready/merge 决策 | M 内的首个垂直切片 |
 | F-002 | 可安装与可构建闭环 | 待选择 | 用户能从 wheel/sdist 在干净环境安装并启动同一 Server | console entry point、包元数据、License/署名、`uv build`、artifact 审查、干净安装 smoke | 真实上传、Registry 登记 | F-001 关闭后由用户选择 | S |
 | D-001 | 发布候选与发布前审查 | 待选择 | 用户获得可审查、不会误发布的发布材料 | README 安装示例、CHANGELOG、发布清单、`server.json` 草案/校验、命名检查、安全审查 | 外部上传和注册 | F-002 关闭后由用户选择 | S |
 | R-001 | PyPI 外部发布 | 待选择、需外部授权 | 外部用户可通过 Python 包索引安装 Server | 授权后上传、验证公开制品、记录版本和回滚/弃用方案 | npm、Registry、远程托管 | D-001；PyPI 账号/Token 或 Trusted Publisher；用户明确授权 | 高影响发布动作 |

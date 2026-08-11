@@ -7,10 +7,10 @@
 ## 当前状态
 
 - 任务卡：已批准。
-- 当前 Step：Step 6 本地 QA 与精确提交已完成，等待远程 PR 交付授权。
+- 当前 Step：Step 6 draft PR #1 已创建，等待用户审查/合并决策。
 - 当前分支：`feat/f-001-local-weather-tool`。
 - 最近完成：审查全部已跟踪和未跟踪文件，完成范围扫描、文档收口和默认离线门禁。
-- 当前阻塞：无技术阻塞；当前没有 Git remote，且配置 remote、push、创建 PR 尚未获得外部写入授权，因此 F-001 未关闭。
+- 当前阻塞：无技术阻塞；draft PR 尚未由用户决定标记 ready 或合并，因此 F-001 未关闭。
 - 实现：天气领域、HTTP 适配器、MCP Tool 和源码 stdio 入口已实现；测试专用固定 Server 仅用于离线 smoke。
 - 测试：Step 6 默认离线 `52 passed, 1 skipped`，显式 live 历史证据为 `1 passed`；格式、lint、严格类型、依赖锁、SDK in-memory、现代/Legacy stdio 子进程和范围检查通过。
 - 构建/发布：均未开始。
@@ -70,8 +70,8 @@
 - 唯一 Tool、固定 Open-Meteo HTTPS endpoint、无 HTTP/SSE 传输、无生产 stdout `print`、无 Shell/文件写入和敏感信息边界复核通过。
 - 核实一个项目 `.runtime` 下的孤立 Playwright CLI daemon，父进程已不存在；已停止该进程并复核没有项目 Python/uv/Node 子进程残留。
 - 默认离线门禁为 `52 passed, 1 skipped`；唯一 skip 是显式 live contract。本 Step 没有联网或运行 Inspector。
-- 用户已选择远程 PR 流程并形成精确本地提交；未创建远程、push 或 PR，F-001 尚未关闭。
+- 用户已选择远程 PR 流程；private GitHub 仓库、`origin`、两条远程分支和 draft PR #1 均已建立。PR 为 OPEN、MERGEABLE，F-001 尚未关闭。
 
 ## 唯一下一步
 
-等待远程仓库信息，以及配置 remote、push、创建 PR 的明确授权；不得自动执行外部写入、关闭 F-001 或进入 F-002。
+等待用户审查 draft PR #1，并明确决定是否标记 ready 或合并；不得自动执行、关闭 F-001 或进入 F-002。

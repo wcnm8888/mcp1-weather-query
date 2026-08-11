@@ -240,12 +240,15 @@
 - `uv run mypy`：通过，21 个源码/测试文件无问题。
 - Git 交付前清除 `MCP_WEATHER_RUN_LIVE` 并执行 `uv run pytest -q --tb=short`：`52 passed, 1 skipped in 5.51s`；唯一 skip 是显式 live contract。
 - `git diff --check`：无空白错误；Git 仅提示现有 LF 文件未来可能按 Windows 配置转换为 CRLF。
-- Step 6 QA 执行过程未联网、未运行 Inspector、未构建或打包；用户随后选择远程 PR 流程并授权形成本地提交，仍未创建远程、push 或 PR。
+- Step 6 QA 执行过程未联网、未运行 Inspector、未构建或打包；该阶段收口时只形成了本地提交，远程、push 和 PR 事实记录在后续 GitHub 交付证据中。
 
 ## 未完成证据
 
 - F-001 Step 5 协议对齐：现代/Legacy 两条 stdio 证据已完成。
 - F-001 Step 5 用户 UAT：用户于 2026-08-11 明确确认通过。
 - F-001 Step 6 独立 QA：已完成；用户已选择远程 PR 流程并形成精确本地提交，提交哈希以 Git 事实为准。
-- 远程 PR 交付：当前无 remote，未 push、未创建 PR；等待远程仓库信息和外部写入授权，F-001 尚未关闭。
+- GitHub 远程：通过已认证账号 `wcnm8888` 创建 private 仓库 `wcnm8888/mcp1-weather-query`，配置 HTTPS `origin`，成功推送 `main` 和 `feat/f-001-local-weather-tool`。
+- PR 创建：GitHub App 因新 private 仓库尚未进入安装可见范围返回 404；按 `github:yeet` fallback 使用已认证 GitHub CLI 创建 draft PR #1，没有重复 PR。
+- PR 复核：`main` ← `feat/f-001-local-weather-tool`，状态 OPEN、draft、MERGEABLE；URL 为 `https://github.com/wcnm8888/mcp1-weather-query/pull/1`。
+- 未标记 ready、未合并、未创建 release 或执行其他发布；等待用户审查/合并决策，F-001 尚未关闭。
 - 构建、打包、干净安装和发布不属于 F-001，且无通过结论。
