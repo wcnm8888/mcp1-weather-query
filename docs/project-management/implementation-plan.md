@@ -1,12 +1,14 @@
-# D-001 Implementation Plan
+# 实施计划门禁
 
 ## 当前状态
 
-- 任务：D-001 发布候选与发布前审查
-- 当前 Step：Step 7 Git/PR 交付
-- 状态：`step_7_git_pr_delivered / awaiting_user_review`
-- 分支：`chore/d-001-release-candidate`
-- 基线：`main == origin/main == a3ef73c185084ae0a0e3374d78779f7618f0a16b`
+- 活动任务：无
+- 最近完成任务：D-001 发布候选与发布前审查
+- 状态：`no_active_task / awaiting_user_selection`
+- 功能合并：PR #5，merge commit `2e691c351b78a0281a4a1fcdb21eca90c8e2f580`
+- 当前收口分支：`docs/d-001-post-merge`
+
+以下 Step 0–7 内容保留为最近完成计划的摘要；D-001 完整任务卡已归档到 `docs/archive/task-cards/D-001-发布候选与发布前审查.md`。
 
 ## Step 0 唯一目标
 
@@ -132,11 +134,18 @@
 - [x] 创建以 `main` 为目标的 Draft PR #5：`https://github.com/wcnm8888/mcp1-weather-query/pull/5`。
 - [x] 停在用户 PR 审查/合并门禁。
 
-## 后续 Step（未授权）
+## Step 8 合并后收口
 
-1. Step 8：合并后收口。
+- [x] 核验 PR #5 已合并，merge commit 为 `2e691c351b78a0281a4a1fcdb21eca90c8e2f580`。
+- [x] 本地 `main` 以 fast-forward 同步到 `origin/main`。
+- [x] 合并后完整离线门禁通过：`76 passed, 1 skipped`。
+- [x] D-001 完整任务卡归档，活动任务重置为无。
+- [x] roadmap、progress、文档地图、架构和证据同步到最终状态。
+- [x] 收口文档已通过独立 Draft PR #6 交付；该 PR 仍由用户审查并合并。
 
-每个 Step 必须由用户单独允许；不得跨 Step。D-001 结束后也不得自动进入 R-001/R-002。
+## 下一门禁
+
+等待用户选择是否起草 R-001 候选任务卡。不得自动进入 R-001/R-002。
 
 ## 当前验证
 
@@ -156,4 +165,4 @@ git ls-files --others --exclude-standard
 
 ## 停止条件
 
-发现基线不一致、来源不明变更、敏感信息、需要修改源码/依赖/系统环境、publisher login/publish、Registry/PyPI 写入、tag/Release、自动合并，或当前 Step 无法在已批准范围内通过时立即停止并报告。
+发现合并事实不一致、来源不明变更、敏感信息、需要修改源码/依赖/系统环境、publisher login/publish、Registry/PyPI 写入、tag/Release 或需要自动进入后续任务时立即停止并报告。

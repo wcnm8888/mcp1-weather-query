@@ -4,9 +4,9 @@
 
 - F-001：已完成、合并、归档并关闭。
 - F-002：已完成、合并、归档并关闭；PR #3 与收口 PR #4 均已合并。
-- D-001：Step 6 独立 QA 与用户 UAT 已完成；Step 7 已交付 Draft PR #5，等待用户审查。
-- 当前分支：`chore/d-001-release-candidate`，已跟踪同名远程分支。
-- 基线：`main == origin/main == a3ef73c185084ae0a0e3374d78779f7618f0a16b`。
+- D-001：已完成、合并、归档并关闭；PR #5 已合并。
+- 当前分支：`docs/d-001-post-merge`，只承载合并后文档收口。
+- 合并基线：`main == origin/main == 2e691c351b78a0281a4a1fcdb21eca90c8e2f580`。
 - 外部发布：未授权、未执行。
 
 ## Step 0 进展
@@ -71,4 +71,13 @@
 
 ## 当前门禁
 
-用户于 2026-08-11 提供 QA wheel 环境复验结果，并要求验收通过后进入 Step 7；截图显示 provenance、Legacy/现代协议、唯一 Tool、`structuredContent`、stdout/stderr 和退出码均通过。因此 Step 6 UAT 已通过。Step 7 已创建 Draft PR #5，当前等待用户审查并决定 Ready/合并；不得自动合并、登录或发布。
+PR #5 已由用户合并，本地 `main` 已同步，合并后完整离线门禁通过。D-001 任务卡已归档，活动任务已重置。当前只交付 Step 8 收口文档；之后等待用户决定是否起草 R-001 候选任务卡，不得自动登录或发布。
+
+## Step 8 合并后收口
+
+- PR #5 状态：`MERGED`；合并时间 `2026-08-11T15:46:20Z`；merge commit `2e691c351b78a0281a4a1fcdb21eca90c8e2f580`。
+- 本地 `main` 通过 fast-forward 与 `origin/main` 对齐，工作树在创建收口分支前干净。
+- 合并后门禁：lock、Ruff format/lint、严格 mypy、`76 passed, 1 skipped` 和 diff 检查均通过。
+- D-001 完整任务卡已归档到 `docs/archive/task-cards/D-001-发布候选与发布前审查.md`。
+- 收口文档已通过 Draft PR #6 交付，来源分支为 `docs/d-001-post-merge`，目标为 `main`。
+- 未访问 live API，未运行 Inspector/publisher，未上传、登记、创建 tag 或 Release。

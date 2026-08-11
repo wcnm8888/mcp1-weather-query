@@ -12,7 +12,7 @@
 - 代码：领域/服务/Open-Meteo 适配器已实现；官方 v2 `MCPServer` 只注册 `get_current_weather`，并提供输入/输出 Schema、只读 annotations、结构化成功结果和稳定 Tool execution error。
 - Git：private 仓库为 [wcnm8888/mcp1-weather-query](https://github.com/wcnm8888/mcp1-weather-query)；[PR #1](https://github.com/wcnm8888/mcp1-weather-query/pull/1) 已把 `feat/f-001-local-weather-tool` 合并到 `main`，原本地和远程功能分支已删除。
 - 制品/发布：已生成本地 wheel/sdist 并通过内容审查；未上传、未注册任何外部条目，不代表已经发布。
-- 测试：D-001 当前完整默认门禁为 `76 passed, 1 skipped`；唯一 skip 是显式 opt-in 的 live contract。此前 live contract 为 `1 passed`，Inspector 已完成唯一 Tool 的发现、成功和错误路径验证。
+- 测试：最近一次完整默认门禁为 `76 passed, 1 skipped`；唯一 skip 是显式 opt-in 的 live contract。此前 live contract 为 `1 passed`，Inspector 已完成唯一 Tool 的发现、成功和错误路径验证。
 - 启动边界：项目已注册 `mcp-weather-query` console command；wheel 与 sdist 已分别在项目外独立环境安装，并在无 `PYTHONPATH`、非源码工作目录下启动同一 stdio Server。
 - Node 兼容性：项目独立 Node 24.19.0 已通过官方 SHA256 校验，Inspector 2.1.0 不再产生 engine warning；系统 Node 22.16.0 未改变。
 - 协议证据：官方 Python SDK v2 `Client(mode="auto")` 通过生产 stdio 入口完成 `server/discover`，协商 MCP 2026-07-28，且未执行 Legacy initialize；同一 Server 继续允许 Inspector 2.1.0 以 Legacy MCP 2025-11-25 调试。

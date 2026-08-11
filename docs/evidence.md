@@ -993,3 +993,31 @@ D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没�
 - 没有自动合并，没有创建 tag/Release，没有运行 publisher/login/publish，没有上传 PyPI
   或登记 Registry，也没有访问 Open-Meteo live API 或运行 Inspector。
 - D-001 尚未关闭。当前停在用户 PR 审查门禁；合并后 Step 8 仍需用户单独允许。
+
+## D-001 / Step 8 合并后收口
+
+日期：2026-08-11
+
+- 用户确认 PR #5 已合并并明确允许进入 Step 8。GitHub 复核 PR #5 状态为 `MERGED`，
+  合并时间为 `2026-08-11T15:46:20Z`，merge commit 为
+  `2e691c351b78a0281a4a1fcdb21eca90c8e2f580`。
+- 合并前 PR #5 包含提交 `f44e8b6a4df63016a639df4b7e2d5337c6fbf28d` 与
+  `e907e7a5df50c2031ddf901bde6930e29969757f`；目标为 `main`，来源为
+  `chore/d-001-release-candidate`。
+- 从干净工作树切回 `main`，执行 `git fetch origin main --prune` 和
+  `git pull --ff-only origin main`；本地 `main` 与 `origin/main` 均同步到 `2e691c3`。
+- 合并后使用既有环境运行完整离线门禁：`uv lock --check` 通过（46 packages）；Ruff
+  format 41 个文件通过；Ruff lint 通过；严格 mypy 26 个源文件通过；pytest 为
+  `76 passed, 1 skipped in 6.18s`，唯一 skip 仍为显式 live contract；`git diff --check`
+  通过。
+- 从合并后的 `main` 创建 `docs/d-001-post-merge`，只承载最终文档治理：归档完整 D-001
+  任务卡、重置活动任务和实施计划入口、同步 roadmap/progress/文档地图/架构/测试状态。
+- 创建提交 `47809656a218c80f196d6bd890d5410a22c23fbb`
+  （`docs(project): close D-001 after merge`）并推送 `docs/d-001-post-merge`。
+- 创建 Draft PR #6：`https://github.com/wcnm8888/mcp1-weather-query/pull/6`；目标为
+  `main`，来源为 `docs/d-001-post-merge`。创建后状态为 `OPEN / Draft / MERGEABLE`。
+- D-001 的代码、构建、QA、UAT 和功能合并均已完成；没有修改生产 Tool、依赖、锁文件
+  或运行时环境。
+- 未访问 Open-Meteo live API，未运行 Inspector/publisher，未登录或上传 PyPI，未登记
+  Registry，未创建 tag/Release，也未进入 R-001/R-002。
+- D-001 最终状态为：已完成发布候选与发布前审查，等待用户选择是否起草 R-001 候选任务卡。
