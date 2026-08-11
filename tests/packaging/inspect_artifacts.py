@@ -144,6 +144,11 @@ def scan_payload(name: str, payload: bytes) -> None:
     require(SECRET_ASSIGNMENT.search(payload) is None, f"{name}: contains a secret-like assignment")
 
 
+def normalized_text(payload: bytes) -> str:
+    """Compare UTF-8 project text independently of Git's checkout line endings."""
+    return payload.decode("utf-8").replace("\r\n", "\n")
+
+
 def validate_record(archive: zipfile.ZipFile, file_names: set[str]) -> None:
     """Check RECORD coverage, sizes, and SHA-256 hashes."""
     record_name = f"{DIST_INFO}/RECORD"
@@ -250,19 +255,25 @@ def inspect_artifacts(dist_directory: Path) -> dict[str, Any]:
     for production_name in PRODUCTION_FILES:
         source_payload = (PROJECT_ROOT / "src" / production_name).read_bytes()
         require(
-            wheel_payloads[production_name] == source_payload, f"wheel drift: {production_name}"
+            normalized_text(wheel_payloads[production_name]) == normalized_text(source_payload),
+            f"wheel drift: {production_name}",
         )
         sdist_name = f"{SDIST_ROOT}/src/{production_name}"
-        require(sdist_payloads[sdist_name] == source_payload, f"sdist drift: {production_name}")
+        require(
+            normalized_text(sdist_payloads[sdist_name]) == normalized_text(source_payload),
+            f"sdist drift: {production_name}",
+        )
 
     for legal_name in ("LICENSE", "NOTICE"):
         source_payload = (PROJECT_ROOT / legal_name).read_bytes()
         require(
-            wheel_payloads[f"{DIST_INFO}/licenses/{legal_name}"] == source_payload,
+            normalized_text(wheel_payloads[f"{DIST_INFO}/licenses/{legal_name}"])
+            == normalized_text(source_payload),
             f"wheel legal file drift: {legal_name}",
         )
         require(
-            sdist_payloads[f"{SDIST_ROOT}/{legal_name}"] == source_payload,
+            normalized_text(sdist_payloads[f"{SDIST_ROOT}/{legal_name}"])
+            == normalized_text(source_payload),
             f"sdist legal file drift: {legal_name}",
         )
 
