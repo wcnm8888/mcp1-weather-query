@@ -32,7 +32,7 @@
 
 ## 当前门禁
 
-F-002 继续复用以下默认离线门禁：
+项目继续复用以下默认离线门禁：
 
 ```text
 uv lock --check
@@ -43,8 +43,8 @@ uv run mypy
 git diff --check
 ```
 
-Step 2 已使 packaging 配置契约全部转绿；当前完整默认 pytest 为
-`62 passed, 1 skipped`，唯一 skip 仍是显式 live contract。Step 1 的历史红灯是
+F-002 Step 2 已使 packaging 配置契约全部转绿；D-001 当前完整默认 pytest 为
+`76 passed, 1 skipped`，唯一 skip 仍是显式 live contract。F-002 Step 1 的历史红灯是
 `6 failed, 56 passed, 1 skipped`，对应六项真实配置缺口。
 
 `uv build`、wheel/sdist 审查属于 F-002 Step 3，双干净安装与 installed-package
@@ -83,6 +83,54 @@ stdio 验证属于 Step 4，两者均已通过。Inspector 是人工协议调试
 live contract 只断言固定 endpoint、响应模型、解析地点和来源/许可证元数据，不保存完整响应。Inspector 使用精确 v2.1.0、项目虚拟环境 Python、显式源码 `PYTHONPATH` 与工作目录；人工验证唯一 Tool、输入字段、annotations、结构化成功结果和稳定错误语义，结束后关闭进程并使临时认证令牌失效。
 
 兼容性复验使用项目独立 Node 24.19.0 消除 Inspector engine warning。协议证据区分两条路径：stdio Inspector 的 Legacy `initialize`/2025-11-25 只证明向后兼容；官方 SDK v2 `Client(mode="auto")` 对生产 stdio 入口执行 `server/discover`，以 `protocol_version=2026-07-28`、存在 `discover_result` 且不存在 `initialize_result` 证明现代路径。测试专用 stdio Server 在同一现代协议下完成离线 Tool call。不得要求一个 2026 会话展示 `initialize=2026-07-28`，也不得把 Legacy Inspector 会话冒充现代协议证据。
+
+## D-001 发布候选测试分层
+
+- Step 1 新增 `tests/release/test_release_candidate_contract.py`，只静态读取现有文件，
+  不构建、不安装、不启动子进程、不联网。
+- 6 个预期红灯分别对应：缺少 CHANGELOG、候选 wheel 安装说明、未来 PyPI 命令及
+  未发布标签、Host stdio 配置、PyPI Registry ownership marker/明确未发布边界、
+  `uv build --no-sources` 与安全 publisher 命令契约。
+- 现有 distribution/import/console/version/License identity 继续通过，防止 D-001 借发布
+  准备改名、升级版本或替换入口。
+- Step 3 Registry 矩阵只允许 `server.json`、当前固定 Schema、PyPI 引用和 stdio；
+  `login`/`publish` 明确禁止。本 Step 不创建或校验 manifest。
+- Step 4 强制 wheel/sdist 两种候选制品且不提交 Git；Step 5 强制两个独立安装环境，
+  禁止 editable、`PYTHONPATH` 和 live 天气请求。本 Step 只定义矩阵。
+- Step 1 完整测试故意为 `6 failed, 66 passed, 1 skipped`；排除 release contract 后，
+  既有回归仍为 `62 passed, 1 skipped`。
+- Step 2 只新增/更新 README、CHANGELOG 和 release plan，使 release contract 达到
+  `10 passed`；完整离线测试为 `72 passed, 1 skipped`，没有放宽断言或执行后续矩阵。
+- Step 3 新增 `server.json` 与 4 项静态契约，检查 Schema、名称/版本、PyPI package、
+  `runtimeHint=uvx`、stdio、README marker/repository 一致性，并拒绝 remote、HTTP/SSE、
+  环境变量、参数和敏感字段。release 测试合计 `14 passed`。
+- 官方 `mcp-publisher v1.8.1 validate` 额外完成 Schema/语义验证。该命令会把 manifest
+  POST 到未认证 `/v0/validate`，因此与默认离线 pytest 分开记录，不能写成纯离线
+  证据；它不调用 publish 或创建 Registry 条目。
+- Step 3 完整默认离线测试为 `76 passed, 1 skipped`，唯一 skip 仍是 live contract。
+- Step 4 以 `uv build --no-sources --offline` 在项目外生成候选，并复用/增强
+  `tests/packaging/inspect_artifacts.py`。外层目录必须恰有 uv 的 `*` 型 `.gitignore`、
+  一个 wheel 和一个 sdist；归档内部继续使用精确白名单。
+- wheel 检查 15 个文件、Core Metadata 2.4、pure-Python tag、console entry point、
+  RECORD 全覆盖/大小/SHA-256；sdist 检查 14 个可重建文件和当前 pyproject/README。
+- 两个制品还必须与当前源码、LICENSE/NOTICE、README 一致；README 直接检查 Registry
+  marker、Open-Meteo/CC BY 4.0 和 PyPI/Registry 未发布状态。所有 payload 扫描本机
+  路径、运行时目录和秘密赋值。
+- Step 4 只做静态审查，明确没有安装、import 或 stdio；这些属于 Step 5。
+- Step 5 在项目外新建 `wheel-env`/`sdist-env`，以 `UV_OFFLINE=1` 从 Step 4 固定制品
+  分别安装。验证器必须由各自环境 Python 运行，并检查 `direct_url.json`、模块和 console
+  来源，拒绝 editable、源码目录、`PYTHONPATH` 与 `VIRTUAL_ENV` 泄漏。
+- 每套 installed-package 复验包含三条证据：原始生产 console 的 Legacy
+  initialize/tools-list/stdout/exit；官方 SDK v2 Client 的 MCP 2026-07-28 modern
+  discovery；未发布的测试专用入口对已安装生产包执行确定性结构化 Tool 调用。三条均只
+  允许唯一 `get_current_weather`，且不访问天气 API。
+- 子进程单步超时为 10 秒；生产 stderr 不得含 traceback，测试诊断只进入 stderr，关闭后
+  不得残留来自 Step 5 环境的 Python/uv/Node 进程。Step 5 实际结果为 wheel 与 sdist
+  两条验证均通过；默认回归保持 `76 passed, 1 skipped`。
+- Step 6 独立 QA 把发布候选 README 的阶段文字改为当前事实后，先确认旧 Step 4 制品因
+  嵌入 README 过期而失败，再在新的项目外 QA 目录离线重建。QA wheel/sdist 均重新通过
+  精确白名单、元数据、源码/法律文件/README 一致性、双安装 provenance 和三条 stdio
+  证据；用户 UAT 只使用该 QA 候选。
 
 ## 验收证据格式
 

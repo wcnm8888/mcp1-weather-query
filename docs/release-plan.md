@@ -29,10 +29,100 @@ Datawhale 章节把 Smithery 称作“官方发布平台”，本项目不沿用
 6. 运行单元、集成、lint、格式、类型和敏感信息检查。
 7. 生成 wheel/sdist，在干净临时环境安装并再次执行 stdio smoke/Inspector。
 
-F-002 已完成：新的本地 QA wheel/sdist 已生成、审查，并分别在项目外独立环境完成
-无 `PYTHONPATH` 安装、stdio 复验和用户 UAT；PR #3 已合并，但仍没有上传或发布。
-PR #3 只交付源码、测试、配置和证据，不包含构建制品或发布动作。Inspector
-不属于 F-002 默认验收，除非用户另行批准。
+F-002 已完成并关闭：新的本地 QA wheel/sdist 已生成、审查，并分别在项目外独立环境
+完成无 `PYTHONPATH` 安装、stdio 复验和用户 UAT；PR #3 与收口 PR #4 均已合并，
+但仍没有上传或发布。Inspector 不属于 D-001 默认验收，除非用户另行批准。
+
+## D-001 发布候选命令契约
+
+以下命令是 D-001 各 Step 使用的发布前检查基线；实际路径和结果分别记录在对应 Step。
+候选目录固定在项目外
+E 盘，避免把 wheel、sdist、publisher binary 或临时环境提交到仓库：
+
+```powershell
+$candidateRoot = 'E:\mcp-weather-query-release-candidate\0.1.0'
+uv build --no-sources --out-dir "$candidateRoot\dist"
+```
+
+Step 4 必须同时得到一个 wheel 和一个 sdist，并在继续前检查文件清单、包元数据、
+README、LICENSE、NOTICE、哈希及敏感信息。Step 5 再从这两个具体制品分别安装到两个
+项目外干净环境；不得使用 editable install、源码目录或 `PYTHONPATH`。
+
+Step 3 的通用阶段命令是 `mcp-publisher validate`。本次实际使用放在项目外且固定版本的
+官方工具执行：
+
+```powershell
+E:\mcp-weather-query-tools\mcp-publisher\v1.8.1\bin\mcp-publisher.exe validate
+```
+
+在整个 D-001 中禁止执行以下外部写入命令：
+
+```powershell
+mcp-publisher login
+mcp-publisher publish
+```
+
+同样禁止 `uv publish`、Twine 上传、创建 tag/Release 或任何 Registry/PyPI 写入。
+v1.8.1 的 `validate` 会把本地 `server.json` 发送到未认证的官方
+`https://registry.modelcontextprotocol.io/v0/validate` 端点，因此不是纯离线验证；它不读取
+发布凭据、不调用 publish 端点，也不创建 Registry 条目。本次结果为
+`✅ server.json is valid`，只代表 Schema/语义检查通过，不代表包已在 PyPI 发布或条目
+已登记。
+
+固定工具归档来自官方 v1.8.1 release，保存于项目外；归档 SHA-256 为
+`399ad0d6e00a50812b563a71d8bfbff5160c085e6b13aac6ec083d98d5ff7c45`，与 GitHub
+release asset digest 一致。该工具未加入 PATH，也未修改系统或项目环境。
+
+## D-001 Step 4 候选制品
+
+本次使用现有 uv 0.6.14 和项目内 Python 3.12.10，在项目外执行：
+
+```powershell
+uv build --no-sources --offline --out-dir `
+  E:\mcp-weather-query-release-candidate\0.1.0\step4-20260811T205328\dist
+```
+
+`--offline` 成功，说明本次构建没有访问包索引；`--no-sources` 禁止使用 uv 的本地
+source overrides。uv 先生成 sdist，再从该 sdist 生成 wheel。候选目录仅允许：
+
+- uv 自动生成、内容为 `*` 的 1-byte `.gitignore`；
+- `mcp_weather_query-0.1.0-py3-none-any.whl`；
+- `mcp_weather_query-0.1.0.tar.gz`。
+
+wheel SHA-256 为
+`3e526b64d7f41a50679a586f54cda108ac7a8cc8b15d432faca4108c76da438a`；sdist
+SHA-256 为 `eff5f30a417886c4ea6069cfaf95d41eae13067be4e4dc64a0eff25658090f4f`。
+两者已通过文件白名单、Core Metadata 2.4、entry point、wheel RECORD、源码/法律文件
+一致性、嵌入 README、Registry marker、未发布声明、本机路径和秘密扫描。Step 4 没有
+安装或运行这些制品；安装与 stdio 验证属于 Step 5。
+
+## D-001 Step 5 双干净安装
+
+Step 5 没有重建制品，而是固定使用上节两个文件，在项目外新目录
+`E:\mcp-weather-query-release-candidate\0.1.0\step5-20260811T210410` 创建独立
+`wheel-env` 与 `sdist-env`。两者均使用 Python 3.12.10，并在 `UV_OFFLINE=1`、无
+`PYTHONPATH`/`PYTHONHOME`/`VIRTUAL_ENV` 下分别从本地 wheel 与 sdist 安装。
+
+安装 provenance 精确指向对应制品；模块来自各自 `Lib\site-packages`，console 来自各自
+`Scripts\mcp-weather-query.exe`。两套环境均通过生产 stdio Legacy initialize/tools-list、
+官方 SDK v2 MCP 2026-07-28 discovery 和确定性离线 Tool 调用，只暴露
+`get_current_weather`。stdout 仅含协议消息，诊断仅进入 stderr，进程退出码为 0，且没有
+遗留 Step 5 运行时进程。本结果只证明固定本地候选可安装、可启动，不代表已上传 PyPI
+或登记 Registry。
+
+## D-001 Step 6 QA 候选
+
+独立 QA 修正根 README 的陈旧阶段文字后，Step 4 制品被嵌入 README 一致性门禁正确
+判定为过期。旧目录保留为历史证据；新的用户 UAT 候选位于
+`E:\mcp-weather-query-release-candidate\0.1.0\step6-qa-20260811T213511`。
+
+- wheel：16,340 bytes，15 个文件，SHA-256
+  `c93ab54579fdd92c8ed91a5c6ea3fe2c8b97373fc50abfbc8d42fdbd01b661b6`；
+- sdist：11,904 bytes，14 个文件，SHA-256
+  `f9d68065233674f7413b95ee10b0d297bcbae8b8f3ff6cfceecb6d4e1b4d18f2`。
+
+该候选已重新通过静态审查、wheel/sdist 双独立安装和 installed-package stdio 复验。
+用户 UAT 只能使用这组 QA 候选；它仍是本地文件，不代表 PyPI 或 Registry 发布。
 
 ## 发布闭环
 

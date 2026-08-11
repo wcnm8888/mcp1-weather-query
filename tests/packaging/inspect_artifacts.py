@@ -1,4 +1,4 @@
-"""Inspect real F-002 wheel and sdist artifacts without installing them."""
+"""Inspect real F-002/D-001 wheel and sdist artifacts without installing them."""
 
 from __future__ import annotations
 
@@ -24,10 +24,12 @@ EXPECTED_README = (PROJECT_ROOT / "README.md").read_text(encoding="utf-8")
 DISTRIBUTION_BASENAME = "mcp_weather_query"
 DISTRIBUTION_NAME = "mcp-weather-query"
 VERSION = "0.1.0"
+REGISTRY_SERVER_NAME = "io.github.wcnm8888/mcp1-weather-query"
 WHEEL_NAME = f"{DISTRIBUTION_BASENAME}-{VERSION}-py3-none-any.whl"
 SDIST_NAME = f"{DISTRIBUTION_BASENAME}-{VERSION}.tar.gz"
 SDIST_ROOT = f"{DISTRIBUTION_BASENAME}-{VERSION}"
 DIST_INFO = f"{DISTRIBUTION_BASENAME}-{VERSION}.dist-info"
+EXPECTED_DIST_DIRECTORY_FILES = {".gitignore", WHEEL_NAME, SDIST_NAME}
 
 PRODUCTION_FILES = frozenset(
     {
@@ -131,6 +133,12 @@ def validate_metadata(message: Message, description: str, *, source: str) -> Non
     require("Open-Meteo" in description, f"{source}: README attribution is missing")
     require("CC BY 4.0" in description, f"{source}: data license link text is missing")
     require("wheel/sdist" in description, f"{source}: local artifact state is missing")
+    require(
+        f"mcp-name: {REGISTRY_SERVER_NAME}" in description,
+        f"{source}: Registry ownership marker is missing",
+    )
+    require("尚未发布到 PyPI" in description, f"{source}: PyPI state is overstated")
+    require("尚未登记 MCP Registry" in description, f"{source}: Registry state is overstated")
     require(
         description.replace("\r\n", "\n") == EXPECTED_README.replace("\r\n", "\n"),
         f"{source}: embedded README differs from the current project README",
@@ -242,6 +250,16 @@ def sha256_file(path: Path) -> str:
 def inspect_artifacts(dist_directory: Path) -> dict[str, Any]:
     """Validate the two required artifacts and return a safe summary."""
     require(dist_directory.is_dir(), "dist directory does not exist")
+    dist_entries = sorted(dist_directory.iterdir())
+    require(all(path.is_file() for path in dist_entries), "dist directory contains a subdirectory")
+    require(
+        {path.name for path in dist_entries} == EXPECTED_DIST_DIRECTORY_FILES,
+        "dist directory contains an unexpected file",
+    )
+    require(
+        (dist_directory / ".gitignore").read_bytes() == b"*",
+        "uv-generated dist .gitignore differs from the expected guard",
+    )
     wheels = sorted(dist_directory.glob("*.whl"))
     sdists = sorted(dist_directory.glob("*.tar.gz"))
     require([path.name for path in wheels] == [WHEEL_NAME], "expected exactly the approved wheel")

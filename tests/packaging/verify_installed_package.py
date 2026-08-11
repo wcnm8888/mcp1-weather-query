@@ -1,4 +1,4 @@
-"""Verify one installed F-002 artifact outside the source tree.
+"""Verify one installed F-002/D-001 artifact outside the source tree.
 
 The default mode checks import provenance, the production console entry point,
 and a deterministic test-only MCP child.  ``serve-fixed`` is deliberately not a
@@ -36,7 +36,7 @@ ARTIFACT_FILENAMES = {
     "sdist": "mcp_weather_query-0.1.0.tar.gz",
 }
 PROCESS_TIMEOUT_SECONDS = 10.0
-DIAGNOSTIC_MARKER = "f-002 installed fixed stdio server ready"
+DIAGNOSTIC_MARKER = "release candidate installed fixed stdio server ready"
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 SOURCE_ROOT = PROJECT_ROOT / "src"
 

@@ -1,16 +1,166 @@
-# 当前任务
+# 当前任务：D-001 发布候选与发布前审查
 
-## 当前状态
+## 任务基线
 
-- 活动任务：无。
-- 最近任务：F-002 可安装与可构建闭环。
-- 功能交付：[PR #3](https://github.com/wcnm8888/mcp1-weather-query/pull/3) 已合并到 `main`，合并提交为 `ac39554a87b8f8fde85ec6d893484c42d1c6b253`。
-- 收口交付：[Draft PR #4](https://github.com/wcnm8888/mcp1-weather-query/pull/4) 正在承载合并后复验修复、任务归档和状态文档收口。
-- 外部发布：未执行，也未授权。
+- 状态：`approved / step_7_git_pr_delivery_authorized`
+- 项目等级：M；当前任务等级：S
+- 基线提交：`a3ef73c185084ae0a0e3374d78779f7618f0a16b`
+- 功能分支：`chore/d-001-release-candidate`
+- 目标分支：`main`
+- 前置任务：F-001、F-002 已完成、合并、归档并关闭
+- 外部发布：未授权、未执行
 
-F-002 完整任务卡已复制到
-`docs/archive/task-cards/F-002-可安装与可构建闭环.md`。在 PR #4 合并前，F-002 的最终收口仍处于交付门禁；不得自动选择或执行 D-001。
+## 用户目标与业务价值
 
-## 下一动作
+把已经可构建、可安装的 `mcp-weather-query==0.1.0` 整理成一套可复核、不会误发布的发布候选：发布说明、变更记录、包元数据、MCP Registry 草案、构建制品及发布前检查彼此一致。完成后，用户可基于明确证据单独决定是否进入 R-001 PyPI 外部发布。
 
-用户审查并决定是否合并 Draft PR #4。PR #4 合并后，安全同步本地 `main`，再由用户明确选择 roadmap 中的下一项任务。
+## 当前能力与缺口
+
+已有能力：
+
+- wheel 和 sdist 可构建，并已在两个项目外干净环境分别安装验证；
+- console command `mcp-weather-query` 可启动同一个 stdio MCP Server；
+- 官方 Python SDK v2 Client 可完成握手、唯一 Tool discovery 和确定性离线调用；
+- MIT License 与 Open-Meteo attribution 已进入现有包和文档。
+
+当前新增能力：
+
+- `CHANGELOG.md`、公开安装者视角 README 和发布命令边界已通过静态契约；
+- 根 `server.json` 草案已通过静态契约和官方 v1.8.1 validate；
+- `0.1.0` 候选 wheel/sdist 已在项目外离线构建并通过严格制品审查。
+- 固定 wheel 与 sdist 已在两个新的项目外 Python 3.12.10 环境离线安装，并分别通过 installed-package stdio 复验。
+
+当前仍缺少：
+
+- Step 7 Git/PR 交付；
+- 用户审查/合并和 Step 8 合并后收口。
+
+## 已批准命名与版本边界
+
+| 项目 | 已批准值 |
+| --- | --- |
+| Python distribution | `mcp-weather-query` |
+| import package | `mcp_weather_query` |
+| console command | `mcp-weather-query` |
+| 初始版本 | `0.1.0` |
+| License | MIT |
+| Registry 候选名称 | `io.github.wcnm8888/mcp1-weather-query` |
+| 默认传输 | stdio |
+| Tool | 只读 `get_current_weather`，且只能有一个 |
+
+## 范围
+
+1. 对 README 安装、启动、stdio Host 配置、License 和 Open-Meteo attribution 做发布候选收口。
+2. 创建并维护 `CHANGELOG.md`，记录 `0.1.0` 的真实用户可见能力与限制。
+3. 审查并最小修正 Python 包元数据；不改变版本、依赖策略或运行时行为。
+4. 创建根目录 `server.json` 草案，使其引用已批准的 PyPI 包名和 console command。
+5. 使用当前官方规范和固定版本的官方校验工具在本地验证 Registry 草案。
+6. 在项目外 E 盘临时目录构建、审查并分别干净安装 wheel/sdist。
+7. 验证安装后的 stdio 协议、唯一 Tool、结构化输出、stdout/stderr 和退出行为。
+8. 执行独立 QA、用户 UAT、Git/PR 交付和合并后文档收口。
+
+## 非目标
+
+- 不上传 TestPyPI/PyPI，不登记 MCP Registry，不创建 GitHub Release 或 tag。
+- 不执行 `mcp-publisher login` 或 `publish`，不创建或使用外部账号、Token、OIDC 发布关系。
+- 不修改 Tool 名称、描述、input/output Schema、annotations、错误语义或 Open-Meteo 适配器。
+- 不增加第二个 Tool、HTTP、Streamable HTTP、SSE、远程部署、Agent、RAG 或 UI。
+- 不访问 Open-Meteo live API，不用 fixture/mock 冒充 live 证据。
+- 不更新 uv、Python、Node、依赖或系统环境，不修改 Cherry Studio 管理的 uv。
+- 不进入 R-001、R-002 或其他 roadmap 任务。
+
+## 输入、输出和状态变化
+
+输入为 F-002 已验证的源码、包配置、License/NOTICE、文档、测试和 Git 基线。输出为版本 `0.1.0` 的发布候选文档、Registry 草案、本地校验结果、项目外候选制品和可复核证据。状态只能从“可安装包”推进到“发布候选已审查”；不能写成“已发布”或“已登记”。
+
+## 发布候选契约
+
+- README、`pyproject.toml`、`CHANGELOG.md`、`LICENSE`、`NOTICE`、wheel/sdist 元数据和 `server.json` 中的名称、版本、入口、License 与署名必须一致。
+- `server.json` 只描述已存在的 stdio Python 包入口，不增加远程 transport 或不存在的功能。
+- PyPI README 中保留 Registry 包归属标记所需信息，但不得宣称包已公开可安装。
+- 候选构建必须使用锁定依赖和 `uv build --no-sources`；wheel 与 sdist 均为强制制品。
+- 候选制品与干净环境位于项目外 E 盘临时目录，不提交 Git。
+- 官方 Registry 校验器只能在单独 Step 获准后以固定版本放在项目外使用；不得登录或发布。
+- stdout 只允许 MCP 协议消息，诊断只进入 stderr。
+
+## 验收标准
+
+1. F-002 已关闭且 `main`、`origin/main`、工作树基线真实一致。
+2. D-001 是唯一活动任务，任务卡、计划、roadmap、progress 和 evidence 一致。
+3. 名称、版本、入口、License 和 Registry 候选名称跨全部材料一致。
+4. README 给出安装后 console stdio 启动与 Host 配置，不依赖源码目录或 `PYTHONPATH`。
+5. `CHANGELOG.md` 只记录真实的 `0.1.0` 能力、限制和未发布状态。
+6. 包元数据可由 wheel/sdist 检查，README、License 和 attribution 均可定位。
+7. 根 `server.json` 符合选定的当前官方 Schema，不包含远程 transport 或秘密。
+8. 固定版本的官方校验器本地验证通过，且没有登录、发布或写入 Registry。
+9. `uv build --no-sources` 生成 wheel 和 sdist，内容无缓存、日志、凭据、本机配置或无关产物。
+10. 两个制品分别在项目外干净环境安装，安装来源可证明为对应本地制品。
+11. 安装验证不依赖 editable install、项目源码目录或 `PYTHONPATH`。
+12. console command 启动生产 stdio Server，并完成官方 SDK Client 握手和 `tools/list`。
+13. 安装后仍只发现 `get_current_weather`。
+14. 确定性离线调用返回符合 `outputSchema` 的 `structuredContent`。
+15. stdout 无协议外普通文本，诊断仅在 stderr，进程超时内正常退出且无遗留子进程。
+16. 默认测试不访问 live API；live contract 继续显式跳过。
+17. `uv lock --check`、Ruff format/lint、严格 mypy、全量离线 pytest 和 diff 检查通过。
+18. 没有第二 Tool、HTTP/SSE、任意 URL、写操作、敏感信息或系统环境修改。
+19. README/CHANGELOG/发布方案明确区分“候选”“可构建”和“已发布”。
+20. 构建失败、安装失败、入口失败、协议失败和 Registry 校验失败均有可识别证据。
+21. 独立 QA 审查全部已跟踪和未跟踪变更，没有未解决的高、中优先级范围内缺陷。
+22. 用户 UAT 明确通过后才允许进入 Git/PR Step。
+23. Git/PR 交付不自动合并，且不创建 tag、Release 或发布平台条目。
+24. 合并后同步 `main`、归档任务卡、重置活动任务和更新证据。
+25. F-002 归档历史不被覆盖或删除。
+26. D-001 完成后只停在 R-001 选择门禁，不自动进入外部发布。
+
+## 测试矩阵
+
+| 层级 | 必测内容 | 网络边界 |
+| --- | --- | --- |
+| 文档/元数据契约 | 名称、版本、entry point、License、attribution、README/CHANGELOG 一致性 | 离线 |
+| Registry 草案 | Schema、包引用、transport、敏感字段和固定版本校验 | 只允许获取官方规范/校验器；不登录、不发布 |
+| 制品静态审查 | wheel/sdist 文件、METADATA、RECORD、PKG-INFO、无泄露 | 离线 |
+| 双干净安装 | wheel 与 sdist 分别安装、来源证明、无 `PYTHONPATH` | 依赖只从既有缓存/获准来源；不访问天气 API |
+| installed-package stdio | initialize、tools/list、唯一 Tool、离线调用、stdout/stderr、退出 | 不访问 live API |
+| 回归门禁 | lock、format、lint、mypy、pytest、diff、范围扫描 | 离线 |
+| 人工 UAT | 发布材料可读性、命令可复制、未发布声明 | 不执行外部发布 |
+
+## 文件影响范围
+
+允许的候选文件：`README.md`、`CHANGELOG.md`、`pyproject.toml`、`server.json`、`LICENSE`、`NOTICE`、`docs/`、发布候选测试/脚本，以及必要的 `.gitignore`。只有实际需求出现时才修改。
+
+默认禁止修改：`src/` 中的 Tool/业务/transport、现有 Tool 契约测试、依赖版本、`uv.lock` 和系统配置。若实现需要这些变化，立即停止并请求重新定界。
+
+## 文档更新契约
+
+真实变化同步到 `README.md`、`docs/README.md`、`docs/release-plan.md`、`docs/architecture.md`、`docs/testing-strategy.md`、`docs/evidence.md`、本任务卡、实施计划、progress 和 roadmap。F-002 归档只允许修正最终合并事实，不覆盖历史证据。
+
+## Step 地图
+
+| Step | 唯一目标 | 状态 |
+| --- | --- | --- |
+| 0 | 文档治理与任务基线 | 已完成 |
+| 1 | 建立先失败的发布候选契约 | 已完成 |
+| 2 | 最小发布元数据与文档实现 | 已完成 |
+| 3 | Registry 草案与本地校验 | 已完成 |
+| 4 | 候选构建与制品审查 | 已完成 |
+| 5 | 双干净安装与 installed-package stdio 复验 | 已完成 |
+| 6 | 独立 QA 与用户 UAT | 已完成 |
+| 7 | Git/PR 交付 | 已批准，执行中 |
+| 8 | 合并后收口 | 待批准 |
+
+## 风险、依赖、回滚与停止条件
+
+- 风险：Registry 仍处预览期，Schema 或 publisher 行为可能变化；以执行时官方一手资料和固定版本证据为准。
+- 风险：公开包名/Registry 名称可能发生占用或命名冲突；D-001 只做本地审查，不尝试注册占位。
+- 风险：sdist 构建隔离可能需要包索引；任何新增联网、凭据或环境变更都必须单独说明。
+- 依赖：F-002 的 `0.1.0` 构建基线、官方 uv/PyPA/MCP Registry 文档、项目外 E 盘临时空间。
+- 回滚：所有持久化改动由功能分支和 PR 隔离；候选制品/工具位于项目外，不进入版本库。不删除文件，发现问题时停止而非重置。
+- 停止：需要改变 Tool 契约、增加 transport/Tool、更新依赖/运行时、访问 live API、使用账号/Token、登录/发布、创建 tag/Release、删除/覆盖文件或跨入 R-001/R-002 时立即停止。
+
+## 完成定义
+
+全部验收通过；独立 QA 和用户 UAT 通过；D-001 PR 经用户审查合并；本地 `main` 与 `origin/main` 同步；任务卡归档且状态文档准确；没有执行任何外部发布。最终只可写为“D-001 已完成发布候选与发布前审查，等待用户选择是否进入 R-001”。
+
+## 批准记录
+
+用户已从已批准 roadmap 选择 D-001，并依次允许进入 Step 0–7。2026-08-11，用户提供的 QA wheel 环境复验显示协议、唯一 Tool、结构化输出、stdout/stderr、退出码和安装来源均通过，并要求通过后进入 Step 7，因此 Step 6 UAT 已通过。Step 7 只授权精确 commit、push 和 Draft PR；不授权自动合并、publisher 登录/发布、Registry/PyPI 写入、tag 或 Release。

@@ -612,5 +612,360 @@ Step 6 Git/PR 交付已完成，F-002 尚未关闭。当前等待用户审查 Dr
 - F-002 完整任务卡已复制到
   `docs/archive/task-cards/F-002-可安装与可构建闭环.md`；当前任务和实施计划入口已
   重置为无活动任务，roadmap/progress/文档地图已压缩到当前事实。
-- F-002 的实现、QA、UAT 与功能合并均已完成；最终收口仍等待用户审查并合并
-  Draft PR #4。在此之前不删除分支，也不自动选择或执行 D-001。
+- F-002 的实现、QA、UAT 与功能合并均已完成；当时最终收口等待用户审查
+  Draft PR #4。本节保留当时的 Step 7 交付证据，最终合并事实见下节。
+
+### PR #4 最终合并与 F-002 关闭
+
+- 用户已合并 [PR #4](https://github.com/wcnm8888/mcp1-weather-query/pull/4)；GitHub
+  状态为 `MERGED`，合并时间为 `2026-08-11T11:43:14Z`，merge commit 为
+  `a3ef73c185084ae0a0e3374d78779f7618f0a16b`。
+- D-001 Step 0 起点核验时，本地 `main`、`origin/main` 和 `HEAD` 均为该提交，分叉为
+  `0/0`，起点工作树干净。
+- F-002 完整任务卡的最终状态已修正为 `completed / merged / closed`；该修正只补充
+  最终事实，不覆盖 F-002 的历史验证证据。
+
+## D-001 / Step 0 文档治理与任务基线
+
+日期：2026-08-11
+
+### 起点与范围
+
+- 用户从已批准 roadmap 选择 D-001，并明确允许进入 Step 0。
+- D-001 维持 S 级，项目整体仍按 M 管理；唯一目标是发布候选与发布前审查，不执行
+  PyPI、TestPyPI、MCP Registry、GitHub Release 或 tag 等外部发布。
+- 环境保持 `uv 0.6.14` 和项目内 CPython `3.12.10`，未更新依赖、Node、uv、Python
+  或系统配置。
+
+### Git 与文档治理
+
+- 起点为干净、同步的 `main`：`a3ef73c185084ae0a0e3374d78779f7618f0a16b`。
+- 从该基线创建本地分支 `chore/d-001-release-candidate`；未 push、commit 或创建 PR。
+- 已把 D-001 持久化为唯一活动任务，建立 Step 0–8 地图、验收、测试、文档和停止
+  契约，并同步 AGENTS、文档地图、architecture、roadmap、progress 与实施计划。
+- 未创建 `CHANGELOG.md`、`server.json`、构建制品或发布账号/平台条目；未安装或运行
+  publisher。
+
+### 离线门禁
+
+- `uv lock --check`：通过，解析 46 个包，锁文件未变化。
+- `uv run ruff format --check .`：通过，38 个文件已格式化。
+- `uv run ruff check .`：通过。
+- `uv run mypy`：通过，24 个源文件无问题。
+- `uv run pytest -q --tb=short`：`62 passed, 1 skipped in 6.67s`；唯一 skip 为未设置
+  `MCP_WEATHER_RUN_LIVE=1` 的真实 Open-Meteo contract，没有 live 请求。
+- `git diff --check`：通过；只出现 Git 对 Windows 工作树未来 CRLF 转换的提示，不是
+  whitespace error，也未改动已验证的制品比较规则。
+
+### Step 0 结论
+
+D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没有修改 `src/`、`tests/`、
+`pyproject.toml`、`uv.lock`、License/NOTICE 或运行时行为。当前停止在 Step 1 用户门禁。
+
+## D-001 / Step 1 先失败的发布候选契约
+
+日期：2026-08-11
+
+### 官方格式核验
+
+- MCP 官方 Registry package types 文档确认：PyPI 包使用 `registryType: pypi`，并通过
+  包 README 中的 `mcp-name: $SERVER_NAME` 字符串验证归属；该字符串可以位于 HTML
+  comment 中。
+- 当前官方示例使用 Schema
+  `https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json`。
+- Step 1 只把这些值固定进后续验证矩阵；没有创建 `server.json`、下载 publisher、
+  登录或调用 Registry。
+
+### 新增契约
+
+- 新增 `tests/release/test_release_candidate_contract.py`，共 10 项静态契约。
+- 4 项立即通过：既有 distribution/import/console/version/License identity，以及
+  Step 3 Registry、Step 4 wheel/sdist、Step 5 双干净安装矩阵。
+- 6 项预期失败，逐项对应当前真实缺口：
+  1. 根目录缺少 `CHANGELOG.md`；
+  2. README 缺少从本地候选 wheel 安装且无需 `PYTHONPATH` 的命令；
+  3. README 缺少明确标为“PyPI 发布后”的未来 `uvx` 命令；
+  4. README 缺少直接调用 console command 的 stdio Host JSON；
+  5. README 缺少 Registry ownership marker 和明确的 PyPI/Registry 未发布声明；
+  6. release plan 缺少 `uv build --no-sources`、本地 `validate` 与禁止 `login/publish`
+     的可复制命令边界。
+
+### 验证结果
+
+- release contract：`6 failed, 4 passed in 0.20s`，失败位置与上述缺口一一对应。
+- 完整 pytest：`6 failed, 66 passed, 1 skipped in 6.69s`；唯一 skip 仍为显式 live
+  contract，没有访问 Open-Meteo。
+- 排除故意红灯后的既有回归：`62 passed, 1 skipped in 5.70s`。
+- `uv lock --check` 通过（46 packages）；Ruff format 为 39 个文件通过；Ruff lint
+  通过；严格 mypy 为 25 个源文件通过；`git diff --check` 通过。
+
+### 边界与结论
+
+- 未修改 `README.md`、`docs/release-plan.md`、`pyproject.toml`、`uv.lock`、`src/`、
+  Tool 契约、依赖或运行时。
+- 未创建 `CHANGELOG.md`、`server.json`、wheel/sdist、临时安装环境、tag、Release 或
+  外部平台条目；未运行 live API、Inspector 或 publisher。
+- D-001 Step 1 已完成，当前等待用户允许进入 Step 2；红灯在获准实现前必须保留。
+
+## D-001 / Step 2 最小发布元数据与文档实现
+
+日期：2026-08-11
+
+### 实际实现
+
+- 新建 `CHANGELOG.md`，以 `[0.1.0] - Unreleased` 记录唯一只读 Tool、stdio、console
+  command、License/attribution、支持范围和真实限制，并明确 PyPI/Registry 均未发布。
+- README 顶部增加官方 PyPI ownership marker
+  `mcp-name: io.github.wcnm8888/mcp1-weather-query`；增加本地候选 wheel 的
+  `uv tool install`、发布后才可用的固定版本 `uvx`、console stdio Host JSON 和
+  `PYTHONPATH` 禁止边界。
+- `docs/release-plan.md` 增加后续 Step 的 `uv build --no-sources`、项目外 E 盘候选
+  目录、`mcp-publisher validate` 及禁止 `login`/`publish` 的命令契约。本 Step 未执行
+  任一命令。
+- uv 官方 tools 文档确认：`uv tool install` 支持具体本地 wheel/source archive；
+  `uvx --from 'package==version' command` 在隔离环境运行指定发行版。
+
+### 验证结果
+
+- 定向 release contract：`10 passed in 0.04s`，Step 1 的 6 个红灯全部按原断言转绿。
+- `uv lock --check`：通过（46 packages，锁文件未变化）。
+- Ruff format：40 个文件通过；Ruff lint：通过。
+- 严格 mypy：25 个源文件通过。
+- 完整默认 pytest：`72 passed, 1 skipped in 6.77s`；唯一 skip 为显式 live contract，
+  未访问 Open-Meteo。
+- `git diff --check`：通过；Windows LF/CRLF 提示不属于 whitespace error。
+
+### 边界与结论
+
+- 未修改 `pyproject.toml`、`uv.lock`、`src/`、现有 Tool 契约、transport、依赖、
+  License/NOTICE 或系统环境。
+- 未创建 `server.json`，未构建 wheel/sdist，未创建临时安装环境，未安装/运行
+  publisher，未登录或访问发布平台写接口。
+- D-001 Step 2 已完成，当前等待用户允许进入 Step 3：Registry 草案与本地校验。
+
+## D-001 / Step 3 Registry 草案与官方校验
+
+日期：2026-08-11
+
+### 官方基线与草案
+
+- 执行时官方 Registry package types/quickstart 仍使用
+  `https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json`，PyPI
+  package 使用 `registryType=pypi`、固定 identifier/version 和 stdio transport。
+- GitHub official release API 显示当前稳定 publisher 为 v1.8.1（2026-08-06，commit
+  `f52dc8525a441a3abf5fedc9912152d95af5aab1`）。
+- 新建 605-byte 根 `server.json`：server name
+  `io.github.wcnm8888/mcp1-weather-query`、title、只读当前天气描述、版本 `0.1.0`、
+  GitHub repository、唯一 PyPI package `mcp-weather-query==0.1.0`、`runtimeHint=uvx`
+  和 stdio。
+- manifest 没有 remotes、HTTP/SSE、environment variables、package/runtime arguments、
+  任意 URL 输入或敏感字段。
+
+### 固定工具与供应链证据
+
+- Windows amd64 归档保存于项目外
+  `E:\mcp-weather-query-tools\mcp-publisher\v1.8.1\mcp-publisher_windows_amd64.tar.gz`，
+  7,547,008 bytes。
+- 归档 SHA-256：
+  `399ad0d6e00a50812b563a71d8bfbff5160c085e6b13aac6ec083d98d5ff7c45`，与官方
+  GitHub release asset digest 一致。
+- 解压后的 exe 为 20,393,472 bytes，SHA-256：
+  `d021e6496bd10e5be4264e865f795c1c9802501699342a838b601f0f4d383fd5`；工具未加入
+  PATH，未修改项目或系统环境。
+- v1.8.1 存在一个 help-only 缺陷：顶层帮助列出 `validate`，但 `validate --help`
+  显示 `Unknown command: validate`；直接执行 `validate` 正常工作，不影响本次结果。
+
+### 校验结果与网络边界
+
+- 静态 release/Registry contract：`14 passed in 0.05s`。
+- 运行外部固定版 `mcp-publisher.exe validate`，输出
+  `Validating against https://registry.modelcontextprotocol.io...`、
+  `✅ server.json is valid`，exit code 0。
+- 对 v1.8.1 tag 源码做只读核验：validate 以未认证 HTTP POST 调用
+  `https://registry.modelcontextprotocol.io/v0/validate`，只返回 ValidationResult；没有
+  调用 login/publish/status，也没有创建 Registry 条目。因此本证据是“官方验证端点
+  校验”，不是纯离线校验。
+- `uv lock --check` 通过；Ruff format 为 41 个文件通过；Ruff lint 通过；严格 mypy
+  为 26 个源文件通过；完整 pytest 为 `76 passed, 1 skipped in 8.64s`；唯一 skip 为
+  显式 Open-Meteo live contract；`git diff --check` 通过。
+
+### 结论
+
+- 未运行 `mcp-publisher login/publish/status`，未使用账号/Token，未上传 PyPI、登记
+  Registry、创建 tag/Release 或修改外部平台持久状态。
+- 未构建 wheel/sdist，未创建干净安装环境，未修改源码、Tool、transport、依赖、
+  `pyproject.toml`、`uv.lock` 或系统环境。
+- D-001 Step 3 已完成，当前等待用户允许进入 Step 4：候选构建与制品审查。
+
+## D-001 / Step 4 候选构建与制品审查
+
+日期：2026-08-11
+
+### 构建环境与命令
+
+- 分支 `chore/d-001-release-candidate`；继续复用 uv 0.6.14 和项目内 CPython 3.12.10，
+  未更新依赖、锁文件或系统环境。
+- 新建项目外候选目录
+  `E:\mcp-weather-query-release-candidate\0.1.0\step4-20260811T205328\dist`；没有删除或
+  覆盖既有候选。
+- 执行 `uv build --no-sources --offline --out-dir <上述目录>`；uv 先构建 sdist，再从
+  sdist 构建 wheel。`--offline` 成功，未访问包索引；`--no-sources` 禁用 source
+  overrides。
+- uv 在输出目录自动创建 1-byte、内容为 `*` 的 `.gitignore`；检查器将其作为唯一
+  允许的非制品文件，任何其他文件或子目录都会失败。
+
+### 候选身份与哈希
+
+- wheel：`mcp_weather_query-0.1.0-py3-none-any.whl`，16,376 bytes，15 个归档文件，
+  SHA-256 `3e526b64d7f41a50679a586f54cda108ac7a8cc8b15d432faca4108c76da438a`。
+- sdist：`mcp_weather_query-0.1.0.tar.gz`，11,946 bytes，14 个归档文件，SHA-256
+  `eff5f30a417886c4ea6069cfaf95d41eae13067be4e4dc64a0eff25658090f4f`。
+- `CHANGELOG.md` 与 `server.json` 是仓库级发布协调材料；不在精确 wheel/sdist 白名单
+  中。wheel 不含测试或发布工具；sdist 只含重建所需源码、README、pyproject 和法律
+  文件。
+
+### 静态制品审查
+
+- wheel/sdist 的 Metadata-Version 为 2.4；Name/Version、`Requires-Python`、三项
+  `Requires-Dist`、MIT expression 和 LICENSE/NOTICE 均与 `pyproject.toml` 一致。
+- console entry point 精确为
+  `mcp-weather-query = mcp_weather_query.__main__:main`；wheel 为 `py3-none-any`，RECORD
+  精确覆盖所有文件且每项大小/哈希复算通过。
+- wheel/sdist 内源码与当前 `src` 逐文件一致；法律文件按跨平台换行规则一致；嵌入
+  README 与根 README 一致，并含 Registry ownership marker、Open-Meteo/CC BY 4.0
+  attribution 和明确未发布状态。
+- 全部 payload 未发现项目/用户绝对路径、`.runtime`、`.venv`、缓存、日志、测试、
+  凭据或 secret-like assignment。
+- 增强检查器仅增加外层目录白名单和 D-001 README 断言；F-002 的精确归档、源码、
+  法律文本和 RECORD 检查未放宽。最终检查器输出两项制品摘要并退出 0。
+
+### 回归门禁与边界
+
+- `uv lock --check`：通过（46 packages）；Ruff format：41 个文件通过；Ruff lint：
+  通过；严格 mypy：26 个源文件通过。
+- 完整默认 pytest：`76 passed, 1 skipped in 8.55s`；唯一 skip 为显式 Open-Meteo live
+  contract，没有网络请求；`git diff --check` 通过。
+- 未安装、导入或执行候选，没有创建 wheel/sdist 环境或启动 stdio；未运行 live API、
+  Inspector、publisher、login/publish/status，未上传或登记外部平台。
+- D-001 Step 4 已完成，当前等待用户允许进入 Step 5：双干净安装与
+  installed-package stdio 复验。
+
+## D-001 / Step 5 双干净安装与 installed-package stdio 复验
+
+日期：2026-08-11
+
+### 固定制品与环境
+
+- 本 Step 未构建或替换制品。复审 Step 4 固定目录后，wheel 仍为 16,376 bytes、15 个
+  文件、SHA-256
+  `3e526b64d7f41a50679a586f54cda108ac7a8cc8b15d432faca4108c76da438a`；sdist 仍为
+  11,946 bytes、14 个文件、SHA-256
+  `eff5f30a417886c4ea6069cfaf95d41eae13067be4e4dc64a0eff25658090f4f`。
+- 新建项目外根
+  `E:\mcp-weather-query-release-candidate\0.1.0\step5-20260811T210410`，包含独立
+  `wheel-env`、`sdist-env` 及各自工作目录；没有覆盖既有候选或环境。
+- 两个环境均由现有 uv 0.6.14 和项目内 CPython 3.12.10 创建。在清空
+  `PYTHONPATH`、`PYTHONHOME`、`VIRTUAL_ENV`、`MCP_WEATHER_RUN_LIVE` 并设置
+  `UV_OFFLINE=1` 后，分别安装固定 `.whl` 与 `.tar.gz`。sdist 隔离构建也在离线模式
+  成功；两套环境均安装 34 个包。
+- 两套 `direct_url.json` 精确指向对应本地制品，distribution 均为
+  `mcp-weather-query==0.1.0`；模块来自各自 `Lib\site-packages\mcp_weather_query`，console
+  来自各自 `Scripts\mcp-weather-query.exe`，不存在 editable 或源码目录安装。
+
+### installed-package stdio 结果
+
+- wheel 与 sdist 的生产 console 均完成 Legacy MCP 2025-11-25 initialize 和
+  tools/list，只返回 `get_current_weather`。所有 stdout 行均为 JSON-RPC，关闭 stdin 后
+  退出码均为 0，stderr 无 traceback。
+- 各自环境 Python 运行官方 SDK v2 `Client(mode="auto")`，对生产 console 均完成 MCP
+  2026-07-28 modern discovery，只发现 `get_current_weather`。
+- 测试专用子进程从已安装生产包导入 `create_server` 并注入 synthetic handler；两套环境
+  均以 MCP 2026-07-28 完成 Tool 调用，返回通过 `CurrentWeatherResult`/outputSchema 的
+  `structuredContent`，输入规范化为北京/CN。该入口不是 console entry point，不发起 HTTP。
+- synthetic 诊断标记只出现在两份 `fixed-stderr.log`；两份
+  `production-modern-stderr.log` 均为 0 bytes。单步超时为 10 秒，finally 负责终止异常
+  子进程；完成后没有来自 Step 5 环境的 Python、uv 或 Node 进程。
+
+### 回归、修复与范围
+
+- 初次 `ruff format --check` 发现复验脚本两处文案修改造成混合换行；仅对
+  `tests/packaging/verify_installed_package.py` 执行 Ruff format 后修复，没有改生产代码
+  或制品。该脚本的诊断名称由 F-002 历史文案改为发布候选通用文案。
+- 最终 `uv lock --check` 通过（46 packages）；Ruff format 41 个文件通过；Ruff lint
+  通过；严格 mypy 26 个源文件通过；最终 pytest 为 `76 passed, 1 skipped in 6.77s`，唯一 skip
+  是显式 live contract；`git diff --check` 通过。
+- 未访问 Open-Meteo live API，未运行 MCP Inspector 或 publisher，未更新依赖、uv、
+  Python、Node、锁文件或系统环境，未登录、发布、提交、push 或创建 PR。
+- D-001 Step 5 已完成，当前等待用户允许进入 Step 6：独立 QA 与用户 UAT。
+
+## D-001 / Step 6 独立 QA 与用户 UAT
+
+日期：2026-08-11
+
+### 审查范围与基线
+
+- 当前分支 `chore/d-001-release-candidate`；HEAD、本地 `main` 和本地现有
+  `origin/main` 均为 `a3ef73c185084ae0a0e3374d78779f7618f0a16b`。
+- 尝试只读 `git fetch origin main --quiet` 时 30 秒未返回，已终止本轮产生的挂起 Git
+  进程；没有仓库写入。本次 QA 以现有本地 `origin/main` 引用审查，Step 7 必须重新刷新
+  远程状态。
+- 审查了 14 个已跟踪变更和 4 个未跟踪文件：`CHANGELOG.md`、`server.json` 及两份
+  release contract。普通 `git diff` 未覆盖的未跟踪文件均已逐一读取。
+- `src/`、`pyproject.toml`、`uv.lock`、LICENSE、NOTICE 均无 D-001 差异；仍恰好一个
+  `@server.tool`，且生产源码没有普通 `print`。
+
+### QA 发现与修复
+
+- [P2] 根 README 仍写 D-001 “后续阶段会生成候选”和“拟交付能力”，与 Step 4–5
+  已完成事实冲突；同时保留 F-002 的旧测试计数。已改为当前候选、已交付能力和 D-001
+  `76 passed, 1 skipped`。
+- [P2] 测试策略“当前门禁”仍把 F-002 的 `62 passed, 1 skipped` 写成当前结果；已区分
+  F-002 历史与 D-001 当前结果。架构、发布方案和 release contract 模块说明中的模糊
+  阶段文字也做了最小限定。
+- 根 README 修复后，Step 4 wheel 被检查器以
+  `wheel METADATA: embedded README differs from the current project README` 正确拒绝；
+  没有把陈旧制品写成通过，也没有删除或覆盖旧目录。
+- 修复后没有未解决的高、中优先级 D-001 范围内缺陷。
+
+### 新 QA 候选与双安装
+
+- 使用现有 uv 0.6.14、项目内 Python 3.12.10 和
+  `uv build --no-sources --offline`，在
+  `E:\mcp-weather-query-release-candidate\0.1.0\step6-qa-20260811T213511\dist`
+  生成新候选；未访问包索引。
+- wheel：16,340 bytes、15 个文件、SHA-256
+  `c93ab54579fdd92c8ed91a5c6ea3fe2c8b97373fc50abfbc8d42fdbd01b661b6`。
+- sdist：11,904 bytes、14 个文件、SHA-256
+  `f9d68065233674f7413b95ee10b0d297bcbae8b8f3ff6cfceecb6d4e1b4d18f2`。
+- 两个制品通过 Metadata 2.4、entry point、RECORD、精确文件白名单、源码/法律文件/
+  当前 README 一致性和敏感信息扫描。
+- 新 `wheel-env`/`sdist-env` 均为 Python 3.12.10，在 `UV_OFFLINE=1` 且无
+  `PYTHONPATH`/`PYTHONHOME`/`VIRTUAL_ENV` 下分别从对应本地制品安装 34 个包；provenance
+  精确匹配，不是 editable 或源码目录安装。
+- 两套生产 console 均以 Legacy 2025-11-25 完成 initialize/tools-list，并以官方 SDK
+  v2 MCP 2026-07-28 完成 modern discovery；只发现 `get_current_weather`。确定性调用返回
+  合法 `structuredContent`；stdout 纯协议，生产 modern stderr 为 0 bytes，测试诊断只在
+  stderr，退出码 0，完成后无 QA 环境 Python/uv/Node 残留进程。
+
+### 最终门禁与当前结论
+
+- `uv lock --check` 通过（46 packages）；Ruff format 41 个文件通过；Ruff lint 通过；
+  严格 mypy 26 个源文件通过；文档收口后最终 pytest 为
+  `76 passed, 1 skipped in 12.27s`，唯一 skip 是显式
+  live contract；新候选制品复审和 `git diff --check` 通过。
+- `server.json` 仍只有一个 PyPI package 和 stdio transport，无 remotes、环境变量、参数
+  或秘密；变更文件未发现 secret-like assignment。没有第二 Tool、HTTP/SSE 入口、任意
+  URL、写操作或系统环境修改。
+- 未访问 Open-Meteo live API，未运行 MCP Inspector 或 publisher，未登录、发布、创建
+  tag/Release、commit、push 或 PR。
+- 用户于 2026-08-11 使用 QA wheel 环境执行
+  `tests/packaging/verify_installed_package.py verify`，并要求验收通过后进入 Step 7。
+  结果显示安装来源为 `mcp_weather_query-0.1.0-py3-none-any.whl`，distribution 为
+  `mcp-weather-query==0.1.0`，模块来自该环境 `Lib\site-packages`，console 来自该环境
+  `Scripts\mcp-weather-query.exe`。
+- 用户 UAT 中，确定性调用和 modern discovery 均协商 MCP 2026-07-28，只发现
+  `get_current_weather`，且 `structured_content=true`、诊断进入 stderr。生产 console
+  Legacy 握手为 2025-11-25，`stdout_protocol_only=true`、`stderr_traceback=false`、
+  `exit_code=0`。
+- 因此 D-001 Step 6 独立 QA 与用户 UAT 均已通过；用户已允许进入 Step 7 Git/PR 交付。
+  该授权不包含自动合并、tag、Release、PyPI 上传、Registry 登记或 publisher 登录/发布。
