@@ -4,7 +4,7 @@
 
 - 任务：D-001 发布候选与发布前审查
 - 当前 Step：Step 7 Git/PR 交付
-- 状态：`step_7_git_pr_delivery_authorized`
+- 状态：`step_7_git_pr_delivered / awaiting_user_review`
 - 分支：`chore/d-001-release-candidate`
 - 基线：`main == origin/main == a3ef73c185084ae0a0e3374d78779f7618f0a16b`
 
@@ -126,11 +126,11 @@
 ## Step 7 检查表
 
 - [x] 用户 UAT 通过并明确允许进入 Step 7。
-- [ ] 刷新并确认 `main == origin/main == a3ef73c185084ae0a0e3374d78779f7618f0a16b`。
-- [ ] 重新运行提交前离线门禁并精确审查暂存范围。
-- [ ] 提交并推送 `chore/d-001-release-candidate`。
-- [ ] 创建以 `main` 为目标的 Draft PR，记录真实链接和提交。
-- [ ] 停在用户 PR 审查/合并门禁。
+- [x] 刷新并确认 `main == origin/main == a3ef73c185084ae0a0e3374d78779f7618f0a16b`。
+- [x] 重新运行提交前离线门禁并精确审查暂存范围。
+- [x] 创建提交 `f44e8b6a4df63016a639df4b7e2d5337c6fbf28d` 并推送 `chore/d-001-release-candidate`。
+- [x] 创建以 `main` 为目标的 Draft PR #5：`https://github.com/wcnm8888/mcp1-weather-query/pull/5`。
+- [x] 停在用户 PR 审查/合并门禁。
 
 ## 后续 Step（未授权）
 

@@ -2,7 +2,7 @@
 
 ## 任务基线
 
-- 状态：`approved / step_7_git_pr_delivery_authorized`
+- 状态：`approved / step_7_git_pr_delivered / awaiting_user_review`
 - 项目等级：M；当前任务等级：S
 - 基线提交：`a3ef73c185084ae0a0e3374d78779f7618f0a16b`
 - 功能分支：`chore/d-001-release-candidate`
@@ -32,8 +32,8 @@
 
 当前仍缺少：
 
-- Step 7 Git/PR 交付；
-- 用户审查/合并和 Step 8 合并后收口。
+- 用户审查并合并 Draft PR #5；
+- 用户允许并完成 Step 8 合并后收口。
 
 ## 已批准命名与版本边界
 
@@ -145,7 +145,7 @@
 | 4 | 候选构建与制品审查 | 已完成 |
 | 5 | 双干净安装与 installed-package stdio 复验 | 已完成 |
 | 6 | 独立 QA 与用户 UAT | 已完成 |
-| 7 | Git/PR 交付 | 已批准，执行中 |
+| 7 | Git/PR 交付 | 已完成；Draft PR #5 待用户审查 |
 | 8 | 合并后收口 | 待批准 |
 
 ## 风险、依赖、回滚与停止条件
@@ -163,4 +163,4 @@
 
 ## 批准记录
 
-用户已从已批准 roadmap 选择 D-001，并依次允许进入 Step 0–7。2026-08-11，用户提供的 QA wheel 环境复验显示协议、唯一 Tool、结构化输出、stdout/stderr、退出码和安装来源均通过，并要求通过后进入 Step 7，因此 Step 6 UAT 已通过。Step 7 只授权精确 commit、push 和 Draft PR；不授权自动合并、publisher 登录/发布、Registry/PyPI 写入、tag 或 Release。
+用户已从已批准 roadmap 选择 D-001，并依次允许进入 Step 0–7。2026-08-11，用户提供的 QA wheel 环境复验显示协议、唯一 Tool、结构化输出、stdout/stderr、退出码和安装来源均通过，并要求通过后进入 Step 7，因此 Step 6 UAT 已通过。Step 7 已形成 Draft PR #5；当前等待用户审查并决定 Ready/合并，不授权自动合并、publisher 登录/发布、Registry/PyPI 写入、tag 或 Release。

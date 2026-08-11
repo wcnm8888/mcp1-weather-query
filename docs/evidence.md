@@ -969,3 +969,27 @@ D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没�
   `exit_code=0`。
 - 因此 D-001 Step 6 独立 QA 与用户 UAT 均已通过；用户已允许进入 Step 7 Git/PR 交付。
   该授权不包含自动合并、tag、Release、PyPI 上传、Registry 登记或 publisher 登录/发布。
+
+## D-001 / Step 7 Git/PR 交付
+
+日期：2026-08-11
+
+- `gh auth status` 确认 GitHub 账号 `wcnm8888` 已登录；`gh` 版本为 2.95.0。
+- `git fetch origin main --prune` 成功；交付前 HEAD、本地 `main` 和 `origin/main` 均为
+  `a3ef73c185084ae0a0e3374d78779f7618f0a16b`，没有基线漂移。
+- 精确暂存 18 个 D-001 路径；未使用全量暂存。暂存范围不包含 wheel/sdist、项目外环境、
+  缓存、日志、本机配置或凭据。
+- 提交前 `uv lock --check` 通过（46 packages）；Ruff format 41 个文件通过；Ruff lint
+  通过；严格 mypy 26 个源文件通过；pytest 为 `76 passed, 1 skipped in 5.74s`，唯一 skip
+  为显式 live contract；`git diff --check` 通过。
+- 固定 QA wheel/sdist 再次通过制品检查：wheel 15 个文件、16,340 bytes、SHA-256
+  `c93ab54579fdd92c8ed91a5c6ea3fe2c8b97373fc50abfbc8d42fdbd01b661b6`；sdist 14 个文件、
+  11,904 bytes、SHA-256 `f9d68065233674f7413b95ee10b0d297bcbae8b8f3ff6cfceecb6d4e1b4d18f2`。
+- 创建提交 `f44e8b6a4df63016a639df4b7e2d5337c6fbf28d`
+  （`docs(release): prepare D-001 release candidate`），并推送
+  `chore/d-001-release-candidate`。
+- 创建 Draft PR #5：`https://github.com/wcnm8888/mcp1-weather-query/pull/5`；目标为
+  `main`，来源为 `chore/d-001-release-candidate`。创建后状态为 `OPEN / Draft / MERGEABLE`。
+- 没有自动合并，没有创建 tag/Release，没有运行 publisher/login/publish，没有上传 PyPI
+  或登记 Registry，也没有访问 Open-Meteo live API 或运行 Inspector。
+- D-001 尚未关闭。当前停在用户 PR 审查门禁；合并后 Step 8 仍需用户单独允许。

@@ -4,8 +4,8 @@
 
 - F-001：已完成、合并、归档并关闭。
 - F-002：已完成、合并、归档并关闭；PR #3 与收口 PR #4 均已合并。
-- D-001：Step 6 独立 QA 与用户 UAT 已完成；Step 7 Git/PR 交付已获准。
-- 当前分支：`chore/d-001-release-candidate`（Step 7 开始时尚未 push）。
+- D-001：Step 6 独立 QA 与用户 UAT 已完成；Step 7 已交付 Draft PR #5，等待用户审查。
+- 当前分支：`chore/d-001-release-candidate`，已跟踪同名远程分支。
 - 基线：`main == origin/main == a3ef73c185084ae0a0e3374d78779f7618f0a16b`。
 - 外部发布：未授权、未执行。
 
@@ -71,4 +71,4 @@
 
 ## 当前门禁
 
-用户于 2026-08-11 提供 QA wheel 环境复验结果，并要求验收通过后进入 Step 7；截图显示 provenance、Legacy/现代协议、唯一 Tool、`structuredContent`、stdout/stderr 和退出码均通过。因此 Step 6 UAT 已通过，当前只执行 Step 7 Git/PR 交付；不得自动合并、登录或发布。
+用户于 2026-08-11 提供 QA wheel 环境复验结果，并要求验收通过后进入 Step 7；截图显示 provenance、Legacy/现代协议、唯一 Tool、`structuredContent`、stdout/stderr 和退出码均通过。因此 Step 6 UAT 已通过。Step 7 已创建 Draft PR #5，当前等待用户审查并决定 Ready/合并；不得自动合并、登录或发布。
