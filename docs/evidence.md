@@ -233,7 +233,7 @@
 
 ### 默认离线门禁
 
-- `uv --version`：`uv 0.6.14`；项目解释器：`Python 3.12.10`；当前分支：`feat/f-001-local-weather-tool`；无 Git remote。
+- Step 6 QA 当时的环境：`uv --version` 为 `uv 0.6.14`，项目解释器为 `Python 3.12.10`，分支为 `feat/f-001-local-weather-tool`，尚无 Git remote；后续远程和合并事实见下方 GitHub 交付证据。
 - `uv lock --check`：通过，解析 46 个包。
 - `uv run ruff format --check .`：通过，33 个文件已格式化。
 - `uv run ruff check .`：通过。
@@ -242,13 +242,18 @@
 - `git diff --check`：无空白错误；Git 仅提示现有 LF 文件未来可能按 Windows 配置转换为 CRLF。
 - Step 6 QA 执行过程未联网、未运行 Inspector、未构建或打包；该阶段收口时只形成了本地提交，远程、push 和 PR 事实记录在后续 GitHub 交付证据中。
 
-## 未完成证据
+## GitHub 交付与未完成证据
 
 - F-001 Step 5 协议对齐：现代/Legacy 两条 stdio 证据已完成。
 - F-001 Step 5 用户 UAT：用户于 2026-08-11 明确确认通过。
 - F-001 Step 6 独立 QA：已完成；用户已选择远程 PR 流程并形成精确本地提交，提交哈希以 Git 事实为准。
 - GitHub 远程：通过已认证账号 `wcnm8888` 创建 private 仓库 `wcnm8888/mcp1-weather-query`，配置 HTTPS `origin`，成功推送 `main` 和 `feat/f-001-local-weather-tool`。
 - PR 创建：GitHub App 因新 private 仓库尚未进入安装可见范围返回 404；按 `github:yeet` fallback 使用已认证 GitHub CLI 创建 draft PR #1，没有重复 PR。
-- PR 复核：`main` ← `feat/f-001-local-weather-tool`，状态 OPEN、draft、MERGEABLE；URL 为 `https://github.com/wcnm8888/mcp1-weather-query/pull/1`。
-- 未标记 ready、未合并、未创建 release 或执行其他发布；等待用户审查/合并决策，F-001 尚未关闭。
+- PR 创建时复核：`main` ← `feat/f-001-local-weather-tool`，状态 OPEN、draft、MERGEABLE；URL 为 `https://github.com/wcnm8888/mcp1-weather-query/pull/1`。这是 PR 创建时的历史证据，不代表当前状态。
+- 后续由用户将 PR #1 标记 ready 并成功合并、关闭；合并提交为 `514b3a987a3e`（短哈希 `514b3a9`）。
+- 本地同步：执行 `git fetch origin`、`git switch main` 和 `git pull --ff-only origin main`，本地 `main` 从基线 `b13d9bd` fast-forward 到 `514b3a9`，与 `origin/main` 一致。
+- 合并后文档收口：从 `514b3a9` 创建 `docs/f-001-post-merge`，仅承载 F-001 最终关闭状态，并按用户授权通过独立文档 PR 交付到 `main`。
+- 合并后离线复验：清除 `MCP_WEATHER_RUN_LIVE` 后，`uv lock --check`、Ruff format check、Ruff lint、严格 mypy、`git diff --check` 均通过；最终 `pytest` 为 `52 passed, 1 skipped in 8.50s`，唯一 skip 仍是显式 live contract。
+- 分支清理：在 `git merge-base --is-ancestor feat/f-001-local-weather-tool main` 返回 0 后，删除远程和本地 `feat/f-001-local-weather-tool`；合并内容仍由 `main` 的 `514b3a9` 保留。
+- F-001 已关闭；未创建 release、未执行其他发布，也未自动进入 F-002。
 - 构建、打包、干净安装和发布不属于 F-001，且无通过结论。

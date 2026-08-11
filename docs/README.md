@@ -16,7 +16,7 @@
 - 最近进度：[`project-management/progress.md`](project-management/progress.md)
 - 验收证据：[`evidence.md`](evidence.md)
 
-F-001 是唯一活动任务卡。Step 5 已用官方 SDK v2 Client 补充 MCP 2026-07-28 的现代 stdio 证据，Inspector 保留为 Legacy stdio UI 客户端，并已通过用户 UAT；Step 6 本地 QA、精确提交和 GitHub draft PR #1 已完成，当前等待用户审查/合并决策。
+F-001 已完成并关闭，当前没有已批准的活动任务。Step 5 已用官方 SDK v2 Client 补充 MCP 2026-07-28 的现代 stdio 证据，Inspector 保留为 Legacy stdio UI 客户端，并已通过用户 UAT；Step 6 本地 QA、Git 交付、PR #1 合并和功能分支清理均已完成。
 
 ## 权威文档映射
 
@@ -46,9 +46,9 @@ F-001 是唯一活动任务卡。Step 5 已用官方 SDK v2 Client 补充 MCP 20
 
 ## 当前状态
 
-- 活动任务：F-001 已批准，Step 6 draft PR #1 已创建，尚未标记 ready、合并或关闭任务。
+- 活动任务：无；F-001 已完成并关闭。
 - roadmap：已批准，F-001 已选择。
-- Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；`main` 和功能分支已推送，draft PR #1 为 OPEN。
+- Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；PR #1 已把功能分支合并到 `main`，原本地和远程功能分支已删除。
 - 实现/测试：领域、适配器和唯一 `get_current_weather` MCP Tool 已实现；Step 6 默认离线门禁为 `52 passed, 1 skipped`，显式 live contract、Inspector Legacy UI 和 SDK Client 现代 stdio 技术验证通过。
 - 构建/发布：均未开始。
-- 唯一下一步：等待用户审查 draft PR #1，并决定是否标记 ready 或合并；不得自动执行、关闭任务或进入 F-002。
+- 唯一下一步：等待用户从 roadmap 中选择是否进入 F-002；不得自动创建任务卡、批准或执行后续任务。
