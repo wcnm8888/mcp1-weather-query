@@ -5,9 +5,69 @@
 - F-001：已完成、合并、归档并关闭。
 - F-002：已完成、合并、归档并关闭；PR #3 与收口 PR #4 均已合并。
 - D-001：已完成、合并、归档并关闭；PR #5 已合并。
-- 当前分支：`docs/d-001-post-merge`，只承载合并后文档收口。
-- 合并基线：`main == origin/main == 2e691c351b78a0281a4a1fcdb21eca90c8e2f580`。
+- R-001：任务卡已批准，Step 5 Git/PR 交付已获授权并进行中。
+- 当前分支：`release/r-001-pypi-0.1.0`（仅本地，尚未提交或推送）。
+- 起点基线：`main == origin/main == 0d5d7be9271b71143cdbcdf768bfbde5ed4393d0`。
 - 外部发布：未授权、未执行。
+
+## R-001 Step 0 结果
+
+- 复核起点工作树干净、`main` 与 `origin/main` 一致，并创建本地发布分支。
+- 持久化 R-001 L 级任务卡、Step 地图和独立 QA 清单。
+- 默认离线门禁通过：`uv lock --check`、Ruff format/lint、严格 mypy、
+  `76 passed, 1 skipped`、`git diff --check`；唯一 skip 为显式 live contract。
+- 没有创建 `.github/workflows/`、修改包配置、构建制品或访问 Open-Meteo live API。
+- 没有登录 PyPI、配置 Pending Publisher、创建/推送 tag、commit、push 或上传制品。
+
+## R-001 Step 1 结果
+
+- 新增 9 项 R-001 静态离线契约：2 项绿色身份/未发布守卫，7 项预期红灯。
+- 五项 workflow 红灯均因 `.github/workflows/release.yml` 尚不存在；另外两项分别对应
+  release plan 未记录批准的 Publisher tuple/恢复契约，以及 README 未公开非商业和限额。
+- 契约文件：`7 failed, 2 passed`；完整套件：`7 failed, 78 passed, 1 skipped`。
+- 排除故意红灯后既有回归：`76 passed, 1 skipped`；lock、Ruff、严格 mypy 和 diff 通过。
+- 未创建 workflow/tag，未修改发布元数据或业务代码，未构建、登录、配置或上传。
+
+## R-001 当前门禁
+
+R-001 Step 4 的独立 QA、新 live contract 和用户 UAT 已完成。用户已允许 Step 5 的精确
+commit、push、Draft PR 和 PR 检查；仍不授权发布 job、PyPI 登录/配置/上传或 tag。
+
+## R-001 Step 2 结果
+
+- 新增安全 `release.yml`，固定精确 tag、build/publish 隔离、最小 OIDC、`pypi`
+  environment、artifact 传递和六个完整 action SHA。
+- CI uv 固定为 0.6.14；setup-uv action 使用当前不可变 v9.0.0 commit，未改变本机 uv。
+- README 和 release plan 补齐公开数据源限制、Publisher tuple、双授权与 yank 边界；
+  CHANGELOG 继续诚实保持 `Unreleased`。
+- R-001 契约由 `7 failed, 2 passed` 转为 `9 passed`；完整门禁为
+  `85 passed, 1 skipped`，唯一 skip 为显式 live contract。
+- 未实际构建、触发 CI、访问 live API、登录/配置/上传、创建 tag 或执行 Git 交付。
+
+## R-001 Step 3 结果
+
+- 在新的项目外目录以 `--no-sources --offline` 构建并审查 wheel/sdist；哈希分别为
+  `e95429d4...d225b6e` 与 `e824aa4c...15b63`。
+- 两个新的 Python 3.12.10 环境离线安装各自制品；provenance、无源码路径、生产 stdio、
+  现代 discovery、唯一 Tool、确定性 `structuredContent`、stdout/stderr 和退出全部通过。
+- 两套 production-modern stderr 为 0 bytes，测试诊断各自只写 stderr；无遗留运行时进程。
+- 制品复审哈希不变；默认门禁保持 `85 passed, 1 skipped`，唯一 skip 为 live contract。
+- 未访问 live、触发 Actions、登录/配置/上传、创建 tag 或执行 Git 交付。
+
+## R-001 Step 4 QA/live 结果
+
+- 独立审查所有已跟踪和未跟踪变更，确认业务源码、包元数据、锁文件、Registry 草案和
+  CHANGELOG 均未改变；仍只有一个只读 `get_current_weather` Tool。
+- 修复 CI 构建后未在上传前执行制品检查的供应链缺口，并用发布契约固定
+  build -> artifact inspection -> upload 的顺序；定向契约 `9 passed`。
+- 固定 wheel/sdist 哈希不变，两套 installed-package stdio 复验再次通过。
+- 新的显式 Open-Meteo live contract 为 `1 passed in 2.73s`。
+- 完整离线门禁为 `85 passed, 1 skipped`；唯一 skip 是默认关闭的 live contract。
+- 用户 UAT 已确认通过：固定 wheel 的来源、唯一 Tool、现代/Legacy 协议、
+  `structuredContent`、stdout/stderr 和退出码均符合验收。
+- 未触发 Actions、登录/配置/上传 PyPI、创建 tag、commit、push 或 PR；等待 Step 5 授权。
+
+## D-001 历史摘要
 
 ## Step 0 进展
 
@@ -50,7 +110,7 @@
 - 完整默认测试为 `76 passed, 1 skipped`；lock、Ruff、严格 mypy 和 diff 检查通过。
 - 未安装或运行候选，未执行 live、Inspector、publisher、登录或发布。
 
-## 当前门禁
+## D-001 Step 8 历史门禁
 
 ## Step 5 结果
 
@@ -69,9 +129,10 @@
 - 最终完整门禁为 `76 passed, 1 skipped`；lock、Ruff、严格 mypy、制品复审和 diff 检查通过。
 - 未访问 live API，未运行 Inspector/publisher，未登录、发布、提交、push 或创建 PR。
 
-## 当前门禁
+## D-001 Step 8 历史门禁
 
-PR #5 已由用户合并，本地 `main` 已同步，合并后完整离线门禁通过。D-001 任务卡已归档，活动任务已重置。当前只交付 Step 8 收口文档；之后等待用户决定是否起草 R-001 候选任务卡，不得自动登录或发布。
+当时 PR #5 已由用户合并，本地 `main` 已同步，合并后完整离线门禁通过；随后通过
+PR #6 完成 D-001 收口。这是历史状态，不覆盖本文顶部的 R-001 当前门禁。
 
 ## Step 8 合并后收口
 

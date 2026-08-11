@@ -43,9 +43,9 @@ uv run mypy
 git diff --check
 ```
 
-F-002 Step 2 已使 packaging 配置契约全部转绿；D-001 收口时的完整默认 pytest 为
-`76 passed, 1 skipped`，唯一 skip 仍是显式 live contract。F-002 Step 1 的历史红灯是
-`6 failed, 56 passed, 1 skipped`，对应六项真实配置缺口。
+R-001 Step 2 已使发布契约全部转绿：完整 pytest 为 `85 passed, 1 skipped`，唯一 skip
+仍是显式 live contract。Step 1 的历史红灯为 `7 failed, 78 passed, 1 skipped`，对应
+尚未实现的发布 workflow 和最终公开发布说明。
 
 `uv build`、wheel/sdist 审查属于 F-002 Step 3，双干净安装与 installed-package
 stdio 验证属于 Step 4，两者均已通过。Inspector 是人工协议调试工具，不替代自动化协议集成测试；live API 测试
@@ -131,6 +131,30 @@ live contract 只断言固定 endpoint、响应模型、解析地点和来源/�
   嵌入 README 过期而失败，再在新的项目外 QA 目录离线重建。QA wheel/sdist 均重新通过
   精确白名单、元数据、源码/法律文件/README 一致性、双安装 provenance 和三条 stdio
   证据；用户 UAT 只使用该 QA 候选。
+
+## R-001 PyPI 发布契约分层
+
+- Step 1 新增 `tests/release/test_pypi_publish_contract.py`，只静态读取本地 workflow、
+  package identity、README、CHANGELOG 和 release plan；不构建、不联网、不请求 OIDC。
+- 两个绿色守卫固定 `mcp-weather-query`/`mcp_weather_query`/console/`0.1.0` 身份，并确保
+  在真实发布完成前 CHANGELOG 继续写 `Unreleased` 和“尚未发布”。
+- 五个 workflow 红灯要求专用 `release.yml`、PR 与精确 `v0.1.0` tag 入口、build/publish
+  隔离、publish job 的 `pypi` environment 与最小 OIDC 权限，以及所有 action 的完整 SHA。
+- publish job 只允许下载 build job 的制品并调用官方 PyPA action；禁止 build/test、
+  password/username、`secrets.*`、TestPyPI、`skip-existing` 和关闭 attestations。
+- 其余两个红灯要求 release plan 记录 Pending Trusted Publisher 精确 tuple、双授权和
+  yank 边界，并要求公共 README 披露 Open-Meteo 非商业层、三档限额、无 SLA 和 CC BY。
+- Step 1 定向结果为 `7 failed, 2 passed`；完整结果为 `7 failed, 78 passed, 1 skipped`；
+  排除故意红灯后既有回归仍为 `76 passed, 1 skipped`。
+- Step 2 新增 `release.yml`、公开 Open-Meteo 限制和 Trusted Publisher/recovery 文档，
+  使 9 项契约全部通过；没有删除或放宽 Step 1 断言。真实 workflow 运行留到 Git/PR Step。
+- Step 3 在项目外离线重建 wheel/sdist，并复用严格 artifact/installed-package 验证器。
+  两个制品分别在新的环境离线安装，均通过 provenance、Legacy/现代协议、唯一 Tool、
+  确定性结构化调用、stdout/stderr、退出和无残留进程；默认门禁保持 `85 passed, 1 skipped`。
+- Step 4 独立 QA 发现 build job 缺少上传前制品检查；最小修复后，workflow 会先执行
+  `inspect_artifacts.py dist` 再上传，静态契约同时固定该顺序。Step 3 固定制品和两套安装
+  再次复验通过，2026-08-12 新 live contract 为 `1 passed in 2.73s`；用户随后在固定 wheel
+  环境完成并确认 UAT，通过 provenance、唯一 Tool、结构化输出、stdio 纯净性和退出验收。
 
 ## 验收证据格式
 

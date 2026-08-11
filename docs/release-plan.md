@@ -6,6 +6,41 @@
 
 任何 TestPyPI/PyPI 上传、Registry 注册、GitHub 公共仓库创建或社区平台发布都属于外部写入，执行前必须获得用户明确确认。
 
+## R-001 生产 PyPI 发布契约
+
+R-001 只面向生产 PyPI，**不使用 TestPyPI**。认证方案固定为 PyPI
+**Pending Trusted Publisher** 与 GitHub Actions OIDC，不使用长期 PyPI API Token、
+username/password、手工 `uv publish` 或 Twine 上传。
+
+后续由用户在 PyPI 和 GitHub 页面配置的 publisher identity 必须精确为：
+
+| 字段 | 固定值 |
+| --- | --- |
+| PyPI project | `mcp-weather-query` |
+| GitHub owner | `wcnm8888` |
+| GitHub repository | `mcp1-weather-query` |
+| Workflow filename | `release.yml` |
+| GitHub environment | `pypi` |
+| Release tag | `v0.1.0` |
+
+仓库内专用 workflow 位于 `.github/workflows/release.yml`。PR 只执行 build job；只有精确
+tag `v0.1.0` 的 push 才允许 publish job 运行。build job 只具备 `contents: read`，发布 job
+额外获得最小 `id-token: write`，并绑定 `pypi` environment。构建与发布分离：publish job
+只下载 build job 的 wheel/sdist，再调用官方 PyPA action；所有 action 使用完整提交 SHA。
+Trusted Publishing 的 attestation 保持默认开启，不配置 `attestations: false`。
+
+当前只建立本地 workflow 和文档契约，尚未提交或触发 GitHub Actions，也未登录 PyPI、
+创建 Pending Publisher、创建 environment、tag 或上传制品。后续授权分两层：
+
+1. PR 合并并复核公开包名后，用户单独授权登录 PyPI、配置 Pending Publisher 和
+   GitHub environment；配置失败时停止，不降级为长期 Token。
+2. Publisher、PR CI、最终制品、live contract 与 UAT 全部通过后，用户再次精确授权
+   创建并推送 `v0.1.0`；该 tag 才可能触发真实上传。
+
+PyPI 已发布的版本和文件不可覆盖。若 `0.1.0` 存在严重缺陷，优先在 PyPI **yank** 该
+版本并准备新的补丁版本，不删除公开项目、不覆盖原文件，也不使用 `skip-existing` 掩盖
+重复发布或版本冲突。
+
 ## 渠道对比
 
 | 渠道 | 承载内容 | 适合本项目 | 前置条件 | 限制/风险 | 推荐 |
@@ -136,14 +171,35 @@ Step 5 没有重建制品，而是固定使用上节两个文件，在项目外�
 8. 用户再次确认后进行命名空间认证并发布 Registry 元数据。
 9. 验证 Registry 条目实际指向已发布版本；分别记录 PyPI 与 Registry 状态。
 
-## 发布前必须确认
+## R-001 后续仍需单独授权
 
-- 最终 PyPI 包名和 MCP Registry server name。
-- License 与 Open-Meteo CC BY 4.0 署名文本。
-- 是否创建公开 GitHub 仓库，以及账号/组织命名空间。
-- 使用 PyPI Token、Trusted Publisher 还是人工上传；不把凭证写入项目。
-- 是否先使用 TestPyPI。
-- 是否接受 Open-Meteo 免费层仅限非商业、10,000 次/日且无 SLA；若不接受则重新选源或确认付费服务。
+以下方向已经确定：包名为 `mcp-weather-query`；项目使用 MIT 与 Open-Meteo CC BY 4.0
+署名；仓库保持 private；只使用生产 PyPI Pending Trusted Publisher；不使用 Token、
+人工上传或 TestPyPI；接受 Open-Meteo 非商业免费层、10,000 次/日和无 SLA 限制。
+
+尚未授权的动作只有：用户登录 PyPI、创建 Pending Publisher、配置 GitHub `pypi`
+environment，以及在全部 QA/PR 门禁通过后创建并推送 `v0.1.0`。任何一步失败都必须停止，
+不得擅自切换认证方案、公开仓库或扩大到 Registry。
+
+## R-001 Step 3 固定候选
+
+本地候选位于项目外
+`E:\mcp-weather-query-release-candidate\0.1.0\r001-step3-20260812T003655`，由现有
+uv 0.6.14 和项目内 CPython 3.12.10 以 `uv build --no-sources --offline` 生成：
+
+- wheel：`mcp_weather_query-0.1.0-py3-none-any.whl`，16,523 bytes，15 files，
+  SHA-256 `e95429d4744e14f36efeecc08833269a0c72202bfdf4f9e3255412c73d225b6e`；
+- sdist：`mcp_weather_query-0.1.0.tar.gz`，12,107 bytes，14 files，
+  SHA-256 `e824aa4c64cb7e202d60cbd6fe3f0920043401789b1f755967285cb76ee15b63`。
+
+两个制品均通过静态审查，并分别在全新 `wheel-env`/`sdist-env` 中离线安装和完成
+installed-package stdio 复验。它们仍是本地候选，不是 GitHub Actions artifact，更不是
+已上传 PyPI 的公开文件；Step 4 独立 QA 若修改包体文件，必须重新构建而不能沿用旧哈希。
+
+Step 4 独立 QA 没有修改任何包体文件，固定候选哈希保持不变。QA 修复了 workflow 的
+供应链缺口：build job 现在必须在上传前运行 patch whitespace 检查和项目现有制品检查器，
+确认 wheel/sdist 文件、元数据和内容白名单后才允许形成 CI artifact。新的显式 Open-Meteo
+live contract 和用户固定 wheel UAT 均已通过，当前仍不授权 PR、Publisher 配置、tag 或上传。
 
 ## 参考资料
 

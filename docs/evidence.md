@@ -1021,3 +1021,140 @@ D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没�
 - 未访问 Open-Meteo live API，未运行 Inspector/publisher，未登录或上传 PyPI，未登记
   Registry，未创建 tag/Release，也未进入 R-001/R-002。
 - D-001 最终状态为：已完成发布候选与发布前审查，等待用户选择是否起草 R-001 候选任务卡。
+
+## R-001 / Step 0 文档治理与 L 级基线
+
+日期：2026-08-12
+
+- 用户批准 R-001 任务卡、L 级风险流程、Trusted Publishing 方案、测试矩阵、Step 地图、
+  完成定义和 16 项决策，并只授权进入 Step 0。
+- Step 0 前确认工作树干净，本地 `main` 与 `origin/main` 均为
+  `0d5d7be9271b71143cdbcdf768bfbde5ed4393d0`。
+- 从该基线创建仅本地分支 `release/r-001-pypi-0.1.0`；没有 commit 或 push。
+- 持久化 R-001 为唯一活动任务，建立独立 L 级 QA 清单，并同步实施计划、roadmap、
+  progress、文档地图和项目规则。
+- 使用现有 uv 0.6.14 和项目内 CPython 3.12.10，清空 `MCP_WEATHER_RUN_LIVE` 后运行：
+  `uv lock --check` 通过（46 packages）；最终 Ruff format 43 个文件通过；Ruff lint 通过；
+  严格 mypy 26 个源文件通过；pytest 为 `76 passed, 1 skipped in 5.61s`，唯一 skip 是
+  显式 live contract；`git diff --check` 通过。
+- 未创建 GitHub Actions workflow，未修改发布元数据、源码、Tool、transport、依赖或锁文件，
+  未构建 wheel/sdist，未访问 Open-Meteo live API。
+- 未登录 PyPI、未配置 Pending Publisher、未创建或推送 tag、未上传制品、未提交、推送或
+  创建 PR。当前门禁为等待用户允许进入 R-001 Step 1。
+
+## R-001 / Step 1 先失败的发布与 workflow 安全契约
+
+日期：2026-08-12
+
+- 核验 PyPI 官方 Trusted Publisher 文档：GitHub publisher identity 必须匹配 owner、
+  repository、workflow filename 和可选 environment；Pending Publisher 首次使用前不占名。
+- 核验 PyPA 官方 publish action：Trusted Publishing 要求发布 job 的 `id-token: write`，
+  不需要 username/password/token；attestations 在该流程中默认开启。
+- 通过官方仓库 ref 只读解析并固定 action SHA：checkout v6 `d23441a...`、setup-python v6
+  `ece7cb0...`、setup-uv v9.0.0 `c771a70...`、upload-artifact v5 `330a01c...`、
+  download-artifact v5 `634f93c...`、PyPA release/v1 `dc37677...`。
+- 新增 `tests/release/test_pypi_publish_contract.py`，共 9 项静态离线契约。
+- 定向结果为 `7 failed, 2 passed`。两个通过项固定已批准 package identity 和诚实的
+  `Unreleased` 状态；七个失败对应五类缺失 workflow 契约、release plan 缺口和 README
+  Open-Meteo 公共限制缺口。
+- 完整套件为 `7 failed, 78 passed, 1 skipped in 5.79s`；排除新的故意红灯后为
+  `76 passed, 1 skipped in 5.43s`，唯一 skip 为显式 live contract。
+- `uv lock --check` 通过（46 packages）；Ruff format 44 个文件、lint、严格 mypy 27 个
+  源文件和 `git diff --check` 通过；生产源码仍恰好一个 `@server.tool`。
+- `.github/` 和 `v0.1.0` tag 均不存在；未修改 README、CHANGELOG、release plan、
+  pyproject、源码、依赖或锁文件，未构建制品或访问 live API。
+- 未登录 PyPI、未配置 Pending Publisher、未上传、commit、push 或创建 PR。当前等待
+  用户允许进入 R-001 Step 2，使七个红灯以最小实现转绿。
+
+## R-001 / Step 2 最小发布文档与安全 CI workflow
+
+日期：2026-08-12
+
+- 新增 `.github/workflows/release.yml`。触发器只有 PR 和精确 `v0.1.0` tag push，没有
+  ordinary branch push、manual dispatch、TestPyPI 或 GitHub Release 路径。
+- build job 继承顶层 `contents: read`，固定 Python 版本文件和 uv 0.6.14，运行 lock、
+  format、lint、严格 mypy、默认离线 pytest 和 `uv build --no-sources` 后上传 distributions。
+- publish job 同时检查 push event 与精确 tag，依赖 build，绑定 `pypi` environment；仅该
+  job 拥有 `id-token: write`，且只下载 artifact 和调用官方 PyPA publish action。
+- checkout/setup-python/setup-uv/upload/download/PyPA 六个 action 均固定完整 SHA。Step 2
+  复核官方当前版本后，将 Step 1 的旧 setup-uv v7 pin 修正为不可变 v9.0.0 commit
+  `c771a70...`；workflow 安装的 uv 仍固定为 0.6.14，本机环境未改变。
+- README 新增非商业免费层、600 次/分钟、5,000 次/小时、10,000 次/日、无 SLA 和
+  CC BY 说明；release plan 新增精确 Pending Publisher tuple、双授权、attestation 和 yank。
+- 九项 R-001 契约全部通过；完整离线结果为 `85 passed, 1 skipped in 5.51s`，唯一 skip
+  为显式 live contract。`uv lock --check`、Ruff format 44 个文件、lint、严格 mypy
+  27 个源文件和 `git diff --check` 均通过。
+- 安全扫描确认生产源码仍恰好一个 Tool；workflow 无 secrets/password/TestPyPI/
+  `skip-existing`/关闭 attestation，OIDC 只存在于 publish job。
+- 本机未安装新 YAML/actionlint 依赖；workflow 结构已由离线契约复核，真实 GitHub YAML
+  解析和执行证据属于后续 PR CI，不在本 Step 冒充。
+- 仓库根存在被 `.gitignore` 排除的历史 `dist/`，创建/最后修改时间均为 2026-08-11；
+  Step 2 没有运行构建命令、没有修改或使用该目录，也不把历史文件作为本轮制品证据。
+- 未在本地构建最终制品，未访问 Open-Meteo live API，未触发 Actions，未登录 PyPI、
+  配置 Pending Publisher、创建 tag、上传、commit、push 或创建 PR。当前等待 Step 3。
+
+## R-001 / Step 3 项目外候选、双干净安装与 stdio 复验
+
+日期：2026-08-12
+
+- 新建项目外候选根
+  `E:\mcp-weather-query-release-candidate\0.1.0\r001-step3-20260812T003655`；没有覆盖或
+  删除历史候选，也没有使用仓库根被忽略的旧 `dist/`。
+- 在清空 live 开关并设置 `UV_OFFLINE=1` 后，以现有 uv 0.6.14 和项目内 Python 3.12.10
+  执行 `uv build --no-sources --offline`；构建过程没有访问包索引或 source override。
+- wheel：15 files、16,523 bytes、Core Metadata 2.4、SHA-256
+  `e95429d4744e14f36efeecc08833269a0c72202bfdf4f9e3255412c73d225b6e`。
+- sdist：14 files、12,107 bytes、Core Metadata 2.4、SHA-256
+  `e824aa4c64cb7e202d60cbd6fe3f0920043401789b1f755967285cb76ee15b63`。
+- `inspect_artifacts.py` 对两个制品的精确白名单、元数据、entry point、RECORD、源码、
+  当前根 README、LICENSE/NOTICE、发布边界和敏感信息审查通过；双安装后复审哈希未变。
+- 创建独立 `wheel-env` 与 `sdist-env`。清空 `PYTHONPATH`、`PYTHONHOME`、`VIRTUAL_ENV`
+  并设置 `UV_OFFLINE=1` 后，分别从固定 wheel/sdist 离线安装，各解析并安装 34 packages。
+- 两套 provenance 分别指向对应本地制品；distribution 为 `mcp-weather-query==0.1.0`，
+  模块来自各环境 `Lib\site-packages`，console 来自各环境 `Scripts`，不是 editable/源码安装。
+- 两套生产 console 均以 Legacy 2025-11-25 完成 initialize/tools-list，只发现
+  `get_current_weather`；stdout 仅协议消息、stderr 无 traceback，关闭 stdin 后 exit code 0。
+- 官方 SDK v2 Client 对两套 console 均以 MCP 2026-07-28 完成 modern discovery；测试
+  专用固定子进程在同一协议下返回合法 `structuredContent`，诊断只写 stderr，不访问 HTTP。
+- 两份 `production-modern-stderr.log` 均为 0 bytes，两份测试诊断日志均为 54 bytes；
+  验证完成后没有命令行关联该候选根的 Python/uv/Node 残留进程。
+- 最终离线门禁：`uv lock --check` 通过（46 packages）；Ruff format 44 files、lint、严格
+  mypy 27 source files、pytest `85 passed, 1 skipped in 5.43s`、`git diff --check` 通过；
+  唯一 skip 仍是显式 live contract，生产源码仍恰好一个 Tool。
+- 未访问 Open-Meteo live API、未触发 GitHub Actions、未登录 PyPI、未配置 Pending
+  Publisher、未创建/推送 tag、未上传、commit、push 或创建 PR。当前等待 Step 4。
+
+## R-001 / Step 4 独立 QA、新 live contract 与用户 UAT 门禁
+
+日期：2026-08-12
+
+- 独立枚举并审查 10 个已跟踪变更和 3 个未跟踪文件；普通 `git diff` 与未跟踪清单均纳入。
+  `src/`、`pyproject.toml`、`uv.lock`、`server.json`、`CHANGELOG.md`、LICENSE 和 NOTICE 无变更。
+- 发现一个中优先级供应链缺口：`.github/workflows/release.yml` 原先在
+  `uv build --no-sources` 后直接上传制品，没有执行项目已有的制品白名单与元数据检查。
+- 最小修复为在上传前增加 `git diff --check` 和
+  `uv run python tests/packaging/inspect_artifacts.py dist`，并扩展发布契约，固定
+  build -> inspect -> upload 顺序。定向契约结果为 `9 passed`。
+- 复审 Step 3 固定候选
+  `E:\mcp-weather-query-release-candidate\0.1.0\r001-step3-20260812T003655`：wheel 保持
+  15 files、16,523 bytes、SHA-256 `e95429d4744e14f36efeecc08833269a0c72202bfdf4f9e3255412c73d225b6e`；
+  sdist 保持 14 files、12,107 bytes、SHA-256
+  `e824aa4c64cb7e202d60cbd6fe3f0920043401789b1f755967285cb76ee15b63`。
+- 两套项目外安装再次通过 provenance、MCP 2026-07-28 modern discovery、Legacy
+  2025-11-25 production handshake、唯一 `get_current_weather`、确定性
+  `structuredContent`、stdout 仅协议、stderr 边界和退出码 0；没有重建或替换制品。
+- 显式设置 `MCP_WEATHER_RUN_LIVE=1` 后运行
+  `uv run pytest -q --tb=short tests/integration/test_open_meteo_live.py`，新的 Open-Meteo
+  live contract 结果为 `1 passed in 2.73s`。只访问获准的固定官方端点，未保存完整响应、
+  用户位置或凭据；随后清除 live 开关。
+- 完整离线门禁为 `85 passed, 1 skipped`，唯一 skip 是默认关闭的 live contract；
+  `uv lock --check`、Ruff format/lint、严格 mypy、`git diff --check` 和范围扫描均通过。
+- QA 确认仍只有一个只读 Tool；没有 HTTP/SSE/Streamable HTTP、任意 URL、secret/token、
+  TestPyPI、GitHub Release、Registry 或额外发布路径。
+- 用户在固定 wheel 环境执行验收并明确确认通过。截图证据显示 artifact 来源为固定
+  `mcp_weather_query-0.1.0-py3-none-any.whl`，distribution 为 `mcp-weather-query==0.1.0`，
+  模块来自该环境 `site-packages`；MCP 2026-07-28 discovery/确定性调用与 Legacy
+  2025-11-25 production console 均只发现 `get_current_weather`，`structured_content=true`、
+  `stdout_protocol_only=true`、`stderr_traceback=false`、exit code 0。
+- 未触发 GitHub Actions，未登录 PyPI、配置 Pending Publisher/GitHub environment、创建 tag、
+  上传制品、commit、push 或 PR。Step 4 已完成，等待用户明确允许进入 Step 5。

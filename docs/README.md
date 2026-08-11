@@ -13,11 +13,13 @@
 - 项目路线：[`project-management/roadmap.md`](project-management/roadmap.md)
 - 当前状态：[`project-management/current-task.md`](project-management/current-task.md)
 - 当前计划：[`project-management/implementation-plan.md`](project-management/implementation-plan.md)
+- L 级 QA：[`project-management/qa-checklist.md`](project-management/qa-checklist.md)
 - 最近进度：[`project-management/progress.md`](project-management/progress.md)
 - 验收证据：[`evidence.md`](evidence.md)
 - 已归档任务卡：[`archive/task-cards/`](archive/task-cards/)
 
-F-001、F-002 与 D-001 的完整任务卡均已归档并关闭。D-001 PR #5 已合并；当前没有活动任务卡。
+F-001、F-002 与 D-001 的完整任务卡均已归档并关闭。R-001 是唯一活动任务；Step 5
+Git/PR 交付已获授权并正在执行。
 
 ## 权威文档映射
 
@@ -32,6 +34,7 @@ F-001、F-002 与 D-001 的完整任务卡均已归档并关闭。D-001 PR #5 �
 | `roadmap.md` | 未批准/已批准候选任务、顺序和依赖 | 用户调整优先级 | 仅完成项短摘要 |
 | `current-task.md` | 唯一生命周期状态和活动任务入口 | 任务选择或 Step 状态变化 | 否 |
 | `implementation-plan.md` | 当前活动任务的 Step 计划；无活动任务时记录门禁 | Step 状态或验证方式变化 | 否 |
+| `qa-checklist.md` | L 级任务的独立 QA、外部授权和恢复检查清单 | L 级门禁或证据变化 | 否 |
 | `progress.md` | 当前 Step、最近结果、阻塞和下一动作 | Step 收口 | 仅最近摘要 |
 | `evidence.md` | 可复现验证证据索引 | 门禁或验收完成 | 是，保留摘要 |
 | `archive/task-cards/` | 已关闭任务卡原文 | 任务完成并获准归档 | 是 |
@@ -48,9 +51,11 @@ F-001、F-002 与 D-001 的完整任务卡均已归档并关闭。D-001 PR #5 �
 
 ## 当前状态
 
-- 活动任务：无；等待用户选择是否起草 R-001 候选任务卡。
-- roadmap：已批准；F-001、F-002、D-001 均已关闭，R-001/R-002 尚未选择。
-- Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；D-001 PR #5 已合并，merge commit 为 `2e691c3`；收口文档由 PR #6 承载。
-- 实现/测试：唯一 `get_current_weather` MCP Tool、可安装包、固定候选 wheel/sdist 和双干净安装闭环均已完成；当前默认门禁为 `76 passed, 1 skipped`，唯一 skip 是显式 live contract。
+- 活动任务：R-001 PyPI 首次外部发布；Step 5 Git/PR 交付进行中。
+- roadmap：已批准；F-001、F-002、D-001 均已关闭，R-001 已批准，R-002 未启动。
+- Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；R-001 起点为同步后的 `0d5d7be`，当前仅本地分支 `release/r-001-pypi-0.1.0`。
+- 实现/测试：唯一 `get_current_weather` MCP Tool、固定候选 wheel/sdist、双干净安装和
+  Step 4 独立复验均已完成；当前默认门禁为 `85 passed, 1 skipped`，唯一 skip 是显式 live contract。
 - 构建/发布：独立 QA 修复发布文档陈旧状态后生成新的 QA wheel/sdist，并分别完成项目外离线安装和 installed-package stdio 复验；未上传或发布。
-- 唯一下一步：用户决定是否起草 R-001“PyPI 外部发布”候选任务卡；不得自动登录或发布。
+- 唯一下一步：完成 R-001 Step 5 Draft PR 和非发布 CI 证据；不得登录、配置 Publisher、
+  创建 tag、发布或自动进入 Step 6。
