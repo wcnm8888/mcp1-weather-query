@@ -15,8 +15,9 @@
 - 当前计划：[`project-management/implementation-plan.md`](project-management/implementation-plan.md)
 - 最近进度：[`project-management/progress.md`](project-management/progress.md)
 - 验收证据：[`evidence.md`](evidence.md)
+- 已归档任务卡：[`archive/task-cards/`](archive/task-cards/)
 
-F-001 已完成并关闭，当前没有已批准的活动任务。Step 5 已用官方 SDK v2 Client 补充 MCP 2026-07-28 的现代 stdio 证据，Inspector 保留为 Legacy stdio UI 客户端，并已通过用户 UAT；Step 6 本地 QA、Git 交付、PR #1 合并和功能分支清理均已完成。
+F-001 已完成并归档。F-002 Step 6 Git/PR 交付已完成；Draft PR #3 已打开，当前等待用户审查、决定 Ready/合并。
 
 ## 权威文档映射
 
@@ -30,9 +31,10 @@ F-001 已完成并关闭，当前没有已批准的活动任务。Step 5 已用�
 | `release-plan.md` | 本地闭环、打包与外部发布边界 | 发布渠道或流程变化 | 否 |
 | `roadmap.md` | 未批准/已批准候选任务、顺序和依赖 | 用户调整优先级 | 仅完成项短摘要 |
 | `current-task.md` | 唯一生命周期状态和活动任务入口 | 任务选择或 Step 状态变化 | 否 |
-| `implementation-plan.md` | F-001 当前 Step 计划 | Step 状态或验证方式变化 | 否 |
+| `implementation-plan.md` | F-002 当前 Step 计划 | Step 状态或验证方式变化 | 否 |
 | `progress.md` | 当前 Step、最近结果、阻塞和下一动作 | Step 收口 | 仅最近摘要 |
 | `evidence.md` | 可复现验证证据索引 | 门禁或验收完成 | 是，保留摘要 |
+| `archive/task-cards/` | 已关闭任务卡原文 | 任务完成并获准归档 | 是 |
 
 ## 权威顺序
 
@@ -46,9 +48,9 @@ F-001 已完成并关闭，当前没有已批准的活动任务。Step 5 已用�
 
 ## 当前状态
 
-- 活动任务：无；F-001 已完成并关闭。
-- roadmap：已批准，F-001 已选择。
-- Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；PR #1 已把功能分支合并到 `main`，原本地和远程功能分支已删除。
+- 活动任务：F-002；Draft PR #3 为 open/draft，Step 6 已完成并等待用户审查。
+- roadmap：已批准；F-001 已关闭，F-002 已选择并批准。
+- Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；当前本地分支为 `feat/f-002-installable-package`，基于 `main == origin/main == 4d84ad0`。
 - 实现/测试：领域、适配器和唯一 `get_current_weather` MCP Tool 已实现；Step 6 默认离线门禁为 `52 passed, 1 skipped`，显式 live contract、Inspector Legacy UI 和 SDK Client 现代 stdio 技术验证通过。
-- 构建/发布：均未开始。
-- 唯一下一步：等待用户从 roadmap 中选择是否进入 F-002；不得自动创建任务卡、批准或执行后续任务。
+- 构建/发布：新的本地 QA wheel/sdist 已构建、审查并分别完成项目外干净安装；未上传或发布。旧 `dist` 制品因 README 陈旧被门禁判定为过期，不用于 UAT。
+- 唯一下一步：用户审查 Draft PR #3，并决定标记 Ready 或合并；不得自动合并、进入 Step 7 或外部发布。

@@ -2,7 +2,7 @@
 
 ## 规模判断
 
-虽然代码量较小，但项目涉及 Agent Tool、结构化数据、失败兜底、新依赖、外部 API、stdio 子进程、打包和未来外部发布，按 Vibe Coding 分类规则整体为 **M 级**。用户已确认该判断；F-001 已按批准任务卡完成实现、技术验收和独立 QA，Git 交付决策仍待确认。
+虽然代码量较小，但项目涉及 Agent Tool、结构化数据、失败兜底、新依赖、外部 API、stdio 子进程、打包和未来外部发布，按 Vibe Coding 分类规则整体为 **M 级**。用户已确认该判断；F-001 已关闭，当前 F-002 已完成 wheel/sdist 构建、静态审查、项目外双干净安装、独立 QA、用户 UAT 和 Draft PR 交付，等待用户审查 PR #3。
 
 ## 推荐技术栈
 
@@ -17,7 +17,7 @@
 | 测试 | `pytest`、`pytest-asyncio`、HTTP mock/MockTransport | 单元、协议集成和子进程冒烟分层 |
 | 质量 | Ruff + 静态类型检查 | 格式、lint 和类型门禁，具体工具在任务卡批准时锁定 |
 | 调试 | MCP Inspector（`npx`） | 不要求全局安装，直接启动本地 stdio Server |
-| 构建 | `uv build` + 标准 `pyproject.toml` build backend | 生成 wheel/sdist；build backend 在工程基线任务中确定并锁定 |
+| 构建 | `uv build` + `uv_build>=0.11.32,<0.12` | 已从 sdist 生成并审查 pure-Python `py3-none-any` wheel；wheel/sdist 双干净安装已通过 |
 
 当前本机已发现 Git 2.49、系统 Node 22.16/npm+npx 10.9.2、uv 0.6.14；Python 命令指向 3.11.0rc2，`py` 启动器还引用了不可用的 Python 3.13。F-001 使用 uv 管理的稳定 Python 3.12；不得覆盖 Cherry Studio 管理的 uv 可执行文件。Inspector 兼容性复验另在项目 `.runtime/node/` 中使用经官方 SHA256 校验的 Node 24.19.0/npm+npx 11.17.0，不修改系统 PATH 或注册表。
 
@@ -118,9 +118,10 @@ Open-Meteo 官方文档说明 Geocoding API 可按名称/邮编搜索，Forecast
 MCP1-天气查询/
 ├── AGENTS.md
 ├── README.md
-├── LICENSE                         # 发布准备阶段
-├── pyproject.toml                  # 首个实现任务
-├── uv.lock                         # 首个实现任务
+├── LICENSE                         # 已落地的 MIT 代码许可证
+├── NOTICE                          # Open-Meteo 第三方数据署名
+├── pyproject.toml                  # 0.1.0、uv_build 与 console script
+├── uv.lock                         # 根项目为 editable 0.1.0
 ├── src/
 │   └── mcp_weather_query/
 │       ├── __init__.py
@@ -152,7 +153,22 @@ MCP1-天气查询/
 
 截至 Step 6 QA，`server.py` 使用官方 v2 `MCPServer` 注册唯一 `get_current_weather`，通过可注入的查询 handler 分离协议测试与网络 IO；模块级默认 handler 才组装 Open-Meteo 服务。`__main__.py` 的 SDK 默认 stdio 入口已通过真实子进程和 Inspector 完成 Legacy initialize、现代 discovery、Tool 调用与关闭验证。
 
-F-001 仍设置 `tool.uv.package = false`，因为打包属于 F-002。因此从源码启动模块时必须由 Host 使用项目虚拟环境 Python、`-m mcp_weather_query`、项目工作目录和绝对 `PYTHONPATH=<项目目录>\src`。真实子进程测试还使用 `tests/smoke/stdio_fixed_server.py` 注入 synthetic 结果验证 Tool call；该文件只属于测试，不是生产或未来发布入口。Open-Meteo 适配器仍固定两个 HTTPS endpoint、显式单位和有限超时，不跟随重定向、不重试、不记录响应正文；生产 `httpx.AsyncClient` 设置 `trust_env=False`，避免继承系统代理并保持固定域名直连边界。
+F-002 Step 2 已移除 `tool.uv.package = false`，配置 `uv_build`、版本 `0.1.0` 和
+`mcp-weather-query = "mcp_weather_query.__main__:main"`。现有项目环境已生成该
+console script；Step 3 已构建并审查 wheel/sdist，Step 4 又在项目外两个独立
+Python 3.12.10 环境分别安装 `.whl` 与 `.tar.gz`。两套验证均从各自
+`site-packages` 导入、从各自 `Scripts` 启动 console，不使用 `PYTHONPATH` 或
+editable install。`tests/packaging/verify_installed_package.py` 作为未进入制品的
+测试 runner，使用已安装包的可注入 Server 工厂返回 synthetic 结果；它不是生产或
+未来发布入口。Open-Meteo
+适配器仍固定两个 HTTPS endpoint、显式单位和有限超时，不跟随重定向、不重试、
+不记录响应正文；生产 `httpx.AsyncClient` 设置 `trust_env=False`，避免继承系统
+代理并保持固定域名直连边界。
+
+Step 5 QA 发现根目录 README 更新后，Step 3 `dist` 制品的内嵌长描述已经陈旧。
+制品门禁现直接解码 Core Metadata 的 UTF-8 body，并要求 wheel/sdist 内嵌 README
+与当前根 README 一致；新的项目外 QA 候选通过该门禁和双安装复验。旧 `dist`
+按不删除规则保留，但不再是当前 UAT 候选。
 
 Step 5 使用精确版本 `@modelcontextprotocol/inspector@2.1.0`，并通过 Inspector 的 `--web -e PYTHONPATH=... --cwd ... <python> -m mcp_weather_query` 连接源码入口。项目独立 Node 24.19.0 已消除 Inspector 的 engine warning，系统 Node 22.16.0 保持不变。
 
