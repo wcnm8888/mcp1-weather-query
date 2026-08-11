@@ -43,7 +43,7 @@ uv run mypy
 git diff --check
 ```
 
-F-002 Step 2 已使 packaging 配置契约全部转绿；D-001 当前完整默认 pytest 为
+F-002 Step 2 已使 packaging 配置契约全部转绿；D-001 收口时的完整默认 pytest 为
 `76 passed, 1 skipped`，唯一 skip 仍是显式 live contract。F-002 Step 1 的历史红灯是
 `6 failed, 56 passed, 1 skipped`，对应六项真实配置缺口。
 

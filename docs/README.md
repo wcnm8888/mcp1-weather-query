@@ -17,7 +17,7 @@
 - 验收证据：[`evidence.md`](evidence.md)
 - 已归档任务卡：[`archive/task-cards/`](archive/task-cards/)
 
-F-001 与 F-002 的完整任务卡均已归档并关闭，PR #3 与收口 PR #4 均已合并。D-001 Step 6 独立 QA 与用户 UAT 均已完成，Step 7 已交付 Draft PR #5。
+F-001、F-002 与 D-001 的完整任务卡均已归档并关闭。D-001 PR #5 已合并；当前没有活动任务卡。
 
 ## 权威文档映射
 
@@ -48,9 +48,9 @@ F-001 与 F-002 的完整任务卡均已归档并关闭，PR #3 与收口 PR #4 
 
 ## 当前状态
 
-- 活动任务：D-001 发布候选与发布前审查；Step 7 Git/PR 交付已完成，等待用户审查 Draft PR #5。
-- roadmap：已批准；F-001、F-002 已关闭，D-001 已由用户选择并按 Step 门禁推进。
-- Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；PR #3、PR #4 均已合并；D-001 基线为 `a3ef73c`，当前本地分支为 `chore/d-001-release-candidate`。
+- 活动任务：无；等待用户选择是否起草 R-001 候选任务卡。
+- roadmap：已批准；F-001、F-002、D-001 均已关闭，R-001/R-002 尚未选择。
+- Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；D-001 PR #5 已合并，merge commit 为 `2e691c3`；当前收口分支为 `docs/d-001-post-merge`。
 - 实现/测试：唯一 `get_current_weather` MCP Tool、可安装包、固定候选 wheel/sdist 和双干净安装闭环均已完成；当前默认门禁为 `76 passed, 1 skipped`，唯一 skip 是显式 live contract。
 - 构建/发布：独立 QA 修复发布文档陈旧状态后生成新的 QA wheel/sdist，并分别完成项目外离线安装和 installed-package stdio 复验；未上传或发布。
-- 唯一下一步：用户审查 Draft PR #5，并决定标记 Ready 或合并；不得自动合并、登录或发布。
+- 唯一下一步：用户决定是否起草 R-001“PyPI 外部发布”候选任务卡；不得自动登录或发布。
