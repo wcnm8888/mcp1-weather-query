@@ -1,0 +1,17 @@
+Open-Meteo Attribution Notice
+
+This project uses weather and geocoding data provided by Open-Meteo.
+
+Open-Meteo API data is made available under the Creative Commons Attribution
+4.0 International license (CC BY 4.0). Appropriate credit is given to
+Open-Meteo, and this project does not claim that Open-Meteo endorses it.
+
+Provider: Open-Meteo
+Provider website: https://open-meteo.com/
+License: https://creativecommons.org/licenses/by/4.0/
+
+The project normalizes selected API fields into its documented structured MCP
+Tool output. It does not alter the underlying measurements.
+
+This notice covers third-party data attribution only. The project source code
+is separately licensed under the MIT License in LICENSE.
