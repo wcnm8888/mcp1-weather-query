@@ -570,3 +570,47 @@ F-002 Step 4 验收通过，等待用户明确允许进入 Step 5 独立 QA 与�
 
 Step 6 Git/PR 交付已完成，F-002 尚未关闭。当前等待用户审查 Draft PR #3，并决定
 标记 Ready 或合并；合并后还需单独授权 Step 7 同步 main、归档 F-002 和分支收口。
+
+## F-002 / Step 7 合并后收口
+
+日期：2026-08-11
+
+### 合并与同步事实
+
+- 用户已合并 [PR #3](https://github.com/wcnm8888/mcp1-weather-query/pull/3)；GitHub
+  状态为 `MERGED`，合并时间为 `2026-08-11T11:18:27Z`，合并提交为
+  `ac39554a87b8f8fde85ec6d893484c42d1c6b253`。
+- 合并后执行 `git fetch origin`、切换 `main` 并使用 fast-forward 同步；本地
+  `main` 与 `origin/main` 均为 `ac39554a87b8f8fde85ec6d893484c42d1c6b253`。
+- 未直接在 `main` 提交收口变更，也未删除本地或远程分支。
+
+### 合并后复验与最小修复
+
+- 首轮执行锁文件、Ruff、严格 mypy、默认 pytest 和 Step 5 QA 制品复验；默认
+  pytest 为 `62 passed, 1 skipped in 5.79s`，但制品检查报告
+  `wheel legal file drift: LICENSE`。
+- 根因是 Windows Git checkout 将工作树法律文本写为 CRLF，而已验收制品使用 LF；
+  原检查器把跨平台文本换行差异误判为语义漂移。
+- 在 `fix/f-002-post-merge-artifact-check` 上提交最小修复 `0a772fc`：仅规范化源文件、
+  README 和法律文本的 CRLF/LF 后再比较；wheel `RECORD` 的原始字节长度、SHA-256
+  和覆盖范围校验保持严格，没有放宽制品完整性要求。
+- 修复后 Step 5 QA 制品再次通过，制品保持不变：
+  - sdist：11,081 bytes，SHA-256
+    `95efce0bce103b95765a613e89122a92e0338ecc9add644586f65fb2c4c58abf`；
+  - wheel：15,535 bytes，SHA-256
+    `1bdba3c8b87aca8782765d39950eb13abb6380de120905ac496e8ae4813d0fb0`。
+- 复验结果：`uv lock --check` 通过；最终 Ruff format check 为 38 个文件通过；Ruff lint
+  通过；严格 mypy 为 24 个源文件通过；默认 pytest 为
+  `62 passed, 1 skipped`；`git diff --check` 通过。
+- 唯一 skip 仍是显式 live contract；没有访问 Open-Meteo live API、运行 Inspector、
+  构建/发布新制品、增加 Tool 或传输方式、更新依赖或修改系统环境。
+
+### 收口交付
+
+- 已推送 `fix/f-002-post-merge-artifact-check`，并创建
+  [Draft PR #4](https://github.com/wcnm8888/mcp1-weather-query/pull/4)，目标为 `main`。
+- F-002 完整任务卡已复制到
+  `docs/archive/task-cards/F-002-可安装与可构建闭环.md`；当前任务和实施计划入口已
+  重置为无活动任务，roadmap/progress/文档地图已压缩到当前事实。
+- F-002 的实现、QA、UAT 与功能合并均已完成；最终收口仍等待用户审查并合并
+  Draft PR #4。在此之前不删除分支，也不自动选择或执行 D-001。

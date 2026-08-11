@@ -29,9 +29,9 @@ Datawhale 章节把 Smithery 称作“官方发布平台”，本项目不沿用
 6. 运行单元、集成、lint、格式、类型和敏感信息检查。
 7. 生成 wheel/sdist，在干净临时环境安装并再次执行 stdio smoke/Inspector。
 
-当前 F-002 Step 5 已完成：新的本地 QA wheel/sdist 已生成、审查，并分别在项目外
-独立环境完成无 `PYTHONPATH` 安装、stdio 复验和用户 UAT；仍没有上传或发布。
-Draft PR #3 只交付源码、测试、配置和证据，不包含构建制品或发布动作。Inspector
+F-002 已完成：新的本地 QA wheel/sdist 已生成、审查，并分别在项目外独立环境完成
+无 `PYTHONPATH` 安装、stdio 复验和用户 UAT；PR #3 已合并，但仍没有上传或发布。
+PR #3 只交付源码、测试、配置和证据，不包含构建制品或发布动作。Inspector
 不属于 F-002 默认验收，除非用户另行批准。
 
 ## 发布闭环

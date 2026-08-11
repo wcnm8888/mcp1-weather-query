@@ -71,10 +71,12 @@ stdio 验证属于 Step 4，两者均已通过。Inspector 是人工协议调试
   UTF-8 内容一致；旧 `dist` 得到预期失败，新 QA 候选通过并重新完成两套安装验证。
 - 用户随后从 Step 5 QA wheel 干净环境运行同一 installed-package 验证命令，并明确
   确认 UAT 通过；该确认不替代自动门禁，也不代表外部发布。
-- F-002 按已批准决策不新增 GitHub Actions；Draft PR #3 明确记录 local-only 门禁
-  例外，因此 PR 页面没有新增远程 CI 不能被误写成“CI 通过”或“未测试”。
+- F-002 按已批准决策不新增 GitHub Actions；PR #3 明确记录 local-only 门禁例外，
+  因此 PR 页面没有新增远程 CI 不能被误写成“CI 通过”或“未测试”。
+- Step 7 合并后复验补充跨平台文本规则：源文件、README 和法律文件比较先统一
+  CRLF/LF；wheel `RECORD` 的原始字节大小、哈希和覆盖范围仍必须严格复算。
 
-截至 Step 6 QA，MCP 协议集成层已通过官方 SDK in-memory client 验证；真实子进程层分别验证生产入口的 Legacy 原始协议握手/discovery/退出、官方 v2 Client 的现代 discovery，以及测试专用固定 Server 的结构化 Tool call。默认测试仍全部离线；`tests/integration/test_open_meteo_live.py` 只有在显式设置 `MCP_WEATHER_RUN_LIVE=1` 时才执行真实 Open-Meteo 两步契约。最近一次默认结果为 `52 passed, 1 skipped`，唯一 skip 是 live contract。
+截至 F-002 Step 7，MCP 协议集成层已通过官方 SDK in-memory client 验证；真实子进程层分别验证生产入口的 Legacy 原始协议握手/discovery/退出、官方 v2 Client 的现代 discovery，以及测试专用固定 Server 的结构化 Tool call。默认测试仍全部离线；`tests/integration/test_open_meteo_live.py` 只有在显式设置 `MCP_WEATHER_RUN_LIVE=1` 时才执行真实 Open-Meteo 两步契约。最近一次默认结果为 `62 passed, 1 skipped`，唯一 skip 是 live contract。
 
 子进程测试使用 10 秒单步超时；原始进程测试在 `finally` 中终止未退出进程，SDK client 则使用其上下文管理器执行关闭 stdin、限时等待和进程树清理。测试专用 Server 的诊断标记必须出现在 `stderr`，所有生产入口 `stdout` 行必须能解析为 JSON-RPC。
 
