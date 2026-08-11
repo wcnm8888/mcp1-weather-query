@@ -2,16 +2,15 @@
 
 ## 任务状态
 
-- 状态：`approved / step_6_draft_pr_open / awaiting_user_review`
+- 状态：`completed / merged / closed`
 - 项目等级：M
 - 用户选择：已选择 F-001
 - 任务卡批准：已批准（2026-08-11）
 - 实现：领域/服务/Open-Meteo 适配器、唯一 MCP Tool、真实 stdio、live contract、Inspector 技术验证与独立 QA 已完成
-- 当前分支：`feat/f-001-local-weather-tool`
-- Git 事实：private `origin` 为 `wcnm8888/mcp1-weather-query`；`main` 和功能分支已推送；draft PR #1 为 OPEN、MERGEABLE
+- Git 交付：private `origin` 为 `wcnm8888/mcp1-weather-query`；PR #1 已由用户标记 ready 并合并；原本地和远程功能分支已删除；关闭状态通过独立文档 PR 交付
 - 外部发布：不在本任务范围，未授权
 
-本文件是唯一已批准活动任务卡。Step 5 已分别证明 SDK v2 Client 的现代 MCP 2026-07-28 stdio 路径和 Inspector 的 Legacy 2025 stdio 兼容路径，并已通过用户 UAT；Step 6 本地 QA、精确提交、private GitHub 远程和 draft PR #1 已完成。当前停在用户审查/合并决策门禁。
+本文件是 F-001 的已关闭任务卡记录，当前没有已批准的活动任务。Step 5 已分别证明 SDK v2 Client 的现代 MCP 2026-07-28 stdio 路径和 Inspector 的 Legacy 2025 stdio 兼容路径，并已通过用户 UAT；Step 6 本地 QA、精确提交、private GitHub 远程、PR #1 合并、功能分支清理和关闭状态文档交付均已完成。
 
 ## 用户目标
 
@@ -51,18 +50,18 @@ Host / Inspector 发现 Tool
 - 不提供 Streamable HTTP、SSE、远程部署、鉴权、缓存服务、重试队列或生产 SLA。
 - 不构建 wheel/sdist，不做干净环境包安装；它们属于 F-002。
 - 不创建 `server.json`、CHANGELOG 或外部发布材料；它们属于 D-001。
-- 除用户单独授权的 private GitHub 仓库和 draft PR #1 外，不创建其他远程、push 或 PR；不发布 TestPyPI/PyPI/Registry/社区条目。
+- 除用户已授权并完成的 private GitHub 仓库和 PR #1 外，不创建其他远程、push 或 PR；不发布 TestPyPI/PyPI/Registry/社区条目。
 - 不更新或覆盖 Cherry Studio 管理的 uv 可执行文件。
 
 ## 前置条件
 
 - 当前项目：`E:\Agent\开发实践\MCP1-天气查询`
-- 当前分支：`feat/f-001-local-weather-tool`。
+- 最终目标分支：`main`；关闭状态使用独立文档分支通过 PR 交付，合并后不保留该临时分支。
 - 当前权威文档：`AGENTS.md`、`docs/README.md`、`product-brief.md`、`architecture.md`、`testing-strategy.md`、`release-plan.md`、`roadmap.md` 和本文件。
 - 已确认依赖决策：M 级、Open-Meteo、一个 Tool、地点名称输入、uv 管理 Python 3.12、F-001 优先。
 - 本机事实：Git 2.49、系统 Node 22.16/npx 10.9.2、项目独立 Node 24.19.0/npm+npx 11.17.0、Cherry Studio 管理的 uv 0.6.14、系统 Python 3.11.0rc2。
 - 环境边界：local development；离线测试使用 synthetic fixture/mock；一次显式 live Open-Meteo 验收；不是 production 或 production-like。
-- 执行人工门禁：Step 0 至 Step 6 draft PR 已获用户授权并完成；用户 UAT 已通过；标记 ready、合并、关闭 F-001 或进入 F-002 尚未授权。
+- 执行人工门禁：Step 0 至 Step 6、用户 UAT、PR #1 合并、功能分支清理和 F-001 关闭均已获授权；F-002 尚未选择或授权。
 
 ## 工程与依赖约束
 
@@ -208,7 +207,7 @@ annotations 是提示而非安全控制；固定域名和无写入实现才是�
 
 - `docs/release-plan.md`、F-002 及后续 roadmap 范围（除真实状态同步）
 - `LICENSE`、`CHANGELOG.md`、`server.json`、`dist/`
-- 除已授权的 private `origin` 和 draft PR #1 外，其他 Git 远程、GitHub Actions、远程仓库、PR、release、PyPI、Registry 或社区平台
+- 除已授权的 private `origin` 和已合并 PR #1 外，其他 Git 远程、GitHub Actions、远程仓库、PR、release、PyPI、Registry 或社区平台
 - `E:\Vibe coding` 方法论、Cherry Studio 文件、系统配置和全局环境变量
 - 任何项目外个人文件、凭证或无关项目
 
@@ -264,13 +263,15 @@ annotations 是提示而非安全控制；固定域名和无写入实现才是�
 
 ### Step 6：独立 QA、文档与 Git 收口
 
-- 状态：`draft_pr_open / awaiting_user_review`（2026-08-11）。
+- 状态：`completed / merged / closed`（2026-08-11）。
 - [x] 独立审查完整已跟踪 diff、全部未跟踪文件、负向测试、固定域名、stdout、证据真实性和范围。
 - [x] 运行全量适用门禁，更新 README/架构/测试/current-task/progress/evidence。
 - [x] 没有未解决的高、中优先级范围内缺陷；唯一 Tool、协议、网络和安全边界保持不变。
 - [x] 用户选择远程 PR 流程，并形成精确本地提交；提交哈希以 Git 事实为准。
 - [x] 创建 private GitHub 仓库、配置 `origin`、推送 `main`/功能分支并创建 draft PR #1。
-- [ ] 用户决定是否将 PR 标记 ready 或合并；未经确认不关闭 F-001。
+- [x] 用户将 PR #1 标记 ready 并合并到 `main`；本地 `main` 已 fast-forward 同步到 `514b3a9`。
+- [x] 用户授权通过独立文档 PR 交付最终关闭状态。
+- [x] 删除已合并的本地和远程 `feat/f-001-local-weather-tool` 分支，并正式关闭 F-001。
 - 不自动进入 F-002。
 
 ## 文档更新契约
@@ -313,8 +314,8 @@ annotations 是提示而非安全控制；固定域名和无写入实现才是�
 - 允许进入 Step 5，并执行显式 live API/Inspector 验收。
 - 若现有 uv 不满足要求，批准具体的 E 盘独立 uv 安装方案。
 - Step 5 用户 UAT：已于 2026-08-11 通过。
-- Step 6 Git 选择：用户已选择并完成 private GitHub draft PR 流程。
-- 标记 ready、合并、其他远程/PR 或发布动作必须另行明确授权。
+- Step 6 Git 选择：用户已选择并完成 private GitHub PR 流程，PR #1 已合并到 `main`。
+- 用户已授权并完成关闭状态文档 PR、已合并功能分支删除和 F-001 关闭；F-002、其他远程/PR 或发布动作必须另行明确授权。
 
 ## 上下文与预算
 
@@ -343,10 +344,10 @@ annotations 是提示而非安全控制；固定域名和无写入实现才是�
 - [x] README、架构、测试、current-task、progress、evidence、roadmap 与当前代码、测试和 Git 事实一致。
 - [x] 本地 diff 和提交可审查；无远程时已获得远程 PR 流程的人工决策。
 - [x] 没有构建包、创建第二 Tool、启用 HTTP、提交敏感信息或执行外部发布。
-- [ ] F-001 真正关闭后才归档；未自动创建或执行 F-002。
+- [x] F-001 已真正关闭；未自动创建或执行 F-002。
 
 ## 审批记录与下一门禁
 
 用户于 2026-08-11 批准本任务卡，并允许：初始化本地 Git、创建仅含基线文档的本地提交、创建 `feat/f-001-local-weather-tool`；优先复用现有 uv，不覆盖 Cherry Studio uv；F-001 不打包、不发布。
 
-Step 0 已验证现有 uv 0.6.14 能管理项目内 E 盘 CPython 3.12.10，无需更新 uv。Step 1 建立工程骨架、依赖锁和预期红灯测试；Step 2 将领域、服务和固定 Open-Meteo 适配器转绿；Step 3 完成唯一 MCP Tool 和内存协议验证；Step 4 完成真实 stdio 与全量离线门禁；Step 5 完成 live/Inspector 功能验证、独立 Node 修复、现代 MCP 2026-07-28 stdio 证据和用户 UAT；Step 6 已完成独立 QA、文档收口、精确本地提交、private GitHub 远程和 draft PR #1。当前授权不包含标记 ready、合并、关闭 F-001、F-002 或任何发布。
+Step 0 已验证现有 uv 0.6.14 能管理项目内 E 盘 CPython 3.12.10，无需更新 uv。Step 1 建立工程骨架、依赖锁和预期红灯测试；Step 2 将领域、服务和固定 Open-Meteo 适配器转绿；Step 3 完成唯一 MCP Tool 和内存协议验证；Step 4 完成真实 stdio 与全量离线门禁；Step 5 完成 live/Inspector 功能验证、独立 Node 修复、现代 MCP 2026-07-28 stdio 证据和用户 UAT；Step 6 已完成独立 QA、精确本地提交、private GitHub 远程、PR #1 合并、功能分支清理和关闭状态文档交付。F-001 已关闭；当前没有活动任务，也未进入 F-002 或任何发布。

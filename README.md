@@ -6,16 +6,16 @@
 
 - 项目类型：启动新项目。
 - 项目整体等级：M；规划、roadmap 和执行基线已完成。
-- 当前任务：F-001 Step 6 本地 QA、精确提交和 GitHub draft PR 已完成，等待用户审查/合并决策。
+- 当前任务：F-001 已完成并关闭；当前没有已批准的活动任务。
 - 代码：领域/服务/Open-Meteo 适配器已实现；官方 v2 `MCPServer` 只注册 `get_current_weather`，并提供输入/输出 Schema、只读 annotations、结构化成功结果和稳定 Tool execution error。
-- Git：private 仓库为 [wcnm8888/mcp1-weather-query](https://github.com/wcnm8888/mcp1-weather-query)；`main` 和 `feat/f-001-local-weather-tool` 已推送，当前 draft [PR #1](https://github.com/wcnm8888/mcp1-weather-query/pull/1) 处于 OPEN 状态。
+- Git：private 仓库为 [wcnm8888/mcp1-weather-query](https://github.com/wcnm8888/mcp1-weather-query)；[PR #1](https://github.com/wcnm8888/mcp1-weather-query/pull/1) 已把 `feat/f-001-local-weather-tool` 合并到 `main`，原本地和远程功能分支已删除。
 - 发布：未构建、未上传、未注册任何外部条目。
 - 测试：Step 6 默认离线门禁为 `52 passed, 1 skipped`；格式、lint、严格类型、依赖锁、SDK in-memory、现代/Legacy stdio 子进程测试和范围扫描通过。唯一 skip 是显式 opt-in 的 live contract；此前 live contract 为 `1 passed`，Inspector 已完成唯一 Tool 的发现、成功和错误路径验证。
 - 启动边界：已验证项目虚拟环境 Python 通过 `-m mcp_weather_query` 启动、握手、发现唯一 Tool 并在 stdin 关闭后以退出码 0 结束。F-001 未配置打包，源码启动仍需显式设置 `PYTHONPATH=<项目目录>\src`。
 - Node 兼容性：项目独立 Node 24.19.0 已通过官方 SHA256 校验，Inspector 2.1.0 不再产生 engine warning；系统 Node 22.16.0 未改变。
 - 协议证据：官方 Python SDK v2 `Client(mode="auto")` 通过生产 stdio 入口完成 `server/discover`，协商 MCP 2026-07-28，且未执行 Legacy initialize；同一 Server 继续允许 Inspector 2.1.0 以 Legacy MCP 2025-11-25 调试。
 - Step 6 QA：已审查全部已跟踪和未跟踪文件，没有未解决的高、中优先级范围内缺陷；未构建、打包或发布。
-- 下一步：等待用户审查 draft PR #1，并单独决定是否标记 ready 或合并；不得自动合并、关闭 F-001 或进入 F-002。
+- 下一步：等待用户从已批准 roadmap 中选择是否进入 F-002；不得自动创建任务卡、批准或执行后续任务。
 
 ## 拟交付能力
 

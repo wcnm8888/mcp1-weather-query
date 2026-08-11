@@ -2,11 +2,11 @@
 
 ## 当前状态
 
-- 当前任务：F-001 一个 Tool 的本地天气闭环
-- 当前 Step：Step 6 draft PR #1 已创建，等待用户审查/合并决策
-- 当前分支：`feat/f-001-local-weather-tool`
-- 下一步：等待用户决定是否将 draft PR #1 标记 ready 或合并
-- 禁止：自动标记 ready、合并、关闭 F-001、进入后续任务、打包或发布
+- 当前任务：无；F-001 一个 Tool 的本地天气闭环已关闭
+- 当前 Step：无活动 Step
+- Git 交付：PR #1 已合并，原本地和远程功能分支已删除，关闭状态文档通过独立文档 PR 交付
+- 下一步：等待用户选择是否进入 F-002
+- 禁止：自动创建任务卡、批准或执行后续任务、打包或发布
 
 ## Step 0：执行基线与本地 Git 启动
 
@@ -92,7 +92,7 @@
 
 ## Step 6：独立 QA、文档与 Git 收口
 
-状态：`draft_pr_open / awaiting_user_review`
+状态：`completed / merged / closed`
 
 - [x] 审查完整已跟踪 diff 和全部未跟踪源码、测试、配置与文档。
 - [x] 复核唯一 Tool、稳定错误、固定端点、stdout/stderr、现代/Legacy 协议证据和敏感信息边界。
@@ -103,8 +103,10 @@
 - [x] 形成精确本地提交；提交哈希以 Git 事实为准，不在提交内容中自引用。
 - [x] 创建 private GitHub 仓库 `wcnm8888/mcp1-weather-query`，配置 `origin` 并推送 `main`/功能分支。
 - [x] 创建 draft PR #1：`feat/f-001-local-weather-tool` → `main`；核验为 OPEN、MERGEABLE。
-- [ ] 用户审查并决定是否标记 ready 或合并。
-- [ ] 未经确认不关闭 F-001、不进入 F-002。
+- [x] 用户将 PR #1 标记 ready 并合并；远程和本地 `main` 已同步到 `514b3a9`。
+- [x] 用户授权通过独立文档 PR 交付最终关闭状态。
+- [x] 删除已合并的本地和远程 `feat/f-001-local-weather-tool` 分支并关闭 F-001。
+- [x] 未自动进入 F-002。
 
 ## 停止条件
 
