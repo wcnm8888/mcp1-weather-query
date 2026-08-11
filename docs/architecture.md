@@ -2,7 +2,7 @@
 
 ## 规模判断
 
-虽然代码量较小，但项目涉及 Agent Tool、结构化数据、失败兜底、新依赖、外部 API、stdio 子进程、打包和未来外部发布，按 Vibe Coding 分类规则整体为 **M 级**。用户已确认该判断；F-001 已关闭，F-002 已完成 wheel/sdist 构建、静态审查、项目外双干净安装、独立 QA 和用户 UAT，功能 PR #3 已合并，当前只等待收口 PR #4 审查。
+虽然代码量较小，但项目涉及 Agent Tool、结构化数据、失败兜底、新依赖、外部 API、stdio 子进程、打包和未来外部发布，按 Vibe Coding 分类规则整体为 **M 级**。用户已确认该判断；F-001、F-002 已关闭，wheel/sdist 构建、静态审查、项目外双干净安装、独立 QA、用户 UAT 和收口 PR 均已完成。当前 D-001 是一个 S 级发布准备切片，不改变运行时架构。
 
 ## 推荐技术栈
 
@@ -151,7 +151,14 @@ MCP1-天气查询/
 └── server.json                     # Registry 发布准备阶段，由官方工具生成/校验
 ```
 
-截至 Step 6 QA，`server.py` 使用官方 v2 `MCPServer` 注册唯一 `get_current_weather`，通过可注入的查询 handler 分离协议测试与网络 IO；模块级默认 handler 才组装 Open-Meteo 服务。`__main__.py` 的 SDK 默认 stdio 入口已通过真实子进程和 Inspector 完成 Legacy initialize、现代 discovery、Tool 调用与关闭验证。
+D-001 Step 3 已把根 `server.json` 固定为纯发现元数据：唯一 PyPI package
+`mcp-weather-query==0.1.0`、`runtimeHint=uvx`、stdio transport 和 GitHub repository。
+它不进入 Python 运行时，不增加 Tool、remote、环境变量、参数或密钥，也不代表包或
+Registry 条目已经公开。官方 `mcp-publisher v1.8.1 validate` 会把本地 manifest 发送到
+Registry 的未认证 `/v0/validate` 端点完成 Schema/语义校验；该调用不等同于离线检查，
+也不调用 publish 端点。
+
+截至 F-001 Step 6 QA，`server.py` 使用官方 v2 `MCPServer` 注册唯一 `get_current_weather`，通过可注入的查询 handler 分离协议测试与网络 IO；模块级默认 handler 才组装 Open-Meteo 服务。`__main__.py` 的 SDK 默认 stdio 入口已通过真实子进程和 Inspector 完成 Legacy initialize、现代 discovery、Tool 调用与关闭验证。
 
 F-002 Step 2 已移除 `tool.uv.package = false`，配置 `uv_build`、版本 `0.1.0` 和
 `mcp-weather-query = "mcp_weather_query.__main__:main"`。现有项目环境已生成该
@@ -170,7 +177,27 @@ Step 5 QA 发现根目录 README 更新后，Step 3 `dist` 制品的内嵌长描
 与当前根 README 一致；新的项目外 QA 候选通过该门禁和双安装复验。旧 `dist`
 按不删除规则保留，但不再是当前 UAT 候选。
 
-Step 5 使用精确版本 `@modelcontextprotocol/inspector@2.1.0`，并通过 Inspector 的 `--web -e PYTHONPATH=... --cwd ... <python> -m mcp_weather_query` 连接源码入口。项目独立 Node 24.19.0 已消除 Inspector 的 engine warning，系统 Node 22.16.0 保持不变。
+D-001 Step 4 使用 `uv build --no-sources --offline` 在项目外
+`E:\mcp-weather-query-release-candidate\0.1.0\step4-20260811T205328\dist` 从 sdist
+再构建 wheel。当前候选 wheel 保持 15 个文件，sdist 保持 14 个文件；运行时 wheel
+只含生产包、Core Metadata、entry point、RECORD 和 LICENSE/NOTICE，sdist 只含可重建
+该 wheel 所需的源码、README、pyproject 与法律文件。`CHANGELOG.md` 和 `server.json`
+继续作为仓库级发布协调材料，不进入运行时 wheel，也不是 sdist 构建必需文件。
+
+D-001 Step 5 固定使用上述候选，在项目外
+`E:\mcp-weather-query-release-candidate\0.1.0\step5-20260811T210410` 创建两个新的
+Python 3.12.10 环境。wheel 与 sdist 安装路径彼此隔离，模块和 console 都来自对应环境，
+不依赖源码目录、editable install 或 `PYTHONPATH`。生产 console 继续是同一个
+`mcp_weather_query.__main__:main` stdio 入口；测试专用确定性入口只存在于仓库验证脚本，
+没有进入 wheel/sdist 或发布入口。
+
+D-001 Step 6 独立 QA 修复根 README 的陈旧发布阶段文字后，旧 Step 4 制品按设计因
+长描述不一致而失效。新的 QA 候选位于
+`E:\mcp-weather-query-release-candidate\0.1.0\step6-qa-20260811T213511`，保持同一
+运行时源码、包元数据和 stdio 架构，只更新嵌入 README；该候选重新通过双安装和协议
+复验，作为用户 UAT 的唯一候选。
+
+F-001 Step 5 使用精确版本 `@modelcontextprotocol/inspector@2.1.0`，并通过 Inspector 的 `--web -e PYTHONPATH=... --cwd ... <python> -m mcp_weather_query` 连接源码入口。项目独立 Node 24.19.0 已消除 Inspector 的 engine warning，系统 Node 22.16.0 保持不变。
 
 MCP 2026-07-28 属于现代无握手协议：请求自行携带版本/身份/能力，可选 `server/discover`，不再使用 `initialize/initialized`。Python SDK v2 同时服务现代 2026 与 Legacy 2025 客户端。生产 stdio 入口现有两条明确证据：官方 SDK v2 `Client(mode="auto")` 通过 `server/discover` 协商 2026-07-28；Inspector 2.1.0 则发送 `initialize(protocolVersion=2025-11-25)` 并进入 Legacy 兼容路径。同一 Server 同时服务两代客户端，不需要 HTTP，也不把 Inspector Legacy UI 冒充现代协议证据。
 

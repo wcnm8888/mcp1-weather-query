@@ -17,7 +17,7 @@
 - 验收证据：[`evidence.md`](evidence.md)
 - 已归档任务卡：[`archive/task-cards/`](archive/task-cards/)
 
-F-001 与 F-002 的完整任务卡均已归档。F-002 功能 PR #3 已合并；Draft PR #4 正在完成合并后复验修复和最终状态收口。
+F-001 与 F-002 的完整任务卡均已归档并关闭，PR #3 与收口 PR #4 均已合并。D-001 Step 6 独立 QA 与用户 UAT 均已完成，Step 7 已交付 Draft PR #5。
 
 ## 权威文档映射
 
@@ -48,9 +48,9 @@ F-001 与 F-002 的完整任务卡均已归档。F-002 功能 PR #3 已合并；
 
 ## 当前状态
 
-- 活动任务：无；Draft PR #4 为 open/draft，等待用户审查。
-- roadmap：已批准；F-001 已关闭，F-002 已完成并进入最终收口，D-001 尚未选择。
-- Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；PR #3 已合并到 `main`，合并提交为 `ac39554`；当前收口分支为 `fix/f-002-post-merge-artifact-check`。
-- 实现/测试：唯一 `get_current_weather` MCP Tool、可安装包、wheel/sdist 和双干净安装闭环均已完成；合并后默认门禁为 `62 passed, 1 skipped`，唯一 skip 是显式 live contract。
-- 构建/发布：新的本地 QA wheel/sdist 已构建、审查并分别完成项目外干净安装；未上传或发布。旧 `dist` 制品因 README 陈旧被门禁判定为过期，不用于 UAT。
-- 唯一下一步：用户审查并决定是否合并 Draft PR #4；不得自动进入 D-001 或执行外部发布。
+- 活动任务：D-001 发布候选与发布前审查；Step 7 Git/PR 交付已完成，等待用户审查 Draft PR #5。
+- roadmap：已批准；F-001、F-002 已关闭，D-001 已由用户选择并按 Step 门禁推进。
+- Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；PR #3、PR #4 均已合并；D-001 基线为 `a3ef73c`，当前本地分支为 `chore/d-001-release-candidate`。
+- 实现/测试：唯一 `get_current_weather` MCP Tool、可安装包、固定候选 wheel/sdist 和双干净安装闭环均已完成；当前默认门禁为 `76 passed, 1 skipped`，唯一 skip 是显式 live contract。
+- 构建/发布：独立 QA 修复发布文档陈旧状态后生成新的 QA wheel/sdist，并分别完成项目外离线安装和 installed-package stdio 复验；未上传或发布。
+- 唯一下一步：用户审查 Draft PR #5，并决定标记 Ready 或合并；不得自动合并、登录或发布。

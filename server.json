@@ -1,0 +1,22 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.wcnm8888/mcp1-weather-query",
+  "title": "MCP1 Weather Query",
+  "description": "Read-only current weather lookup by place name using Open-Meteo.",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/wcnm8888/mcp1-weather-query",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "mcp-weather-query",
+      "version": "0.1.0",
+      "runtimeHint": "uvx",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}
