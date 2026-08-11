@@ -1,116 +1,136 @@
-# F-001 Implementation Plan
+# F-002 Implementation Plan
 
 ## 当前状态
 
-- 当前任务：无；F-001 一个 Tool 的本地天气闭环已关闭
-- 当前 Step：无活动 Step
-- Git 交付：PR #1 已合并，原本地和远程功能分支已删除，关闭状态文档通过独立文档 PR 交付
-- 下一步：等待用户选择是否进入 F-002
-- 禁止：自动创建任务卡、批准或执行后续任务、打包或发布
+- 当前任务：F-002 可安装与可构建闭环
+- 当前状态：`approved / step_6_completed / draft_pr_open / awaiting_user_review`
+- 当前分支：`feat/f-002-installable-package`
+- 基线：`main` 与 `origin/main` 均为 `4d84ad0`
+- 当前唯一目标：等待用户审查 Draft PR #3，并决定 Ready/合并
+- 下一门禁：用户 PR 审查；合并后才可授权 Step 7 收口
+- 禁止：自动标记 Ready、合并、删除分支、进入 Step 7 或发布
 
-## Step 0：执行基线与本地 Git 启动
+## Step 0：任务与构建基线
 
-状态：`completed`
+状态：`completed`（2026-08-11）
 
-- [x] 复核任务卡、目录、Git、工具版本和用户授权。
-- [x] 使用现有 uv 0.6.14，不覆盖 Cherry Studio 管理的 uv。
-- [x] 将 uv managed CPython 3.12.10 安装到项目 `.runtime/`，并由 `.gitignore` 排除。
-- [x] 使用 `.python-version` 固定 Python 3.12。
-- [x] 建立本计划、短进度和证据索引。
-- [x] 初始化本地 `main`，创建精确基线提交，并创建 F-001 功能分支。
-- [x] 未写业务代码、未安装项目依赖、未配置远程、未发布。
+- [x] 用户批准 F-002 任务卡及 14 项命名、License、构建、测试和交付决策。
+- [x] 确认工作树干净，`main == origin/main == 4d84ad0`。
+- [x] 创建 `feat/f-002-installable-package`。
+- [x] 将 F-001 完整任务卡归档到 `docs/archive/task-cards/`。
+- [x] 建立 F-002 current-task、implementation-plan 和短 progress 入口。
+- [x] 只读核验 uv 0.6.14 的 build frontend 能力与候选 `uv_build` 兼容边界。
+- [x] 运行 F-002 修改前默认离线基线门禁：`52 passed, 1 skipped`，其余门禁通过。
+- [x] 复核 Step 0 diff 只有任务、计划、归档和状态文档。
+- [x] 将 Step 0 标记完成并停止，等待用户允许进入 Step 1。
 
-## Step 1：工程骨架与失败测试
+Step 0 不修改 `pyproject.toml`、`uv.lock`、源码、测试、License/NOTICE，不执行 `uv build`。
 
-状态：`completed`
+只读兼容性结论：uv 0.6.14 的 CLI 支持 PEP 517、`--wheel` 和 `--sdist`；本 Step
+没有调用候选 `uv_build`，其实际后端兼容性仍须在获准的后续构建 Step 验证。
 
-- [x] 建立 `pyproject.toml`、`src/mcp_weather_query/` 和授权测试目录。
-- [x] 使用 Python 3.12.10 锁定最小运行/开发依赖；`mcp` 锁定为 2.0.0。
-- [x] 建立输入、错误、固定 endpoint 和结构模型的失败测试/fixture。
-- [x] 15 个测试按预期失败，0 个收集错误；失败原因均为批准边界尚未实现。
-- [x] Ruff format、Ruff lint 和严格 mypy 通过。
-- [x] 未实现对外 Tool、天气领域逻辑或 HTTP 调用。
+## Step 1：先失败的 packaging 契约测试
 
-验证结果：项目只使用 uv managed Python 3.12；失败测试证明任务卡核心边界尚未实现；diff 不含构建或发布文件。
+状态：`completed`（2026-08-11）
 
-## Step 2：Open-Meteo 适配器与天气用例
+- [x] 建立 build-system、package、entry point、版本、License/NOTICE 契约。
+- [x] 建立 wheel/sdist 和双干净安装隔离矩阵骨架。
+- [x] 定向红灯稳定为 `6 failed, 4 passed`。
+- [x] 完整 pytest 如实为 `6 failed, 56 passed, 1 skipped`。
+- [x] 排除新增红灯后，既有离线回归仍为 `52 passed, 1 skipped`。
+- [x] Ruff format/lint 和严格 mypy 通过。
+- [x] 未修改 `pyproject.toml`、`uv.lock`、源码、LICENSE/NOTICE，未构建制品。
 
-状态：`completed`
+## Step 2：最小可安装包配置
 
-- [x] 实现 Pydantic 输入/结构化输出模型与 ISO 时间、坐标、范围和单位校验。
-- [x] 实现 6 个稳定错误码、retryable 规则、安全 message/hint 和内部异常载体。
-- [x] 实现官方 WMO weather code 映射；未知 code 拒绝为无效上游响应。
-- [x] 实现固定 geocoding/forecast HTTPS endpoint、有限超时、禁止重定向和显式单位。
-- [x] 实现最佳地点解析、current conditions 转换和无状态两步应用服务。
-- [x] 覆盖无结果、超时、429、5xx、连接失败、坏 JSON、缺字段、错误单位/时区和未知 WMO code。
-- [x] 41 个离线测试、Ruff format/lint、严格 mypy 和 lock check 通过。
-- [x] 未访问 live API，未注册 MCP Tool，未创建 `server.py`，未启用 stdio。
+状态：`completed`（2026-08-11）
 
-## Step 3：MCPServer Tool 与结构化输出
+- [x] 配置官方当前 `uv_build>=0.11.32,<0.12` 和默认 `src` layout。
+- [x] 启用 package，设置版本 `0.1.0` 和 `mcp-weather-query` console script。
+- [x] 新增 MIT LICENSE、Open-Meteo NOTICE 和必要元数据。
+- [x] 锁文件只发生根项目 `virtual` → `editable` 和 `0.0.0` → `0.1.0` 变化。
+- [x] Step 1 契约为 `10 passed`，完整默认测试为 `62 passed, 1 skipped`。
+- [x] Ruff、严格 mypy、锁文件和 diff 门禁通过。
+- [x] 未执行 `uv build`，未生成 wheel/sdist 或项目外安装环境。
 
-状态：`completed`
+## Step 3：真实构建与制品审查
 
-- [x] 使用官方 v2 `MCPServer`，且只注册 `get_current_weather`。
-- [x] 声明地点/国家代码输入 Schema、完整结构化输出 Schema、描述和四个 annotations。
-- [x] 成功结果直接生成 `structuredContent`，没有额外 `result` 包装层。
-- [x] 业务/上游失败映射为带稳定 code、message、retryable、hint 的 Tool execution error。
-- [x] 意外内部异常收敛为通用 MCP 协议错误，不泄露堆栈或本机路径。
-- [x] 建立 stdio 模块入口但未启动；使用依赖注入完成 SDK in-memory discovery/call 测试。
-- [x] 48 个离线测试、Ruff format/lint、严格 mypy 和 lock check 通过。
-- [x] 未启动 stdio 子进程、未访问 live API、未运行 Inspector、未打包或发布。
+状态：`completed`（2026-08-11）
 
-## Step 4：stdio 与自动化门禁
+- [x] 使用 `uv build` 生成 sdist 和从 sdist 构建的 wheel。
+- [x] 新增并运行 `tests/packaging/inspect_artifacts.py`，精确审查两个制品。
+- [x] wheel 15 个文件、sdist 14 个文件，清单符合任务卡。
+- [x] METADATA/PKG-INFO、entry point、purelib/tag、依赖、Python、MIT 和
+  License-File 检查通过。
+- [x] RECORD 覆盖、SHA-256 和大小复算通过；源码/法律文件与工作树一致。
+- [x] 绝对本机路径、runtime/venv、明显凭据赋值和未授权文件扫描通过。
+- [x] 更新 README 后重新构建并复核最终制品，避免嵌入陈旧状态。
+- [x] 未安装、上传或提交 `dist/`。
 
-状态：`completed`
+## Step 4：双干净环境安装与 stdio smoke
 
-- [x] 使用项目虚拟环境 Python、源码 `PYTHONPATH` 和生产模块入口启动真实子进程。
-- [x] 完成 MCP initialize、唯一 Tool discovery、stdin 关闭、退出码 0 和无额外 stdout 验证。
-- [x] 使用官方 `stdio_client` + `ClientSession` 调用测试专用固定 Server，返回合法 structuredContent。
-- [x] 测试专用诊断进入 stderr；所有子进程步骤均有 10 秒超时和失败清理。
-- [x] 保留红灯证据：固定 Server 尚不存在时连接关闭；补充最小测试入口后转绿。
-- [x] 50 个离线测试、Ruff format/lint、严格 mypy、lock check 和范围门禁通过。
-- [x] 未访问 live API、未运行 Inspector、未打包、未提交或发布。
+状态：`completed`（2026-08-11）
 
-## Step 5：live contract、Inspector 与用户验收
+- [x] 在 `E:\Agent\.tmp\mcp1-weather-query\f-002\step4-20260811-a` 创建独立
+  `wheel-env`、`sdist-env` 和各自外部工作目录。
+- [x] 分别从约定 `.whl`/`.tar.gz` 安装，不使用 editable install 或 `PYTHONPATH`。
+- [x] `direct_url.json`、module 与 console 路径证明制品和安装环境来源准确。
+- [x] 两套生产 console 均完成 stdio handshake/tools-list，只发现唯一 Tool，
+  stdout 仅协议消息，退出码 0，stderr 无 traceback。
+- [x] 两套官方 SDK v2 Client 均通过现代 MCP 2026-07-28 discovery；测试 runner
+  使用已安装包完成 synthetic/offline Tool call，返回合法 `structuredContent`。
+- [x] 测试 runner 未进入 wheel/sdist；未访问 live API、运行 Inspector或遗留子进程。
 
-状态：`completed`
+## Step 5：独立 QA 与用户 UAT
 
-- [x] live contract 默认跳过，只有 `MCP_WEATHER_RUN_LIVE=1` 时显式联网。
-- [x] 真实 Open-Meteo 地理编码与 current weather 两步契约通过，且只访问固定 endpoint。
-- [x] Inspector v2.1.0 通过 stdio 连接生产模块入口，只发现 `get_current_weather`。
-- [x] Inspector 成功调用返回合法结构化结果和解析地点/来源元数据。
-- [x] Inspector 非法输入返回稳定 `INVALID_LOCATION` Tool execution error，无 traceback 或本机路径。
-- [x] 默认离线门禁最终为 `52 passed, 1 skipped`；Ruff、严格 mypy 和 lock check 通过。
-- [x] 官方 Node 24.19.0 Windows x64 ZIP 通过 SHA256 校验并安装到项目 `.runtime/`；不修改系统环境。
-- [x] Inspector 2.1.0 在受支持 Node 下无 engine warning。
-- [x] 真实证据确认 Inspector stdio 请求和 Server 响应均为 MCP 2025-11-25，界面标记 Legacy。
-- [x] SDK v2 `Client(mode="auto")` 对生产 stdio Server 执行 `server/discover` 并协商 MCP 2026-07-28，不产生 initialize 结果。
-- [x] 现代 stdio production discovery 只发现唯一 Tool；测试专用 Server 完成离线 structuredContent 调用。
-- [x] 默认离线门禁更新为 `52 passed, 1 skipped`；没有启用 HTTP/SSE 或重复 live API。
-- [x] Inspector stdio 作为 Legacy 2025 UI 调试路径单独记录，不作为现代协议证据。
-- [x] 用户于 2026-08-11 明确通过 UAT。
+状态：`completed`（2026-08-11）
 
-## Step 6：独立 QA、文档与 Git 收口
+- [x] 独立审查任务卡、完整 tracked/untracked diff、制品和双安装证据。
+- [x] 修复制品门禁未能拒绝陈旧 README 的缺陷；旧 `dist` 预期失败。
+- [x] 在新项目外 QA 目录构建、审查并双安装验证最终 UAT 候选。
+- [x] lock、format、lint、严格 mypy、全量默认 pytest、artifact、范围和敏感信息门禁通过。
+- [x] 用户从 QA wheel 环境运行验证命令并确认无需源码路径，UAT 通过。
+- [x] 未把本地构建/安装写成外部发布。
 
-状态：`completed / merged / closed`
+## Step 6：Git/PR 交付
 
-- [x] 审查完整已跟踪 diff 和全部未跟踪源码、测试、配置与文档。
-- [x] 复核唯一 Tool、稳定错误、固定端点、stdout/stderr、现代/Legacy 协议证据和敏感信息边界。
-- [x] 全量默认离线门禁通过：`52 passed, 1 skipped`；唯一 skip 是显式 live contract。
-- [x] 修正陈旧包说明和文档状态/架构表述。
-- [x] 核实并停止一个遗留的项目 Playwright CLI daemon；未触碰用户编辑器或其他项目进程。
-- [x] 用户选择远程 PR 流程。
-- [x] 形成精确本地提交；提交哈希以 Git 事实为准，不在提交内容中自引用。
-- [x] 创建 private GitHub 仓库 `wcnm8888/mcp1-weather-query`，配置 `origin` 并推送 `main`/功能分支。
-- [x] 创建 draft PR #1：`feat/f-001-local-weather-tool` → `main`；核验为 OPEN、MERGEABLE。
-- [x] 用户将 PR #1 标记 ready 并合并；远程和本地 `main` 已同步到 `514b3a9`。
-- [x] 用户授权通过独立文档 PR 交付最终关闭状态。
-- [x] 删除已合并的本地和远程 `feat/f-001-local-weather-tool` 分支并关闭 F-001。
-- [x] 未自动进入 F-002。
+状态：`completed / draft_pr_open / awaiting_user_review`（2026-08-11）
+
+- [x] 精确审查和分批暂存；构建配置/License、测试、文档按意图提交。
+- [x] 推送 `feat/f-002-installable-package` 并创建 Draft PR #3，目标为 `main`。
+- [x] F-002 不新增 GitHub Actions；PR 明确记录 local-only 门禁例外。
+- [ ] 用户审查后决定 Ready/merge；不自动合并。
+
+## Step 7：合并后收口
+
+状态：`pending`
+
+- 验证远程合并并安全同步本地 main。
+- 归档 F-002，重置 current-task，压缩 roadmap/progress/evidence。
+- 删除已合并分支前取得用户确认。
+- 不自动选择或执行 D-001。
+
+## 默认质量门禁
+
+Step 0 基线和后续默认离线门禁：
+
+```powershell
+$env:MCP_WEATHER_RUN_LIVE = $null
+uv lock --check
+uv run ruff format --check .
+uv run ruff check .
+uv run mypy
+uv run pytest -q --tb=short
+git diff --check
+```
+
+F-002 后续追加的门禁必须来自任务卡：build、artifact、clean-install、console stdio 和 installed-package offline call。
 
 ## 停止条件
 
-- 需要第二 Tool、HTTP、打包、发布或任务卡外文件。
-- 需要覆盖 Cherry Studio uv、修改系统 Python/注册表或全局环境变量。
-- 同一根因连续三次无法证明或验证。
-- 必需真实验收无法取得证据。
+- Git 基线或工作树出现无法解释的差异。
+- 真实制品构建暴露现有 uv/backend 不兼容，或需要更新 Cherry Studio/系统环境。
+- 需要修改 Tool 契约、数据源、错误语义、增加 transport 或第二 Tool。
+- 需要 live API、Inspector、GitHub Actions、外部上传、Registry 或 Release。
+- 干净安装只能依赖 editable install、源码目录或 `PYTHONPATH`。
+- 需要删除/覆盖用户文件、出现敏感信息或范围扩大到 M。

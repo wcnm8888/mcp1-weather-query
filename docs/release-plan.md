@@ -22,12 +22,17 @@ Datawhale 章节把 Smithery 称作“官方发布平台”，本项目不沿用
 ## 本地学习闭环
 
 1. 使用 uv 管理稳定 Python 和锁定依赖。
-2. 从源码运行唯一 console entry point，默认 stdio。
+2. 在项目环境运行已配置的唯一 `mcp-weather-query` console entry point，默认 stdio。
 3. 用 SDK in-memory client 验证 Tool discovery/call/schema/error。
 4. 用 stdio 子进程 smoke 验证真实进程边界和 stdout 纯净性。
 5. 用 MCP Inspector 启动本地命令，人工检查 Tool 描述、Schema、成功和错误路径。
 6. 运行单元、集成、lint、格式、类型和敏感信息检查。
 7. 生成 wheel/sdist，在干净临时环境安装并再次执行 stdio smoke/Inspector。
+
+当前 F-002 Step 5 已完成：新的本地 QA wheel/sdist 已生成、审查，并分别在项目外
+独立环境完成无 `PYTHONPATH` 安装、stdio 复验和用户 UAT；仍没有上传或发布。
+Draft PR #3 只交付源码、测试、配置和证据，不包含构建制品或发布动作。Inspector
+不属于 F-002 默认验收，除非用户另行批准。
 
 ## 发布闭环
 

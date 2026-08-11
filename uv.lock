@@ -307,8 +307,8 @@ wheels = [
 
 [[package]]
 name = "mcp-weather-query"
-version = "0.0.0"
-source = { virtual = "." }
+version = "0.1.0"
+source = { editable = "." }
 dependencies = [
     { name = "httpx" },
     { name = "mcp" },
