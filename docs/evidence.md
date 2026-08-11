@@ -1012,6 +1012,10 @@ D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没�
   通过。
 - 从合并后的 `main` 创建 `docs/d-001-post-merge`，只承载最终文档治理：归档完整 D-001
   任务卡、重置活动任务和实施计划入口、同步 roadmap/progress/文档地图/架构/测试状态。
+- 创建提交 `47809656a218c80f196d6bd890d5410a22c23fbb`
+  （`docs(project): close D-001 after merge`）并推送 `docs/d-001-post-merge`。
+- 创建 Draft PR #6：`https://github.com/wcnm8888/mcp1-weather-query/pull/6`；目标为
+  `main`，来源为 `docs/d-001-post-merge`。创建后状态为 `OPEN / Draft / MERGEABLE`。
 - D-001 的代码、构建、QA、UAT 和功能合并均已完成；没有修改生产 Tool、依赖、锁文件
   或运行时环境。
 - 未访问 Open-Meteo live API，未运行 Inspector/publisher，未登录或上传 PyPI，未登记

@@ -79,4 +79,5 @@ PR #5 已由用户合并，本地 `main` 已同步，合并后完整离线门禁
 - 本地 `main` 通过 fast-forward 与 `origin/main` 对齐，工作树在创建收口分支前干净。
 - 合并后门禁：lock、Ruff format/lint、严格 mypy、`76 passed, 1 skipped` 和 diff 检查均通过。
 - D-001 完整任务卡已归档到 `docs/archive/task-cards/D-001-发布候选与发布前审查.md`。
+- 收口文档已通过 Draft PR #6 交付，来源分支为 `docs/d-001-post-merge`，目标为 `main`。
 - 未访问 live API，未运行 Inspector/publisher，未上传、登记、创建 tag 或 Release。

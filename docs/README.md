@@ -50,7 +50,7 @@ F-001、F-002 与 D-001 的完整任务卡均已归档并关闭。D-001 PR #5 �
 
 - 活动任务：无；等待用户选择是否起草 R-001 候选任务卡。
 - roadmap：已批准；F-001、F-002、D-001 均已关闭，R-001/R-002 尚未选择。
-- Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；D-001 PR #5 已合并，merge commit 为 `2e691c3`；当前收口分支为 `docs/d-001-post-merge`。
+- Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；D-001 PR #5 已合并，merge commit 为 `2e691c3`；收口文档由 PR #6 承载。
 - 实现/测试：唯一 `get_current_weather` MCP Tool、可安装包、固定候选 wheel/sdist 和双干净安装闭环均已完成；当前默认门禁为 `76 passed, 1 skipped`，唯一 skip 是显式 live contract。
 - 构建/发布：独立 QA 修复发布文档陈旧状态后生成新的 QA wheel/sdist，并分别完成项目外离线安装和 installed-package stdio 复验；未上传或发布。
 - 唯一下一步：用户决定是否起草 R-001“PyPI 外部发布”候选任务卡；不得自动登录或发布。

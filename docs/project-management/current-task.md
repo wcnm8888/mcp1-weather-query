@@ -7,6 +7,7 @@
 - 功能 PR：[PR #5](https://github.com/wcnm8888/mcp1-weather-query/pull/5) 已合并
 - 功能合并提交：`2e691c351b78a0281a4a1fcdb21eca90c8e2f580`
 - 收口分支：`docs/d-001-post-merge`
+- 收口 PR：[PR #6](https://github.com/wcnm8888/mcp1-weather-query/pull/6) 承载本状态
 - 外部发布：未授权、未执行
 
 ## 已完成能力
