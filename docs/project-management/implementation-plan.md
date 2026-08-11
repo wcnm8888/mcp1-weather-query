@@ -105,7 +105,9 @@
 ## 当前门禁
 
 Step 5 已创建并推送提交 `5f245ee6acc382400b28c557388a4aa114a9fb53`，Draft PR #7
-以 `main` 为目标。当前等待最新 PR CI，必须确认 PR 只运行 build/QA 且没有执行 publish；
+以 `main` 为目标。首次 CI build 成功且 publish skipped，但暴露 artifact actions 的 Node.js 20
+弃用告警；已按官方最新 Node.js 24 版本最小修复。当前等待修复提交的 PR CI，必须确认
+PR 只运行 build/QA、没有执行 publish 且不再出现该告警；
 不得进入 Step 6、登录 PyPI、配置 Publisher、创建 tag 或上传。
 
 ## 历史计划

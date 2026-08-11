@@ -155,6 +155,9 @@ live contract 只断言固定 endpoint、响应模型、解析地点和来源/�
   `inspect_artifacts.py dist` 再上传，静态契约同时固定该顺序。Step 3 固定制品和两套安装
   再次复验通过，2026-08-12 新 live contract 为 `1 passed in 2.73s`；用户随后在固定 wheel
   环境完成并确认 UAT，通过 provenance、唯一 Tool、结构化输出、stdio 纯净性和退出验收。
+- Step 5 首次 PR run 暴露旧 artifact actions 的 Node.js 20 弃用告警；upload 更新到官方
+  v7.0.1、download 更新到官方 v8.0.1 的完整 SHA，二者均使用 Node.js 24。最终 PR CI
+  必须以该修复后的提交为准，旧成功 run 不能替代最新证据。
 
 ## 验收证据格式
 

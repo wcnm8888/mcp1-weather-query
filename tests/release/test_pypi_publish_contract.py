@@ -36,8 +36,8 @@ APPROVED_ACTIONS = {
     "actions/checkout": "d23441a48e516b6c34aea4fa41551a30e30af803",  # v6
     "actions/setup-python": "ece7cb06caefa5fff74198d8649806c4678c61a1",  # v6
     "astral-sh/setup-uv": "c771a70e6277c0a99b617c7a806ffedaca235ff9",  # v9.0.0
-    "actions/upload-artifact": "330a01c490aca151604b8cf639adc76d48f6c5d4",  # v5
-    "actions/download-artifact": "634f93cb2916e3fdff6788551b99b062d0335ce0",  # v5
+    "actions/upload-artifact": "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a",  # v7.0.1
+    "actions/download-artifact": "3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c",  # v8.0.1
     "pypa/gh-action-pypi-publish": "dc37677b2e1c63e2034f94d8a5b11f265b73ba33",  # release/v1
 }
 

@@ -1178,3 +1178,10 @@ D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没�
   `https://github.com/wcnm8888/mcp1-weather-query/pull/7`。
 - PR 初始检查只出现 `Validate and build distributions`，没有 publish job；当前仍需等待
   最新文档提交对应的 PR CI 完成后，才能把 Step 5 写成通过。
+- 提交 `144c7fd` 的 PR CI build job 首次成功，publish job 为 skipped，但 GitHub 标注旧
+  `actions/upload-artifact` v5 使用已弃用 Node.js 20。官方只读核验确认当前最新
+  upload v7.0.1 SHA 为 `043fb46d...d1fc6a0a`，download v8.0.1 SHA 为
+  `3e5f45b2...a5461e7c`，二者均声明 Node.js 24。
+- 为避免当前 build 告警和未来 publish job 的同类风险，最小更新 upload/download 两个
+  action SHA 及静态 allowlist；定向契约 `9 passed`，完整离线门禁仍为
+  `85 passed, 1 skipped`。等待该修复提交对应的新 PR CI，不复用旧 run 冒充最终证据。

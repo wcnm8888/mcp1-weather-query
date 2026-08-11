@@ -35,7 +35,9 @@ commit、push、Draft PR 和 PR 检查；仍不授权发布 job、PyPI 登录/�
 
 - 创建并推送提交 `5f245ee6acc382400b28c557388a4aa114a9fb53`。
 - 创建 Draft PR #7：`https://github.com/wcnm8888/mcp1-weather-query/pull/7`，目标为 `main`。
-- 当前 PR 检查只有 `Validate and build distributions`；等待最新提交对应的最终结果。
+- 首次 PR build 成功且 publish skipped，但发现 upload action 的 Node.js 20 弃用告警；已将
+  upload/download 更新到官方最新 Node.js 24 action SHA 并保持 9 项静态契约全绿。
+- 当前 PR 检查仍只有 `Validate and build distributions`；等待修复提交对应的最终结果。
 
 ## R-001 Step 2 结果
 
