@@ -5,12 +5,17 @@
 ## 当前状态
 
 - 项目类型：启动新项目。
-- 项目整体等级：M；Step 0 规划和 roadmap 确认已完成。
-- 当前任务：F-001 任务卡已批准，Step 0 执行基线完成。
-- 代码：未实现。
-- Git：已建立本地 `main` 基线并进入 `feat/f-001-local-weather-tool`；未配置远程、未推送。
+- 项目整体等级：M；规划、roadmap 和执行基线已完成。
+- 当前任务：F-001 Step 6 本地 QA 与精确提交已完成，等待远程 PR 交付授权。
+- 代码：领域/服务/Open-Meteo 适配器已实现；官方 v2 `MCPServer` 只注册 `get_current_weather`，并提供输入/输出 Schema、只读 annotations、结构化成功结果和稳定 Tool execution error。
+- Git：本地 `main` 保留基线，`feat/f-001-local-weather-tool` 已形成 F-001 精确提交；未配置远程、未推送、未创建 PR。
 - 发布：未构建、未上传、未注册任何外部条目。
-- 下一步：等待用户允许进入 F-001 Step 1；当前没有业务代码。
+- 测试：Step 6 默认离线门禁为 `52 passed, 1 skipped`；格式、lint、严格类型、依赖锁、SDK in-memory、现代/Legacy stdio 子进程测试和范围扫描通过。唯一 skip 是显式 opt-in 的 live contract；此前 live contract 为 `1 passed`，Inspector 已完成唯一 Tool 的发现、成功和错误路径验证。
+- 启动边界：已验证项目虚拟环境 Python 通过 `-m mcp_weather_query` 启动、握手、发现唯一 Tool 并在 stdin 关闭后以退出码 0 结束。F-001 未配置打包，源码启动仍需显式设置 `PYTHONPATH=<项目目录>\src`。
+- Node 兼容性：项目独立 Node 24.19.0 已通过官方 SHA256 校验，Inspector 2.1.0 不再产生 engine warning；系统 Node 22.16.0 未改变。
+- 协议证据：官方 Python SDK v2 `Client(mode="auto")` 通过生产 stdio 入口完成 `server/discover`，协商 MCP 2026-07-28，且未执行 Legacy initialize；同一 Server 继续允许 Inspector 2.1.0 以 Legacy MCP 2025-11-25 调试。
+- Step 6 QA：已审查全部已跟踪和未跟踪文件，没有未解决的高、中优先级范围内缺陷；未构建、打包或发布。
+- 下一步：用户已选择远程 PR 流程；等待提供或确认远程仓库，并单独授权配置 remote、push 和创建 PR。外部动作完成前不得把 F-001 标记为已关闭。
 
 ## 拟交付能力
 

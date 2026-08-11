@@ -16,7 +16,7 @@
 - 最近进度：[`project-management/progress.md`](project-management/progress.md)
 - 验收证据：[`evidence.md`](evidence.md)
 
-F-001 是唯一活动任务卡，Step 0 已完成执行基线。后续只能从 `implementation-plan.md` 中紧邻的已批准 Step 推进。
+F-001 是唯一活动任务卡。Step 5 已用官方 SDK v2 Client 补充 MCP 2026-07-28 的现代 stdio 证据，Inspector 保留为 Legacy stdio UI 客户端，并已通过用户 UAT；Step 6 本地 QA 与精确提交已完成，当前等待远程 PR 交付授权。
 
 ## 权威文档映射
 
@@ -46,8 +46,9 @@ F-001 是唯一活动任务卡，Step 0 已完成执行基线。后续只能从 
 
 ## 当前状态
 
-- 活动任务：F-001 已批准，Step 0 已完成。
+- 活动任务：F-001 已批准，Step 6 本地 QA 与精确提交已完成，尚未完成远程 PR 或关闭。
 - roadmap：已批准，F-001 已选择。
 - Git：本地 `main` 基线和 `feat/f-001-local-weather-tool`；无远程、未推送。
-- 实现/测试/构建/发布：均未开始。
-- 唯一下一步：等待用户允许进入 F-001 Step 1。
+- 实现/测试：领域、适配器和唯一 `get_current_weather` MCP Tool 已实现；Step 6 默认离线门禁为 `52 passed, 1 skipped`，显式 live contract、Inspector Legacy UI 和 SDK Client 现代 stdio 技术验证通过。
+- 构建/发布：均未开始。
+- 唯一下一步：等待远程仓库信息及配置 remote、push、创建 PR 的外部写入授权；不得自动执行、关闭任务或进入 F-002。
