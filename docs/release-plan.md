@@ -1,4 +1,4 @@
-# 发布方案（方向已确认，未授权执行）
+# 发布方案（PyPI 首发已完成）
 
 ## 结论
 
@@ -30,7 +30,8 @@ tag `v0.1.0` 的 push 才允许 publish job 运行。build job 只具备 `conten
 Trusted Publishing 的 attestation 保持默认开启，不配置 `attestations: false`。
 
 安全 workflow 已经 PR #7 合并；GitHub environment `pypi` 和 PyPI Pending Publisher 已按
-精确身份配置。尚未创建 tag、触发发布或上传制品。外部发布授权仍分两层：
+精确身份配置。`v0.1.0` 已触发 run `31567283749`，build 与 production PyPI publish job
+均成功，`mcp-weather-query==0.1.0` 已公开。首发时采用的分层授权为：
 
 1. PR 合并并复核公开包名后，用户单独授权登录 PyPI、配置 Pending Publisher 和
    GitHub environment；配置失败时停止，不降级为长期 Token。
@@ -171,31 +172,24 @@ Step 5 没有重建制品，而是固定使用上节两个文件，在项目外�
 8. 用户再次确认后进行命名空间认证并发布 Registry 元数据。
 9. 验证 Registry 条目实际指向已发布版本；分别记录 PyPI 与 Registry 状态。
 
-## R-001 后续仍需单独授权
+## R-001 生产发布结果
 
-以下方向已经确定：包名为 `mcp-weather-query`；项目使用 MIT 与 Open-Meteo CC BY 4.0
-署名；仓库保持 private；只使用生产 PyPI Pending Trusted Publisher；不使用 Token、
-人工上传或 TestPyPI；接受 Open-Meteo 非商业免费层、10,000 次/日和无 SLA 限制。
+包名为 `mcp-weather-query`；项目使用 MIT 与 Open-Meteo CC BY 4.0 署名；仓库保持
+private；首发只使用生产 PyPI Trusted Publishing，没有 Token、人工上传或 TestPyPI。
 
-Step 6 已完成：GitHub `pypi` environment 已创建，用户已在 PyPI 官方页面创建并复核
-Pending Publisher。Step 7 后续已获授权，但创建/推送 `v0.1.0` 必须先满足修复 PR 合并和
-最终门禁；任何一步失败都必须停止，不得擅自切换认证方案、公开仓库或扩大到 Registry。
+- 发布版本/tag：`0.1.0` / `v0.1.0`。
+- 发布提交：`bb24624dcc8eb2efce5f4c49c80c850542c4d2b3`。
+- GitHub Actions run：`31567283749`；build 与 publish 均成功。
+- wheel：16,341 bytes，SHA-256
+  `7c305d46f1cb6d2d5072625f0aacdc6d2bc102ef39237f267a56bdfa83d8de8a`。
+- sdist：11,931 bytes，SHA-256
+  `573c7d4887d640714ba00f4d634d9300e7e763348025bfbd85088f9bd670ea25`。
+- 两个 PyPI publish attestations 均绑定 `wcnm8888/mcp1-weather-query`、`release.yml`、
+  environment `pypi`、`refs/tags/v0.1.0` 与上述提交，并通过官方验证器检查。
+- 两个公开制品分别完成项目外干净安装和 installed-package stdio 复验。
 
-PyPI 当前公开 JSON 查询对 `mcp-weather-query` 返回 404，但 Pending Publisher 在首次使用
-前不会创建项目或预留名称。最终 tag 前必须再次复核名称。Publisher tuple 必须保持为：
-`mcp-weather-query` / `wcnm8888` / `mcp1-weather-query` / `release.yml` / `pypi`。
-
-用户随后授权 Step 7 并确认 PyPI 邮箱已验证。最终门禁发现公开 README、CHANGELOG 与制品
-契约仍固化“尚未发布 / Unreleased”，若直接 tag 会让不可覆盖的 `0.1.0` 公开说明立即陈旧，
-因此先交付独立元数据修复 PR。修复后的 README 使用 PyPI 官方项目页作为公开可用性、文件和
-attestation 的权威来源；CHANGELOG 日期固定为 `2026-08-12`；MCP Registry 仍明确未登记。
-
-新的项目外候选位于
-`E:\mcp-weather-query-release-candidate\0.1.0\r001-step7-metadata-20260812T132608`：wheel
-为 16,485 bytes / 15 files / SHA-256 `48909c4ceb77524cfe8ac6ce8aabf46d94ee88c434728ad1c25a4496da3e4387`；
-sdist 为 12,066 bytes / 14 files / SHA-256
-`ea8fa9cb517584326862715856e22d41bb91d92c3edbec0dd6b268a557a77b0c`。两者已通过静态
-制品审查，但仍是本地候选；修复 PR 合并与最终门禁前不得创建 tag。
+后续 PyPI 版本、yank、MCP Registry、GitHub Release 或仓库公开范围变化仍需独立任务和
+用户授权。R-002 尚未启动，当前 `server.json` 仍只是已校验草案。
 
 ## R-001 Step 3 固定候选
 

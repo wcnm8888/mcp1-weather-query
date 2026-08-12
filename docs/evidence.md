@@ -1247,3 +1247,56 @@ D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没�
 - run `31566777632` 的 `Validate and build distributions` 成功；
   `Publish distributions to production PyPI` 在 PR 事件上明确 skipped。
 - 本阶段尚未创建 tag、触发 OIDC publish 或上传 PyPI；当前等待用户合并 PR #9。
+
+## R-001 / Step 7 最终发布
+
+日期：2026-08-12
+
+- 用户合并 PR #9 后，本地 `main` fast-forward 到
+  `bb24624dcc8eb2efce5f4c49c80c850542c4d2b3`，与 `origin/main` 一致且工作树干净。
+- tag 前 PyPI 官方 JSON 查询仍为 404；最终离线门禁通过：lock、Ruff format/lint、严格
+  mypy、`85 passed, 1 skipped`、发布契约 `9 passed`、diff、唯一 Tool 和无 HTTP/SSE。
+- 从合并后的 main 在项目外重建并审查最终候选；wheel 15 files、sdist 14 files，
+  Metadata 2.4、README、LICENSE/NOTICE、文件白名单和敏感信息检查通过。
+- 创建并推送唯一 `v0.1.0`，精确指向 `bb24624dcc8eb2efce5f4c49c80c850542c4d2b3`。
+- GitHub Actions run `31567283749` 由该 tag push 触发；`Validate and build distributions`
+  与 `Publish distributions to production PyPI` 均成功。认证为 GitHub OIDC Trusted
+  Publishing；没有长期 PyPI Token、TestPyPI、GitHub Release 或 Registry 写入。
+
+## R-001 / Step 8 公开 PyPI 与安装复验
+
+日期：2026-08-12
+
+- PyPI 官方版本 API 确认 `mcp-weather-query==0.1.0` 公开且未 yank；Python 范围为
+  `>=3.12,<3.13`，License expression 为 MIT，三项运行依赖和公开 README 符合契约。
+- 公开 wheel 为 16,341 bytes、SHA-256
+  `7c305d46f1cb6d2d5072625f0aacdc6d2bc102ef39237f267a56bdfa83d8de8a`；公开 sdist 为
+  11,931 bytes、SHA-256
+  `573c7d4887d640714ba00f4d634d9300e7e763348025bfbd85088f9bd670ea25`。
+- PyPI Integrity API 的两个 provenance 均绑定 GitHub repository
+  `wcnm8888/mcp1-weather-query`、workflow `release.yml`、environment `pypi`；证书 claims
+  进一步对应 `refs/tags/v0.1.0`、发布提交和 run `31567283749`。
+- `pypi-attestations 0.0.30` 在线 TUF 刷新首次因 Windows 符号链接权限 `WinError 1314`
+  停止；没有提权或修改系统。随后使用该官方工具支持的 `--offline` TUF 模式、PyPI 官方
+  provenance 文件和已校验制品完成密码学验证，wheel 与 sdist 均返回 `OK`。
+- 验证根位于
+  `E:\mcp-weather-query-release-verification\0.1.0\step8-20260812T141500`；制品和临时环境
+  均在项目外，未进入 Git。
+- 公开 wheel/sdist 分别安装到全新 `wheel-env`/`sdist-env`，无 `PYTHONPATH`、
+  `PYTHONHOME` 或活动 `VIRTUAL_ENV` 注入；模块来自各自 `site-packages`，console 来自各自
+  `Scripts\mcp-weather-query.exe`。
+- 两套环境均只发现 `get_current_weather`；官方 v2 Client 为 MCP `2026-07-28`，生产
+  console Legacy 握手为 `2025-11-25`；确定性调用返回合法 `structuredContent`，stdout
+  仅协议消息、stderr 无 traceback、退出码 0，且无遗留进程。
+- 从 PyPI 下载的实际 wheel/sdist 再次通过项目制品白名单检查器：wheel 15 files、sdist
+  14 files，Metadata 2.4 与当前源码/README/法律文件一致。
+
+## R-001 / Step 9 发布后文档与 Git 收口
+
+日期：2026-08-12
+
+- 将 R-001 完整任务卡归档到
+  `docs/archive/task-cards/R-001-PyPI首次外部发布.md`，重置 current-task 与实施计划为无活动任务。
+- README、文档地图、roadmap、progress、QA 清单、release plan 与本证据同步到真实公开状态。
+- R-001 关闭后仍未登记 MCP Registry、创建 GitHub Release、发布新版本或启动 R-002。
+- 本节随独立文档收口 PR 交付；PR 合并前，`main` 中的治理文档仍是旧状态。
