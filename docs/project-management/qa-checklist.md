@@ -1,12 +1,12 @@
 # R-001 L 级 QA 清单
 
-> 状态：`active / step_7_metadata_remediation / awaiting_pr_merge`。本清单用于 R-001 的独立 QA 与发布授权审计；勾选项必须
+> 状态：`closed / verified`。本清单用于 R-001 的独立 QA 与发布授权审计；勾选项必须
 > 有可复核证据。它不是发布证明，也不授权任何外部写入。
 
 ## 身份与公开边界
 
 - [x] distribution/import/console/version/tag 全部一致。
-- [ ] PyPI 页面公开内容仅包含批准的项目、License 和 Open-Meteo 限制说明。
+- [x] PyPI 页面公开内容仅包含批准的项目、License 和 Open-Meteo 限制说明。
 - [x] 仓库继续 private，R-002、TestPyPI、GitHub Release、npm/MCPB 不在范围。
 
 ## Workflow 与供应链安全
@@ -34,14 +34,14 @@
 - [x] PyPI 项目名和 Publisher tuple 已由用户在官方页面核对并成功添加。
 - [x] 用户确认 PyPI 邮箱已验证；PyPI 账号已按平台强制 2FA 完成登录和 Publisher 配置。
 - [x] GitHub environment `pypi` 可用；没有 secrets，当前无额外保护规则。
-- [x] 用户已明确授权 Step 7；实际创建/推送 `v0.1.0` 仍等待元数据修复 PR 合并和最终门禁。
-- [ ] GitHub Actions 发布 run 成功，且仅发布 wheel/sdist 两个预期文件。
+- [x] 用户已明确授权 Step 7；`v0.1.0` 在最终门禁通过后创建并推送。
+- [x] GitHub Actions 发布 run 成功，且仅发布 wheel/sdist 两个预期文件。
 
 ## 公开验证与恢复
 
-- [ ] PyPI 项目、版本、README、Python 范围、依赖、License、文件哈希可复核。
-- [ ] PyPI attestations 可见且与 workflow/commit/tag 对应。
-- [ ] 从生产 PyPI 的全新环境安装，不使用本地缓存制品或源码目录。
-- [ ] 公共安装后的 stdio、唯一 Tool、structuredContent、stdout/stderr 和退出通过。
-- [ ] yank、补丁版本和失败记录策略已复核；不删除或覆盖公开版本。
-- [ ] 发布后文档与 Git 收口完成，R-002 仍未启动。
+- [x] PyPI 项目、版本、README、Python 范围、依赖、License、文件哈希可复核。
+- [x] PyPI attestations 可见且与 workflow/commit/tag 对应。
+- [x] 从生产 PyPI 下载的 wheel/sdist 分别在全新环境安装，不使用源码目录或 `PYTHONPATH`。
+- [x] 公共安装后的 stdio、唯一 Tool、structuredContent、stdout/stderr 和退出通过。
+- [x] yank、补丁版本和失败记录策略已复核；不删除或覆盖公开版本。
+- [x] 发布后文档与 Git 收口已形成独立 PR，R-002 仍未启动。
