@@ -4,9 +4,9 @@
 
 - 活动任务：R-001 PyPI 首次外部发布
 - 等级：L
-- 状态：`step_5_completed / awaiting_pr_review_merge`
-- 起点：`main == origin/main == 0d5d7be9271b71143cdbcdf768bfbde5ed4393d0`
-- 本地分支：`release/r-001-pypi-0.1.0`
+- 状态：`step_6_completed / awaiting_step_7_authorization`
+- 当前基线：`main == origin/main == 7cc304b47a094a33ccb90b13f411547a6a255e99`
+- 本地分支：`main`
 - 外部发布：未授权、未执行
 
 ## R-001 Step 地图
@@ -17,7 +17,7 @@
 - [x] Step 3：本地重建、制品审查和双干净安装。
 - [x] Step 4：独立 QA、新 live contract 和用户 UAT。
 - [x] Step 5：Git/PR 交付；PR CI 只能检查，不能发布。
-- [ ] Step 6：合并后同步、公开名称复核和 Pending Publisher 配置；单独授权。
+- [x] Step 6：合并后同步、公开名称复核和 Pending Publisher 配置；单独授权并完成。
 - [ ] Step 7：最终发布门禁与精确 `v0.1.0` tag；再次明确授权。
 - [ ] Step 8：公开 PyPI 文件、attestation、安装和 stdio 验证。
 - [ ] Step 9：发布后文档、Git 收口；停止在 R-002 前。
@@ -115,8 +115,11 @@
 
 ## 当前门禁
 
-Step 5 已完成。等待用户审查并决定是否合并 Draft PR #7；不得自动合并、进入 Step 6、
-登录 PyPI、配置 Publisher、创建 tag 或上传。
+PR #7 已合并并同步；GitHub `pypi` environment 已创建。用户已在 PyPI 官方 Publishing
+页面成功添加精确 Pending Publisher：`mcp-weather-query` / `wcnm8888` /
+`mcp1-weather-query` / `release.yml` / `pypi`。公开 PyPI 名称查询仍为 404，符合 Pending
+Publisher 首次使用前不创建项目、不预留名称的边界。Step 6 已完成；未获明确授权前不得
+创建 tag、触发 publish、上传或进入 Step 7。
 
 ## 历史计划
 
@@ -258,8 +261,8 @@ Step 5 已完成。等待用户审查并决定是否合并 Draft PR #7；不得�
 
 ## 下一门禁
 
-等待用户审查并决定是否合并 Draft PR #7。合并后仍需用户明确允许进入 Step 6；不得
-自动登录 PyPI、配置 Pending Publisher、创建/推送 tag、上传制品或进入 R-002。
+等待用户明确授权 Step 7。不得读取或记录密码、2FA、Cookie；不得创建/推送 tag、上传制品
+或进入 R-002。
 
 ## 当前验证
 

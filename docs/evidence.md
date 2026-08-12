@@ -1193,3 +1193,28 @@ D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没�
   `main`、merge state clean；未创建 tag、未请求发布 OIDC、未登录/配置 PyPI 或上传公开制品。
 - Step 5 已完成，当前停止在用户审查/合并 Draft PR #7 的门禁；PR 合并不等于 PyPI 发布，
   合并后仍需用户明确允许进入 Step 6。
+
+## R-001 / Step 6 合并同步、名称复核与 Publisher 配置（已完成）
+
+日期：2026-08-12
+
+- 用户确认 PR #7 已合并并明确允许进入 Step 6；GitHub API 核验 merge commit 为
+  `7cc304b47a094a33ccb90b13f411547a6a255e99`。
+- 本地从干净工作树切换 `main`，以 fast-forward 同步到 `origin/main`；两者精确一致。
+- 合并后门禁通过：46 packages、Ruff format 44 files、lint、严格 mypy 27 source files、
+  pytest `85 passed, 1 skipped in 11.84s`、`git diff --check`；唯一 skip 为默认关闭的 live contract。
+- 只读请求 PyPI 官方 JSON endpoint `https://pypi.org/pypi/mcp-weather-query/json` 返回 HTTP 404，
+  表明当前没有该公开项目。按 PyPI 官方文档，Pending Publisher 在首次使用前不会创建项目或
+  预留名称，因此 Step 7 前必须再次复核。
+- GitHub 仓库仍为 private。通过 GitHub API 创建并复核 environment `pypi`；当前没有 secrets、
+  protection rules 或 deployment branch policy。该配置不会自行触发 workflow 或发布。
+- 精确 Pending Publisher tuple 仍为：PyPI project `mcp-weather-query`、owner `wcnm8888`、
+  repository `mcp1-weather-query`、workflow `release.yml`、environment `pypi`。
+- PyPI 官方 Publishing 页面在自动化会话中连续导航超时后，由用户本人在已登录的官方页面
+  完成配置；未读取或记录密码、2FA、Cookie 或其他凭据。
+- 用户提供的成功页面截图显示 Pending Publisher 已加入，精确字段为：project
+  `mcp-weather-query`、publisher `GitHub`、repository `wcnm8888/mcp1-weather-query/`、
+  workflow `release.yml`、environment `pypi`，与批准 tuple 完全一致。
+- 页面同时明确提示 Pending Publisher 不会预留名称；项目需在首次可信发布成功后才创建。
+- 未创建或推送 `v0.1.0`，未触发 publish job，未上传 wheel/sdist，项目仍未发布。
+- Step 6 已完成，当前等待用户明确授权 Step 7；本证据不授权 tag 或发布。
