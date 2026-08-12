@@ -158,6 +158,10 @@ Registry 条目已经公开。官方 `mcp-publisher v1.8.1 validate` 会把本�
 Registry 的未认证 `/v0/validate` 端点完成 Schema/语义校验；该调用不等同于离线检查，
 也不调用 publish 端点。
 
+R-002 后续在独立授权门禁下将同一冻结 `server.json` 发布为 Official MCP Registry
+`io.github.wcnm8888/mcp1-weather-query==0.1.0`，官方 API 已复核为唯一 `active`/latest 条目。
+Registry 仍只承担发现元数据；运行时架构、PyPI 安装来源、唯一 Tool 和 stdio 传输均未改变。
+
 截至 F-001 Step 6 QA，`server.py` 使用官方 v2 `MCPServer` 注册唯一 `get_current_weather`，通过可注入的查询 handler 分离协议测试与网络 IO；模块级默认 handler 才组装 Open-Meteo 服务。`__main__.py` 的 SDK 默认 stdio 入口已通过真实子进程和 Inspector 完成 Legacy initialize、现代 discovery、Tool 调用与关闭验证。
 
 F-002 Step 2 已移除 `tool.uv.package = false`，配置 `uv_build`、版本 `0.1.0` 和

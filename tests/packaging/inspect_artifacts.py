@@ -145,7 +145,14 @@ def validate_metadata(message: Message, description: str, *, source: str) -> Non
         "当前尚未发布到 PyPI" not in description,
         f"{source}: embedded README contains stale pre-release wording",
     )
-    require("尚未登记 MCP Registry" in description, f"{source}: Registry state is overstated")
+    require(
+        "已登记到 Official MCP Registry" in description,
+        f"{source}: verified Registry state is missing",
+    )
+    require(
+        "尚未登记 MCP Registry" not in description,
+        f"{source}: embedded README contains stale Registry wording",
+    )
     require(
         description.replace("\r\n", "\n") == EXPECTED_README.replace("\r\n", "\n"),
         f"{source}: embedded README differs from the current project README",

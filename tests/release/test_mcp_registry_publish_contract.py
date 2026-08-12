@@ -18,6 +18,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 MANIFEST_PATH = PROJECT_ROOT / "server.json"
 PYPROJECT_PATH = PROJECT_ROOT / "pyproject.toml"
 README_PATH = PROJECT_ROOT / "README.md"
+CHANGELOG_PATH = PROJECT_ROOT / "CHANGELOG.md"
 RELEASE_PLAN_PATH = PROJECT_ROOT / "docs" / "release-plan.md"
 WORKFLOW_PATH = PROJECT_ROOT / ".github" / "workflows" / "release.yml"
 
@@ -98,13 +99,34 @@ def test_registry_manifest_has_one_minimal_pypi_stdio_package() -> None:
     assert "remotes" not in manifest
 
 
-def test_public_readme_records_active_r002_without_overstating_registration() -> None:
-    """Public users must see that R-002 is active but no Registry entry exists yet."""
+def test_public_readme_records_the_verified_registry_registration() -> None:
+    """Public users must see the exact active Registry identity and verification state."""
     readme = read_text(README_PATH)
 
-    assert "R-002" in readme
-    assert "尚未登记 MCP Registry" in readme
-    assert "不代表" in readme
+    assert SERVER_NAME in readme
+    assert "已登记到 Official MCP Registry" in readme
+    assert "active" in readme
+    assert "官方 API" in readme
+    assert "尚未登记 MCP Registry" not in readme
+    assert "尚未执行 Registry publish" not in readme
+
+
+def test_post_publish_docs_record_registry_success_and_credential_disposal() -> None:
+    """Release docs must preserve publication evidence and the official logout boundary."""
+    changelog = read_text(CHANGELOG_PATH)
+    release_plan = read_text(RELEASE_PLAN_PATH)
+
+    for value in (SERVER_NAME, "Official MCP Registry", "已登记"):
+        assert value in changelog
+    for value in (
+        "Step 8",
+        "仅执行一次",
+        "Step 9",
+        "active",
+        "mcp-publisher logout",
+        "认证文件",
+    ):
+        assert value in release_plan
 
 
 def test_release_plan_discloses_registry_preview_and_public_data_terms() -> None:

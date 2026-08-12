@@ -1471,3 +1471,141 @@ D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没�
   login/publish 作业或命令，也没有外部 Registry 写入。
 - Step 5 已完成，当前停止在用户审查/合并 Draft PR #11 的门禁；合并不授权 Step 6 及后续
   Terms、OAuth、login 或 publish。
+
+## R-002 / Step 6 合并后同步、Registry 空状态与认证边界
+
+日期：2026-08-12
+
+- 用户确认已合并 PR #11，并明确允许进入 Step 6；该授权不包含 Terms 接受、OAuth login、
+  publish 或 Registry 写入。
+- GitHub 返回 PR #11 状态 `MERGED`，合并时间 `2026-08-12T07:51:46Z`，merge commit 为
+  `900f71133ad9525ff65965d0822a1e92d06faead`。工作树干净时切换到 `main`，以
+  `git pull --ff-only origin main` 同步；同步后 `main == origin/main == 900f711...`。
+- 只读请求 Official Registry：包含 `include_deleted=true` 的精确名称搜索返回 HTTP 200、
+  `servers=[]`；精确 `io.github.wcnm8888/mcp1-weather-query` / `0.1.0` detail 返回 HTTP 404。
+  因此当前没有 active、deprecated 或 deleted 的同名版本。
+- Registry version 端点返回 HTTP 200、服务 `1.8.1`、commit `f52dc852...`。官方 API 文档仍说明
+  `io.github.*` 发布采用 GitHub OAuth，读取无需 login；快速入门仍将 `login github` 与
+  `publish` 分成两个命令。
+- Terms 官方源文件返回 HTTP 200、7,448 bytes，SHA-256 仍为
+  `b810666747d1271633fbdd56e9b7b859a788b345fc5d57901f611a87b6fd6afc`；有效日期仍为
+  2025-09-02，preview/data reset、CC0 1.0、公开 GitHub username 和仅 Registry Data 适用
+  的边界均存在。
+- 首次计算 Terms 哈希时调用了当前 PowerShell/.NET 不支持的静态 `SHA256.HashData`，只导致
+  本地摘要变量为空；未产生写入。改用 `SHA256.Create().ComputeHash()` 后得到上述既有摘要。
+- 固定项目外 publisher 存在、自报 `mcp-publisher 1.8.1`，且 `Get-Command mcp-publisher`
+  仍为 false。只运行 `--version` 和 `login --help`，没有启动 device flow，也没有读取或记录
+  token、Cookie、设备码或认证缓存。
+- 完整离线门禁通过：46 locked packages、Ruff format 47 files、lint、严格 mypy 28 source
+  files、pytest `95 passed, 1 skipped in 5.87s`、Registry 定向契约 `10 passed in 0.05s`、
+  diff、唯一 Tool、生产源码无 HTTP/SSE/print、无 Registry CI 路径均通过。
+- Step 6 已完成；当前停止在用户单独允许 Step 7 GitHub OAuth login 的门禁。login 成功也不
+  授权 Step 8 publish。
+
+## R-002 / Step 7 GitHub OAuth login
+
+日期：2026-08-12
+
+- 用户明确授权使用固定 `mcp-publisher v1.8.1` 执行 GitHub OAuth login，并要求认证成功后
+  立即停止，不执行 publish。
+- 登录前确认 `MCP_GITHUB_TOKEN` 不存在、`~/.config/mcp-publisher/token.json` 不存在；Registry
+  health 返回 200 且 GitHub client ID 已配置。
+- 固定 CLI 通过当前回环代理访问 `github.com/login/device/code` 时，两次返回 EOF、一次挂起
+  超过两分钟。挂起进程已停止，没有遗留 publisher、设备码或认证文件；进程级禁用 HTTP/2
+  仍返回 EOF。PowerShell 对同一官方 endpoint 的只读/临时 device 请求成功，证明服务可用。
+- 根因是当前环境的 `HTTP_PROXY`/`HTTPS_PROXY` 指向本机回环代理，而 Go CLI 对该代理路径的
+  GitHub device-code POST 不兼容。最终仅为一次固定 publisher 子进程设置
+  `NO_PROXY=github.com`；未修改系统或全局环境，也未改用 PAT、OIDC 或其他认证方法。
+- CLI 成功生成一次性 device code；设备码只经系统剪贴板交给用户，没有输出到聊天、日志、
+  文档或 Git。用户在 GitHub 页面确认设备连接成功。
+- 固定 CLI 完成 GitHub token 到生产 Registry JWT 的交换并安全写入既定配置文件，然后退出。
+  只读取非敏感 JWT 声明：`auth_method=github-at`、身份匹配 `wcnm8888`、权限为
+  `publish io.github.wcnm8888/*`、有效期 300 秒；未输出或记录 token 本体、Cookie 或设备码。
+- 登录后 Official Registry 精确名称查询返回 HTTP 200、0 条；没有 publisher 后台进程，证明
+  未执行 publish 或创建 Registry 条目。剪贴板不再保留设备码。
+- Step 7 已完成并立即停止。当前等待用户单独允许 Step 8；由于 JWT 只有 300 秒，若届时已
+  过期，Step 8 授权还需明确包含一次重新 GitHub OAuth login。
+
+## R-002 / Step 8 唯一一次 Registry publish
+
+日期：2026-08-12
+
+- 用户明确授权：现有 JWT 过期时允许重新执行 GitHub OAuth，认证成功后只对冻结
+  `server.json` 执行一次 publish，并要求完成后停止、不进入 Step 9。
+- 第一次重新 login 已生成 device flow，但在用户完成授权前 exit 1；第二次在生成 device
+  flow 前遇到网络错误。两次均没有进入发布段，publisher 进程归零，凭据文件未更新，
+  Registry 精确查询仍为 0，publish 次数为 0；每次后续重试均重新获得用户明确授权。
+- 第三次由用户预先打开 GitHub Device Activation 页面并明确授权。一次性设备码只写入系统
+  剪贴板，未出现在聊天、日志、文档或 Git；用户截图确认 device success，CLI login 成功。
+- 登录后的辅助冻结脚本因错误地给规范化 JSON 追加 LF，得到 `8997a571...032a66` 并安全停止，
+  尚未调用 publish。随后只读复核证明原始 SHA-256 仍为
+  `e0ad8ae8339d629629d7eef37f3927f081519e840eb85bfcf3297ba2bd6c6709`，无换行规范化语义
+  SHA-256 仍为 `7363235e462331ea3ea12914eacd959a43bb6fb556caad35ff087983d5e39f0d`；
+  误报来自辅助口径，不是 manifest 漂移。
+- 在同一有效 JWT 内，仅调用一次固定 `mcp-publisher v1.8.1 publish`。CLI 退出码 0，安全输出
+  明确为 `Successfully published` 和 server `io.github.wcnm8888/mcp1-weather-query`
+  version `0.1.0`。没有第二次 publish，也没有在本 Step 提前执行公开 API/安装复验。
+- 未输出 token、Cookie 或设备码；未修改 `server.json`、源码、依赖、workflow、PyPI 版本、
+  tag、Release、仓库可见性或其他目录平台。项目外辅助脚本含已知 LF 口径错误，不得原样复用。
+
+## R-002 / Step 9 Official Registry API 与公开安装复验
+
+日期：2026-08-12
+
+- 用户单独允许进入 Step 9；本 Step 只读访问 Official Registry API 和生产 PyPI，不执行
+  login、publish、logout、凭据删除、live Open-Meteo、Inspector 或其他外部写入。
+- `2026-08-12T09:27:26Z`，Official Registry `v0.1/servers` 精确名称、版本并包含 deleted 的
+  查询返回 HTTP 200、恰好 1 条；状态为 active、`isLatest=true`，`publishedAt` 为
+  `2026-08-12T09:25:56.19196Z`。
+- 返回 server 的名称、`0.1.0`、schema、标题、描述、GitHub repository、唯一 PyPI package
+  `mcp-weather-query==0.1.0`、`runtimeHint=uvx` 和 `transport.type=stdio` 与冻结
+  `server.json` 完全一致；没有第二 package、remote transport 或额外版本。
+- PyPI 官方 0.1.0 JSON 返回 HTTP 200：Python `>=3.12,<3.13`、MIT、三项运行依赖、唯一
+  `mcp-name: io.github.wcnm8888/mcp1-weather-query` marker 均匹配。wheel/sdist 均未 yank，
+  SHA-256 分别为 `7c305d46...d8de8a` 和 `573c7d48...670ea25`。
+- 新建项目外验证根
+  `E:\mcp-weather-query-release-verification\0.1.0\r002-step9-20260812T172900`，复用 uv 0.6.14
+  和项目 managed CPython 3.12.10。清除 `PYTHONPATH`、`PYTHONHOME`、`VIRTUAL_ENV` 与 live
+  开关，以 `--no-config --no-cache` 和显式 `https://pypi.org/simple` 安装精确 0.1.0；
+  共解析并安装 34 个包。
+- distribution 为 `mcp-weather-query==0.1.0`，`INSTALLER=uv`，没有 `direct_url.json`，证明
+  不是本地文件、目录或 editable 安装；模块来自环境 `Lib/site-packages`，console 来自环境
+  `Scripts/mcp-weather-query.exe`。
+- 第一次验证仅因 PowerShell stdin 中的中文项目绝对路径编码偏差，无法导入测试辅助模块而停止；
+  尚未启动安装包。改用子进程当前项目目录定位同一辅助模块后重跑，未改变环境或验证范围。
+- 生产 console 完成 Legacy MCP 2025-11-25 initialize/tools-list，只发现
+  `get_current_weather`，stdout 仅协议消息、stderr 无 traceback、退出码 0。官方 SDK v2 Client
+  以 MCP 2026-07-28 完成 modern discovery；测试专用已安装包调用返回合法
+  `structuredContent`，诊断只进入 stderr。验证结束后项目外环境遗留进程为 0。
+- Step 9 默认离线门禁通过：46 个锁定包、Ruff format 47 files、lint、严格 mypy 28 files、
+  pytest `95 passed, 1 skipped in 9.31s`、Registry 定向契约 `14 passed in 0.10s` 和
+  `git diff --check`。唯一 skip 仍为显式 opt-in 的 Open-Meteo live contract；生产源码仍恰好
+  一个 Tool，publisher 与验证环境遗留进程均为 0。
+- 未访问 Open-Meteo live API、未运行 Inspector、未增加 Tool/HTTP/SSE、未创建新 PyPI 版本、
+  GitHub Release 或社区目录条目，也未重复 Registry publish。Step 9 已完成，等待用户单独
+  允许 Step 10 凭据处置、发布后文档/测试与 closure PR。
+
+## R-002 / Step 10 凭据处置与发布后收口（closure PR 待创建）
+
+日期：2026-08-12
+
+- 用户明确允许 Step 10 的凭据处置、发布后文档/测试与 closure PR；该授权不包含 PR 合并、
+  Step 11、再次 login/publish、Registry 状态变更或新的 PyPI/Registry 版本。
+- 开始前 `git fetch origin --prune` 后确认 `main == origin/main ==
+  900f71133ad9525ff65965d0822a1e92d06faead`，现有 10 个未提交文件均为 Step 6–9 的 R-002
+  治理记录，没有源码、manifest、依赖、workflow 或来源不明变更。
+- 固定 `mcp-publisher v1.8.1 logout --help` 明确该命令只清除保存的认证；随后只执行一次
+  `logout`，安全输出为 `Successfully logged out`、退出码 0。publisher 管理的认证文件由工具
+  移除，遗留 publisher 进程为 0；没有读取 token 内容或手工删除未知文件。
+- 更新发布后静态契约，替换历史“未登记”断言：README 要求精确 Registry 身份、`active` 和
+  官方 API 复验；CHANGELOG 要求记录 0.1.0 登记；release plan 要求记录单次 publish、公开复验
+  与官方 logout。实现前定向结果为 `5 failed, 25 passed in 0.43s`，五个失败均准确命中旧文档。
+- 文档修正后定向套件为 `30 passed in 0.18s`。完整离线门禁通过：46 locked packages、Ruff
+  format 47 files、lint、严格 mypy 28 source files、pytest `96 passed, 1 skipped in 5.84s`、
+  `git diff --check`；唯一 skip 是默认关闭的 Open-Meteo live contract。
+- 为覆盖 closure PR 的 CI 构建路径，在项目外
+  `E:\mcp-weather-query-release-verification\0.1.0\r002-step10-final-20260812T174654\dist`
+  离线重建 wheel/sdist。更新后的制品检查器通过：wheel 15 files、SHA-256
+  `cbb2728f...c3e9e5`；sdist 14 files、SHA-256 `bc01a2ff...2c6547`。制品未上传或提交。
+- 从 `origin/main` 创建 `agent/r-002-step10-registry-closure`；当前正在修正文档并等待离线质量
+  门禁与 Draft closure PR，R-002 仍为 active，不能标记 closed。

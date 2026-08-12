@@ -104,7 +104,7 @@ def test_existing_distribution_identity_remains_the_approved_release_identity() 
 
 
 def test_changelog_records_the_frozen_initial_release_and_registry_boundary() -> None:
-    """The initial release must have a fixed date without overstating Registry status."""
+    """The initial release must have a fixed date and its verified Registry status."""
     assert CHANGELOG_PATH.is_file(), "D-001 requires a root CHANGELOG.md"
 
     changelog = read_text(CHANGELOG_PATH)
@@ -113,7 +113,8 @@ def test_changelog_records_the_frozen_initial_release_and_registry_boundary() ->
     assert "## [0.1.0] - 2026-08-12" in changelog
     assert "Unreleased" not in changelog
     assert "PyPI" in changelog
-    assert "MCP Registry 尚未登记" in changelog
+    assert REGISTRY_SERVER_NAME in changelog
+    assert "已登记到 Official MCP Registry" in changelog
 
 
 def test_readme_documents_installation_from_the_local_candidate_wheel() -> None:
@@ -143,13 +144,15 @@ def test_readme_has_a_source_independent_stdio_host_configuration() -> None:
 
 
 def test_readme_contains_registry_marker_and_stable_publication_boundaries() -> None:
-    """Keep PyPI verification external while Registry remains explicitly unregistered."""
+    """Keep PyPI verification external while recording the active Registry identity."""
     readme = read_text(README_PATH)
 
     assert f"mcp-name: {REGISTRY_SERVER_NAME}" in readme
     assert "当前尚未发布到 PyPI" not in readme
     assert "公开可用性、文件和 attestation" in readme
-    assert "尚未登记 MCP Registry" in readme
+    assert "已登记到 Official MCP Registry" in readme
+    assert "active" in readme
+    assert "尚未登记 MCP Registry" not in readme
 
 
 def test_release_plan_defines_reproducible_candidate_commands_without_publish_actions() -> None:

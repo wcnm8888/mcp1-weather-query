@@ -184,6 +184,11 @@ live contract 只断言固定 endpoint、响应模型、解析地点和来源/�
   JSON SHA-256 `7363235e...e39f0d` 并由契约检查，避免 CRLF/缩进差异。公开 PyPI marker、
   两个制品和 Terms 只读复核通过；完整离线结果为 `95 passed, 1 skipped`。用户 UAT 仍是
   独立门禁；用户已明确确认通过，Step 4 因而完成，但不授权 Git/PR 或 Registry 写入。
+- Step 10 将原先要求“尚未登记”的静态断言升级为发布后契约：README 必须记录精确
+  Registry 身份、`active` 和官方 API 复验，CHANGELOG 必须记录 0.1.0 的 Registry 状态，
+  release plan 必须记录单次 publish、公开复验和官方 logout。先运行得到
+  `5 failed, 25 passed`，五个失败均精确命中旧发布叙述；修正后定向契约为 `30 passed`，
+  完整离线门禁为 `96 passed, 1 skipped`。项目外重建的 wheel/sdist 也通过更新后的制品检查器。
 
 ## 独立审查
 
