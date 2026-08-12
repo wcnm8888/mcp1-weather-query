@@ -6,6 +6,66 @@
 
 任何 TestPyPI/PyPI 上传、Registry 注册、GitHub 公共仓库创建或社区平台发布都属于外部写入，执行前必须获得用户明确确认。
 
+## R-002 Official MCP Registry 登记契约
+
+R-002 只登记已经公开的 PyPI `mcp-weather-query==0.1.0`，Registry 名称固定为
+`io.github.wcnm8888/mcp1-weather-query`，运行提示为 `uvx`，传输方式只允许 stdio。
+Official MCP Registry 只保存发现元数据，不托管 wheel/sdist；安装来源继续是公开 PyPI。
+当前 Registry 仍处于 **preview**，服务和数据可能重置。本任务接受 Registry Data 按
+**CC0 1.0** 提供，也接受 Registry metadata、GitHub 用户名和项目描述公开；代码仓库保持
+private，公开安装包与 ownership marker 由 PyPI 提供。仓库保持 private 不妨碍登记，但
+Registry 登记也不会自动公开仓库或保证每个 MCP Host 都直接展示该条目。
+
+### 工具与身份边界
+
+- 复用项目外已验证的官方 `mcp-publisher v1.8.1`，归档 SHA-256 固定为
+  `399ad0d6e00a50812b563a71d8bfbff5160c085e6b13aac6ec083d98d5ff7c45`。
+- 该工具未加入 PATH；R-002 不下载、替换、安装或更新 publisher，也不修改 uv、Python、
+  Node、依赖或系统环境。
+- 首次 `io.github.*` 登记只采用手工 **GitHub OAuth device flow**，认证身份必须是
+  `wcnm8888`。不保存或记录 token、Cookie、设备码和认证缓存。
+- 本项目不配置 Registry GitHub Actions workflow/environment，不使用自动 OIDC 发布。
+- **login 不授权 publish**；认证完成后必须停止，等待独立的 publish 授权。
+
+### 分段网络和外部写入门禁
+
+以下 Step 必须按顺序、分别获得授权并在各自完成后停止：
+
+1. **Step 3 — validate**：核验固定 publisher/schema 后，只运行联网但不写入 Registry 的
+   `mcp-publisher validate`。validate 成功只证明 manifest 可接受，不代表已经登录或登记。
+2. **Step 7 — login**：readiness PR 合并、Registry 名称仍为空且用户接受公开条款后，才执行
+   GitHub OAuth login；成功后停止，不运行 publish。
+3. **Step 8 — publish**：用户再次明确授权后，只对冻结的 `server.json` 执行一次
+   `mcp-publisher publish`，不得顺带创建 PyPI 版本、tag、Release 或其他目录条目。
+4. **Step 9 — 官方 API**：发布结果明确后，使用 Official MCP Registry 官方 API 精确查询
+   名称和 0.1.0，并重新验证公开 PyPI 安装与 installed-package stdio。
+
+Step 3、Step 7、Step 8 和 Step 9 不得合并；Terms 接受、OAuth 登录和 Registry 写入也不得
+由 CI、旧授权或一次笼统确认替代。
+
+R-002 Step 3 已于 2026-08-12 完成：GitHub 官方 Releases API 确认 latest/tag 均为
+`v1.8.1`，Windows AMD64 asset digest 与项目外归档一致；固定二进制自报版本 1.8.1，
+未加入 PATH。官方 schema URL 返回 200，`$id` 与 `server.json` 的 `$schema` 一致。
+唯一一次 `mcp-publisher validate` 退出码为 0 并返回 `server.json is valid`；manifest 哈希和
+Git 状态前后不变。该结果不包含 OAuth、Terms、login、publish 或 Registry 条目写入。
+
+### 不可变版本与失败恢复
+
+- Registry 的 `0.1.0` 按**同版本不可原地覆盖**处理；登记前冻结名称、版本、package、
+  transport、repository 和 manifest 哈希。
+- Step 4 冻结后的原始 `server.json` SHA-256 为
+  `e0ad8ae8339d629629d7eef37f3927f081519e840eb85bfcf3297ba2bd6c6709`；按键排序、无多余空白
+  的 UTF-8 规范化 JSON SHA-256 为
+  `7363235e462331ea3ea12914eacd959a43bb6fb556caad35ff087983d5e39f0d`。发布前以后者作为
+  跨平台语义冻结门禁，前者作为当前工作树字节证据。
+- `publish` 超时、连接中断或返回不确定结果时**不得盲目重试**，必须先用官方 API 精确查询。
+- 若查到的名称/版本/metadata **完全一致**，停止并记录为可能已成功，不再 publish；若名称或
+  版本已存在但 metadata **不一致**，立即停止并审计，不覆盖、不创建补丁版本。
+- `deprecated` 或 `deleted` 只按隐藏/状态变化理解，不视为从 Registry 数据中擦除；任何状态
+  变更、恢复写入或凭据处置都需要新的用户明确授权。
+- R-002 不承诺登记后的删除回滚。登记前错误用 Git/PR 修复；登记后以官方 API 事实和新的
+  授权为准，不用历史 fixture、缓存或第三方目录冒充公开证据。
+
 ## R-001 生产 PyPI 发布契约
 
 R-001 只面向生产 PyPI，**不使用 TestPyPI**。认证方案固定为 PyPI
@@ -188,8 +248,9 @@ private；首发只使用生产 PyPI Trusted Publishing，没有 Token、人工�
   environment `pypi`、`refs/tags/v0.1.0` 与上述提交，并通过官方验证器检查。
 - 两个公开制品分别完成项目外干净安装和 installed-package stdio 复验。
 
-后续 PyPI 版本、yank、MCP Registry、GitHub Release 或仓库公开范围变化仍需独立任务和
-用户授权。R-002 尚未启动，当前 `server.json` 仍只是已校验草案。
+后续 PyPI 版本、yank、GitHub Release 或仓库公开范围变化仍需独立任务和用户授权。
+R-002 已进入本地准备阶段；当前 `server.json` 仍只是待登记 manifest，尚未执行 Registry
+login 或 publish。
 
 ## R-001 Step 3 固定候选
 

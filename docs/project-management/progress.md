@@ -2,27 +2,29 @@
 
 ## 当前状态
 
-- F-001、F-002、D-001 与 R-001 均已完成并关闭。
-- `mcp-weather-query==0.1.0` 已通过 GitHub Actions Trusted Publishing 发布到生产 PyPI。
-- `v0.1.0`、`main` 与发布 workflow 均对应提交
-  `bb24624dcc8eb2efce5f4c49c80c850542c4d2b3`。
-- PyPI 的 wheel/sdist、SHA-256、Metadata 2.4、公开 README、License、依赖和
-  attestations 已复核。
-- wheel 与 sdist 已分别从生产 PyPI 下载，在两个项目外干净环境安装并完成
-  installed-package stdio 复验。
-- MCP Registry 尚未登记；当前无活动任务，等待用户从 roadmap 选择下一项。
+- F-001、F-002、D-001 与 R-001 均已完成并关闭；`R-002` 已批准并进入活动状态。
+- 当前 Step：R-002 Step 5 readiness Git/PR 已获授权，正在交付。
+- 本地分支：`release/r-002-mcp-registry-0.1.0`；将只交付冻结的 R-002 readiness 变更。
+- 起始基线：`main == origin/main == 2fae2579517ebb5f7154f9646b54b4f174be6ffa`；
+  `v0.1.0` 解引用到 `bb24624dcc8eb2efce5f4c49c80c850542c4d2b3`。
+- `mcp-weather-query==0.1.0` 仍已公开并完成外部安装复验；Official MCP Registry 仍未登记。
 
-## 最近完成：R-001
+## 最近完成：R-002 Step 4
 
-- 最终离线门禁：`85 passed, 1 skipped`；唯一 skip 为显式 live contract。
-- 发布 run：`31567283749`；build 与 production PyPI publish job 均成功。
-- wheel：16,341 bytes，SHA-256
-  `7c305d46f1cb6d2d5072625f0aacdc6d2bc102ef39237f267a56bdfa83d8de8a`。
-- sdist：11,931 bytes，SHA-256
-  `573c7d4887d640714ba00f4d634d9300e7e763348025bfbd85088f9bd670ea25`。
-- 两个制品的 PyPI publish attestations 均通过 `pypi-attestations 0.0.30` 验证，身份为
-  `wcnm8888/mcp1-weather-query` / `release.yml` / `pypi` / `refs/tags/v0.1.0`。
-- 两套公开安装均只发现 `get_current_weather`；现代协议为 `2026-07-28`，生产 Legacy
-  握手为 `2025-11-25`，structuredContent、stdout/stderr、退出和进程残留检查均通过。
+- 已审查 11 个已跟踪差异和 2 个未跟踪文件；所有文件均属于 R-002，没有来源不明文件。
+- 修复 README/docs 的两处旧测试计数和 current-task 的一处 validate 陈旧描述；未发现其他
+  高、中优先级范围内缺陷。
+- 冻结 `server.json` 原始 SHA-256 `e0ad8ae8...c6709`；规范化语义 SHA-256
+  `7363235e...e39f0d` 已由静态契约固定，避免行尾/缩进差异造成假漂移。
+- 生产 PyPI 官方 0.1.0 JSON 返回 HTTP 200；唯一 ownership marker、两个未 yank 制品、
+  wheel/sdist SHA-256、Python 范围和 MIT metadata 均匹配既有发布证据。
+- 官方 Terms 源文件返回 HTTP 200，有效日期仍为 2025-09-02；preview/data reset、CC0、公开
+  metadata/GitHub 用户名和仅 Registry Data 适用的边界均存在。
+- 完整离线 QA 为 `95 passed, 1 skipped`；Registry 定向契约 `10 passed`；lock、Ruff、严格
+  mypy、diff、唯一 Tool、无 HTTP/SSE 和无 Registry CI 路径均通过。
+- 用户明确回复 `R-002 Step 4 UAT 通过`，确认冻结身份、preview/CC0/公开 metadata、不可变
+  版本恢复及 UAT 不授权外部写入。
+- 未执行 login、publish、Terms 接受或 Registry 写入；未修改 manifest、源码、workflow、
+  依赖、锁文件或系统环境。
 
-完整过程与最终证据见 `docs/evidence.md` 和归档的 R-001 任务卡。
+用户已明确允许 Step 5 readiness Git/PR；本 Step 不执行 Terms、OAuth、login、publish、Registry 写入或 PR 合并。
