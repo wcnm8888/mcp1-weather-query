@@ -17,9 +17,10 @@
 - 最近进度：[`project-management/progress.md`](project-management/progress.md)
 - 验收证据：[`evidence.md`](evidence.md)
 - 已归档任务卡：[`archive/task-cards/`](archive/task-cards/)
+- 已归档 QA：[`archive/qa/`](archive/qa/)
 
-F-001、F-002、D-001 与 R-001 的完整任务卡均已归档并关闭。当前无活动任务，下一任务
-必须由用户从 roadmap 选择。
+F-001、F-002、D-001 与 R-001 的完整任务卡均已归档并关闭。R-001 的 L 级 QA 清单也已
+归档；当前活动任务为已批准的 R-002，唯一状态入口是 `current-task.md`。
 
 ## 权威文档映射
 
@@ -38,6 +39,7 @@ F-001、F-002、D-001 与 R-001 的完整任务卡均已归档并关闭。当前
 | `progress.md` | 当前 Step、最近结果、阻塞和下一动作 | Step 收口 | 仅最近摘要 |
 | `evidence.md` | 可复现验证证据索引 | 门禁或验收完成 | 是，保留摘要 |
 | `archive/task-cards/` | 已关闭任务卡原文 | 任务完成并获准归档 | 是 |
+| `archive/qa/` | 已关闭 L 级任务的 QA 清单 | 后续 L 级任务激活并需复用当前 QA 入口 | 是 |
 
 ## 权威顺序
 
@@ -51,12 +53,13 @@ F-001、F-002、D-001 与 R-001 的完整任务卡均已归档并关闭。当前
 
 ## 当前状态
 
-- 活动任务：无；R-001 已完成并关闭。
-- roadmap：已批准；F-001、F-002、D-001、R-001 均已关闭，R-002 尚未选择或启动。
+- 活动任务：`R-002` Official MCP Registry 登记；Step 5 已完成，Draft readiness PR #11 等待用户审查/合并。
+- roadmap：已批准；F-001、F-002、D-001、R-001 均已关闭，R-002 Step 0–4 已完成。
 - Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；`v0.1.0` 指向发布提交
   `bb24624dcc8eb2efce5f4c49c80c850542c4d2b3`。
 - 实现/测试：唯一 `get_current_weather` MCP Tool、固定候选 wheel/sdist、双干净安装和
-  Step 4 独立复验均已完成；当前默认门禁为 `85 passed, 1 skipped`，唯一 skip 是显式 live contract。
+  历史安装复验均已完成；当前默认门禁为 `95 passed, 1 skipped`，唯一 skip 是显式 live contract。
 - 构建/发布：`mcp-weather-query==0.1.0` 已发布到生产 PyPI；公开 wheel/sdist、
   attestations、双干净安装和 installed-package stdio 已验证。
-- 唯一下一步：等待用户从 roadmap 选择候选任务；不得自动进入 R-002。
+- 当前停止在用户审查/合并 Draft PR #11 的门禁；其 CI 未执行 Registry login 或 publish，
+  PR 合并也不授权后续 Terms、OAuth 或登记。

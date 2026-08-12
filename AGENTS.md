@@ -4,8 +4,8 @@
 
 ## 当前阶段
 
-- 生命周期：roadmap 已批准；F-001、F-002、D-001、R-001 均已关闭。
-- 项目整体等级：M；当前无活动任务。
+- 生命周期：roadmap 已批准；F-001、F-002、D-001、R-001 均已关闭；R-002 Step 0–5 已完成，Draft readiness PR #11 等待用户审查/合并。
+- 项目整体等级：M；当前活动任务 `R-002` 按 L 级外部登记风险管理。
 - 当前状态：`mcp-weather-query==0.1.0` 已通过 Trusted Publishing 发布到生产 PyPI，
   公开制品、attestations 和双干净安装 stdio 已验证；MCP Registry 尚未登记。
 - 禁止把“文档已建立”“本地可运行”“已构建”写成“已发布”。
@@ -20,8 +20,12 @@
 
 ## 工作流与外部操作
 
-- 当前只允许完成 R-001 Step 9 文档/Git 收口；不得自动启动 R-002。
-- 后续 PyPI 版本、MCP Registry、GitHub Release 或公开仓库变更都需要新的任务卡和用户授权。
+- 当前只允许完成 R-002 已获授权的 Step；不得跨 Step 执行 Registry 操作。
+- 当前停止在 Draft readiness PR #11 的用户审查/合并门禁；不得自行合并或进入 Step 6。
+- 未经对应 Step 授权，不得运行 `mcp-publisher validate/login/publish`、接受 Registry Terms
+  或写入外部 Registry。
+- 后续 PyPI 版本、MCP Registry 实际登录/登记、GitHub Release 或公开仓库变更仍需对应 Step
+  的用户明确授权；登录不等于授权发布。
 - 本项目只使用 `docs/` 作为长期文档目录，不创建重复的 `memory-bank/`。
 - commit、push、PR、PyPI/TestPyPI 上传、MCP Registry 注册、社区平台发布、公开仓库创建均需用户明确授权。
 - 不删除项目文件或目录；需要归档、迁移或清理时先列出影响并等待确认。

@@ -1,7 +1,7 @@
 # Roadmap（已批准）
 
-> 状态：`approved`。F-001、F-002、D-001、R-001 已完成并关闭。当前无活动任务；
-> 本文件不授权自动创建或进入 R-002。
+> 状态：`approved`。F-001、F-002、D-001、R-001 已完成并关闭。R-002 任务卡已获批准，
+> Step 0–5 已完成；Draft readiness PR #11 等待用户审查/合并；后续仍按 Step 分段授权。
 
 ## 推荐顺序
 
@@ -11,12 +11,12 @@
 | F-002 | 可安装与可构建闭环 | **已完成并关闭** | 用户能从 wheel/sdist 在干净环境安装并启动同一 Server | console entry point、包元数据、License/署名、`uv build`、artifact 审查、干净安装 smoke | 真实上传、Registry 登记 | PR #3、收口 PR #4 已合并；归档和复验完成 | S |
 | D-001 | 发布候选与发布前审查 | **已完成并关闭** | 用户获得可审查、不会误发布的发布材料 | README 安装示例、CHANGELOG、发布清单、`server.json` 草案/校验、命名检查、安全审查 | 外部上传和注册 | QA/UAT 已通过；PR #5 已合并；任务卡已归档 | S |
 | R-001 | PyPI 外部发布 | **已完成并关闭** | 外部用户可通过 Python 包索引安装 Server | Trusted Publishing workflow、最终候选、分段授权发布、公开制品与安装验证 | TestPyPI、npm、Registry、GitHub Release、远程托管 | `0.1.0` 已发布；attestation 与双公开安装已验证；任务卡已归档 | L |
-| R-002 | Official MCP Registry 登记 | 待选择、需外部授权 | MCP 客户端/目录可发现已发布 Server | 命名空间认证、发布 Registry 元数据、验证包引用 | 修改业务代码、社区多平台铺开 | R-001；GitHub/DNS/HTTP 认证；用户再次授权 | 高影响发布动作 |
+| R-002 | Official MCP Registry 登记 | **Step 5 完成；Draft PR #11 等待用户审查/合并** | Registry API 与下游聚合器可发现已发布 Server | 固定 `io.github.wcnm8888/mcp1-weather-query` 身份、GitHub OAuth、分段发布与官方 API/安装复验 | 修改业务代码、第二 Tool、新 PyPI 版本、社区多平台铺开 | R-001 已关闭；公开 PyPI 0.1.0；每个外部门禁单独授权 | L |
 
 ## 当前任务
 
-当前无活动任务。状态入口见 `docs/project-management/current-task.md`；下一任务必须由用户
-从 roadmap 选择并独立批准任务卡，不得自动进入 R-002。
+当前活动任务为 R-002。状态入口见 `docs/project-management/current-task.md`；当前停止在用户审查/
+合并 Draft PR #11 的门禁，不得运行 Terms、OAuth、Registry login/publish 或自行合并 PR。
 
 ## 暂不进入路线的候选
 

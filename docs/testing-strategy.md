@@ -163,6 +163,28 @@ live contract 只断言固定 endpoint、响应模型、解析地点和来源/�
 
 每项证据至少记录命令/操作、环境、预期、实际、结论、覆盖范围和未覆盖风险。不得保存完整网络响应、凭证、Cookie、个人位置或冗长终端日志。
 
+## R-002 Registry 登记契约
+
+- Step 1 新增 `tests/release/test_mcp_registry_publish_contract.py`，只读取本地 manifest、包元数据、
+  README、release plan 和 GitHub workflow，不执行 publisher 或网络请求。
+- 四个初始绿灯固定现有正确边界：Registry/PyPI 0.1.0 身份、恰好一个 `uvx`/stdio package、
+  workflow 无 Registry 命令，以及 manifest 无凭据或远程传输。
+- 六个初始红灯要求 Step 2 补充：README 的 R-002 active/未登记状态；Registry preview 与
+  CC0 1.0；手工 GitHub OAuth device flow；validate/login/publish/官方 API 分离；同版本不可
+  原地覆盖与不确定 publish 恢复；复用固定 publisher 且禁止重新下载。
+- Step 1 定向结果为 `6 failed, 4 passed`；完整套件为 `6 failed, 89 passed, 1 skipped`；
+  排除故意红灯后既有回归仍为 `85 passed, 1 skipped`。
+- Step 2 不得删除、跳过、`xfail` 或放宽红灯断言；只允许以批准范围内的最小实现转绿。
+- Step 2 仅补齐 README 和 release plan 的真实发布边界，没有修改或放宽测试；10 项契约全部
+  转绿，完整离线门禁为 `95 passed, 1 skipped`。现有 manifest 已符合身份/最小范围，无需改动。
+- Step 3 重新核验官方 latest/tag、Windows AMD64 asset digest、固定二进制版本和 schema `$id`；
+  唯一一次联网 `validate` 返回退出码 0，manifest SHA-256 与 Git 状态前后不变。该证据只证明
+  当前 manifest 可被 Registry validator 接受，不证明已认证或发布。
+- Step 4 独立 QA 将 11 个已跟踪差异和 2 个未跟踪文件全部纳入；冻结 manifest 的规范化
+  JSON SHA-256 `7363235e...e39f0d` 并由契约检查，避免 CRLF/缩进差异。公开 PyPI marker、
+  两个制品和 Terms 只读复核通过；完整离线结果为 `95 passed, 1 skipped`。用户 UAT 仍是
+  独立门禁；用户已明确确认通过，Step 4 因而完成，但不授权 Git/PR 或 Registry 写入。
+
 ## 独立审查
 
 F-001 Step 6 曾完成一次独立 QA/差异审查，覆盖全部已跟踪和未跟踪文件，重点复核错误语义、stdio stdout 污染、任意 URL 风险、fixture 与 live 结论混淆，以及 README 是否夸大发布状态。该段是 F-001 历史记录；F-002 的独立 QA/UAT 证据见上文及 `docs/evidence.md`。

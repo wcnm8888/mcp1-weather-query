@@ -1300,3 +1300,174 @@ D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没�
 - README、文档地图、roadmap、progress、QA 清单、release plan 与本证据同步到真实公开状态。
 - R-001 关闭后仍未登记 MCP Registry、创建 GitHub Release、发布新版本或启动 R-002。
 - 本节随独立文档收口 PR 交付；PR 合并前，`main` 中的治理文档仍是旧状态。
+
+## R-002 / Step 0 文档治理与任务基线
+
+日期：2026-08-12
+
+- 用户批准 R-002 目标、范围、非目标、L 级风险判断、15 项决策、测试矩阵、Step 地图和
+  完成定义，并明确允许进入 Step 0；该授权不包含 publisher、OAuth、Terms 或 Registry 写入。
+- `git fetch origin --prune` 后确认 `main` 与 `origin/main` 均为
+  `2fae2579517ebb5f7154f9646b54b4f174be6ffa`，起始工作树干净、远程为
+  `wcnm8888/mcp1-weather-query`。
+- `v0.1.0` 是附注标签；解引用 `refs/tags/v0.1.0^{}` 后精确指向发布提交
+  `bb24624dcc8eb2efce5f4c49c80c850542c4d2b3`。
+- 环境复核为 uv 0.6.14、项目 `.venv` Python 3.12.10、Node 22.16.0；没有更新或覆盖工具、
+  依赖、系统环境或 Cherry Studio 管理的 uv。
+- Step 0 前离线门禁通过：`uv lock --check`、Ruff format 45 files、lint、严格 mypy
+  27 source files、pytest `85 passed, 1 skipped in 5.91s`、`git diff --check`；唯一 skip 是
+  默认关闭的 Open-Meteo live contract。
+- 从该基线创建本地 `release/r-002-mcp-registry-0.1.0`，未提交或推送。
+- R-001 QA 原文安全归档到 `docs/archive/qa/R-001-PyPI首次外部发布-QA.md`；R-002 任务卡、
+  活动 QA、实施计划、roadmap、progress、文档地图和项目规则同步到 Step 0 真实状态。
+- 文档落盘后完整离线门禁再次通过：Ruff format 46 files、lint、严格 mypy 27 source files、
+  pytest `85 passed, 1 skipped in 5.26s`、lock 与 `git diff --check`；相对 Markdown 链接检查通过。
+- 未修改 `src/`、`tests/`、`.github/`、`pyproject.toml`、`uv.lock` 或 `server.json`；未运行
+  `mcp-publisher`，未访问 Registry validate/login/publish，未接受 Terms，未产生外部写入。
+- 当前停止在 Step 1 授权门禁；Step 0 完成不代表 Registry 已登记。
+
+## R-002 / Step 1 先失败的 Registry 发布契约
+
+日期：2026-08-12
+
+- 用户明确允许进入 Step 1；范围只包含静态离线 RED 契约，不包含 `server.json`/README/
+  release plan 实现、publisher、联网 validate、OAuth、Terms 或 publish。
+- 新增 `tests/release/test_mcp_registry_publish_contract.py`，共 10 项契约，覆盖公开身份、唯一
+  PyPI/stdio package、公开条款、OAuth 分段授权、Step 生命周期、不可变版本恢复、固定 publisher、
+  CI 无 Registry 路径和 manifest 无凭据/远程传输。
+- 新文件的 Ruff format/lint 和严格 mypy 通过；定向 pytest 为 `6 failed, 4 passed in 0.19s`。
+- 四个通过项确认：当前 `server.json` 与 PyPI 0.1.0/ownership marker 一致；packages 精确为
+  一个 `uvx` stdio 项；现有 GitHub workflow 不含 Registry validate/login/publish；manifest
+  不含 credential、remote transport 或扩展参数。
+- 六个红灯确认：根 README 尚未标记 R-002 active；release plan 尚缺 preview/CC0 公开边界、
+  手工 GitHub OAuth device flow 与 login/publish 分离、Step 3/7/8/9 顺序、同版本不可变和不确定
+  publish 的先查后停恢复、以及禁止重新下载已验证 publisher 的明确文字。
+- 完整默认套件按预期返回退出码 1：`6 failed, 89 passed, 1 skipped in 5.91s`；排除新 RED
+  文件后的既有回归返回退出码 0：`85 passed, 1 skipped in 5.59s`。唯一 skip 是默认关闭的
+  Open-Meteo live contract；没有导入、收集、环境或现有功能回归错误。
+- 未修改 README、release plan、`server.json`、业务源码、workflow、依赖或锁文件；未运行
+  publisher、未联网、未登录、未接受 Terms、未写入 Registry，也未 commit、push 或创建 PR。
+- Step 1 已完成，当前等待用户允许 Step 2 以最小实现使六个红灯转绿。
+
+## R-002 / Step 2 最小 Registry 发布文档实现
+
+日期：2026-08-12
+
+- 用户明确允许进入 Step 2；实现范围限制为使 Step 1 六个文档红灯转绿，不运行 publisher、
+  联网 validate、OAuth、Terms 或 Registry publish。
+- README 新增 R-002 已进入准备阶段但 Registry 仍未登记的真实状态，并明确任务启动不代表
+  Registry 条目存在；保留 PyPI ownership marker 和未登记边界。
+- release plan 新增 preview、CC0 1.0、公开 GitHub 用户名/metadata、private repo 与公开 PyPI
+  安装来源边界；固定手工 GitHub OAuth device flow，明确 login 不授权 publish，且不配置
+  Registry GitHub Actions workflow/environment。
+- 网络门禁精确拆分为 Step 3 validate、Step 7 login、Step 8 publish、Step 9 官方 API；每步
+  分别授权并停止，不得合并。
+- 恢复契约明确同版本不可原地覆盖；不确定 publish 不得盲目重试，先以官方 API 精确查询，
+  对完全一致和不一致结果分别停止；deprecated/deleted 不视为数据擦除。
+- 固定复用项目外官方 `mcp-publisher v1.8.1` 和 SHA-256
+  `399ad0d6e00a50812b563a71d8bfbff5160c085e6b13aac6ec083d98d5ff7c45`；不下载、替换、
+  安装、更新或加入 PATH。
+- Step 1 契约未删除、跳过、xfail 或放宽；定向结果由 `6 failed, 4 passed` 转为
+  `10 passed in 0.03s`。
+- 完整离线门禁通过：46 locked packages、Ruff format 47 files、lint、严格 mypy 28 source
+  files、pytest `95 passed, 1 skipped in 5.54s`、`git diff --check`；唯一 skip 是默认关闭的
+  Open-Meteo live contract，生产源码仍恰好一个 Tool 且无 HTTP/SSE。
+- 当前 `server.json` 已通过身份、唯一 PyPI/stdio package 和无 secret/remote transport 契约，
+  因此未修改；业务源码、workflow、依赖和锁文件也未变化。
+- 未运行 publisher、未联网 validate、未登录、未接受 Terms、未写入 Registry，也未 commit、
+  push 或创建 PR。Step 2 已完成，等待用户允许 Step 3。
+
+## R-002 / Step 3 固定 publisher、schema 与无写入 validate
+
+日期：2026-08-12
+
+- 用户明确允许进入 Step 3；授权只包含官方一手来源核验、现有项目外 publisher 复核和一次
+  联网但无写入的 validate，不包含 Terms、OAuth、login 或 publish。
+- GitHub 官方 Releases API 直接返回 latest/tag 均为 `v1.8.1`，发布时间
+  `2026-08-06T23:35:18Z`。官方 Windows AMD64 asset 名为
+  `mcp-publisher_windows_amd64.tar.gz`，大小 7,547,008 bytes，digest 为
+  `sha256:399ad0d6e00a50812b563a71d8bfbff5160c085e6b13aac6ec083d98d5ff7c45`。
+- 项目外现有归档大小和 SHA-256 与官方 asset 完全一致，没有重新下载。解包后二进制大小
+  20,393,472 bytes、SHA-256 `d021e6496bd10e5be4264e865f795c1c9802501699342a838b601f0f4d383fd5`；
+  `--version` 退出码 0，自报 `mcp-publisher 1.8.1`、commit
+  `f52dc8525a441a3abf5fedc9912152d95af5aab1`、built `2026-08-06T23:36:13Z`。
+- `Get-Command mcp-publisher` 返回 false；工具仍未加入 PATH，也未修改项目、系统或 Cherry
+  Studio 管理环境。
+- 官方 `https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json` 返回
+  HTTP 200，`$id` 与项目 `server.json` 的 `$schema` 完全一致；本次响应 SHA-256 为
+  `3fba09590c99f61735d234822279f4223fab9e300c0a81e81c91ab62a4114de0`。
+- 2026-08-12T07:23:32Z 至 07:23:34Z 只运行一次固定二进制 `validate`。退出码 0，安全输出为
+  `Validating against https://registry.modelcontextprotocol.io...` 和 `server.json is valid`。
+- validate 前后 `server.json` SHA-256 均为
+  `e0ad8ae8339d629629d7eef37f3927f081519e840eb85bfcf3297ba2bd6c6709`，Git status 完全一致；
+  没有本地文件或 Registry 条目写入。
+- 文档收口后的完整离线门禁通过：46 locked packages、Ruff format 47 files、lint、严格
+  mypy 28 source files、pytest `95 passed, 1 skipped in 5.79s`、`git diff --check`；唯一 skip
+  是默认关闭的 Open-Meteo live contract，生产源码仍恰好一个 Tool。
+- 未执行 OAuth、Terms、login、publish、Registry API 登记查询或第三方目录操作；未 commit、
+  push 或创建 PR。Step 3 已完成，等待用户允许 Step 4。
+
+## R-002 / Step 4 独立 QA、metadata 冻结与 PyPI marker（UAT 待确认）
+
+日期：2026-08-12
+
+- 用户明确允许进入 Step 4；授权包含独立 QA、metadata 冻结、生产 PyPI/官方 Terms 只读复核
+  和用户 UAT，不包含 readiness PR、Terms 接受、OAuth、login 或 publish。
+- `git fetch origin --prune` 后确认分支起点仍为
+  `main == origin/main == 2fae2579517ebb5f7154f9646b54b4f174be6ffa`。独立审查 11 个
+  已跟踪差异及两个未跟踪文件；后者精确为 R-001 QA 归档和 R-002 Registry 契约测试。
+- 发现并修复三处低风险文档漂移：根 README 与 docs 文档地图仍记录旧的 `85 passed`，任务卡
+  仍称未执行 validate。均只做事实修正，没有高、中优先级范围内缺陷。
+- `server.json` 未修改。原始文件 627 bytes，SHA-256
+  `e0ad8ae8339d629629d7eef37f3927f081519e840eb85bfcf3297ba2bd6c6709`；按键排序、紧凑 UTF-8
+  JSON 的规范化语义 SHA-256 为
+  `7363235e462331ea3ea12914eacd959a43bb6fb556caad35ff087983d5e39f0d`。静态契约新增该语义
+  digest 断言，避免 CRLF/缩进导致假漂移。
+- 生产 PyPI 0.1.0 官方 JSON 返回 HTTP 200；名称/版本、Python `>=3.12,<3.13`、MIT、唯一
+  `mcp-name: io.github.wcnm8888/mcp1-weather-query` marker 和“尚未登记/不代表条目存在”边界通过。
+  wheel/sdist 均未 yank，SHA-256 分别仍为 `7c305d46...d8de8a` 和 `573c7d48...f9bd670ea25`。
+- 第一次 Python stdlib PyPI 请求发生 `SSL: UNEXPECTED_EOF_WHILE_READING`；随后仅对同一 PyPI
+  官方端点以 PowerShell 复核。一次 QA 断言使用了错误中文词序，真实返回 HTTP 200 但断言失败；
+  按公开 README 实际词序“尚未登记 MCP Registry”修正检查后通过，未隐瞒失败或改动公开包。
+- Official Registry Terms 官方源文件返回 HTTP 200，有效日期为 2025-09-02；preview/data reset、
+  CC0 1.0、公开 metadata/GitHub username 和仅对 Registry Data 适用的范围均存在。本次响应
+  SHA-256 为 `b810666747d1271633fbdd56e9b7b859a788b345fc5d57901f611a87b6fd6afc`。
+- 独立离线 QA 通过：46 locked packages、Ruff format 47 files、lint、严格 mypy 28 source
+  files、pytest `95 passed, 1 skipped in 5.46s`、Registry 契约 `10 passed in 0.05s`、diff、
+  唯一 Tool、无 HTTP/SSE、无 Registry CI 路径和无默认 live 请求均通过。
+- 未修改 `server.json`、业务源码、workflow、依赖、锁文件、CHANGELOG、License 或 NOTICE；
+  未运行 publisher、login、publish，未接受 Terms，未写入 Registry，也未 commit、push 或创建 PR。
+- 独立 QA 收口时用户 UAT 尚未确认，因此当时没有把 Step 4 标记完成；后续确认见下节。
+
+### Step 4 用户 UAT
+
+- 用户明确回复 `R-002 Step 4 UAT 通过`。
+- 用户接受冻结 Registry 身份、PyPI 0.1.0/uvx/stdio/private repository 边界，以及 preview、
+  data reset、CC0 1.0、公开 metadata/GitHub username 和同版本不可原地覆盖风险。
+- 用户接受不确定 publish 必须先以官方 API 查询、不得盲目重试，deprecated/deleted 不等于擦除。
+- 该 UAT 只完成 Step 4，不授权 Step 5 readiness Git/PR、Terms 接受、OAuth login 或 publish。
+- UAT 状态落盘后复跑完整离线门禁：Ruff format 47 files、lint、严格 mypy 28 source files、
+  pytest `95 passed, 1 skipped in 5.71s`、lock 与 `git diff --check` 全部通过。
+- R-002 Step 4 已完成，当前等待用户明确允许进入 Step 5。
+
+## R-002 / Step 5 readiness Git/PR 交付
+
+日期：2026-08-12
+
+- 用户明确允许进入 Step 5 readiness Git/PR 交付。
+- 授权范围仅包括复核并精确提交当前冻结的 R-002 readiness 变更、推送
+  `release/r-002-mcp-registry-0.1.0` 和创建 Draft PR；不授权自行合并。
+- 本 Step 不接受 Registry Terms，不执行 GitHub OAuth、`mcp-publisher login/publish` 或任何
+  Registry 写入，也不修改 `server.json`、业务源码、workflow、依赖或锁文件。
+- 精确提交 13 个已审查文件，首个提交为
+  `4d262c3648cb0f13b0b8cd350a94717d88b2c0a8`（`feat(registry): prepare R-002 readiness`），
+  并推送到 `origin/release/r-002-mcp-registry-0.1.0`。
+- GitHub 连接器因私有仓库可见性返回 404；按交付流程回退到已认证的 GitHub CLI，成功创建
+  Draft PR #11：`https://github.com/wcnm8888/mcp1-weather-query/pull/11`，目标为 `main`。
+- 提交 `00488f27627f2c7bc8167ec24009a9f513449e32` 记录 PR 交付事实；其 GitHub Actions
+  run `31575380396` 成功，`Validate and build distributions` 的 lock、Ruff、严格 mypy、默认
+  离线测试、patch whitespace、wheel/sdist 构建与制品审查全部通过。
+- 同一 PR run 的 `Publish distributions to production PyPI` 作业明确跳过；没有 Registry
+  login/publish 作业或命令，也没有外部 Registry 写入。
+- Step 5 已完成，当前停止在用户审查/合并 Draft PR #11 的门禁；合并不授权 Step 6 及后续
+  Terms、OAuth、login 或 publish。
