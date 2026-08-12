@@ -1612,3 +1612,24 @@ D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没�
 - 通过已认证 GitHub CLI 创建 Draft closure PR #12，目标为 `main`：
   `https://github.com/wcnm8888/mcp1-weather-query/pull/12`。没有自行合并；R-002 仍为 active，
   只有用户合并后才可进入 Step 11 同步、归档和关闭。
+
+## R-002 / Step 11 合并后同步、归档与关闭
+
+日期：2026-08-12
+
+- 用户确认 closure PR #12 已合并并明确授权 Step 11 同步、归档和关闭；该授权不包含新版本、
+  Registry 状态变更、重新认证或任何其他外部发布。
+- GitHub 返回 PR #12 状态 `MERGED`、合并时间 `2026-08-12T09:54:58Z`、merge commit
+  `aedc397264844957ac1b52ee193eef6cc28f42c7`；PR 包含 Step 10 的两个精确提交。
+- `git fetch origin --prune` 后从 closure 分支切换到 `main`，执行 fast-forward-only 同步；
+  同步后 `main == origin/main == aedc397...`，没有 reset、rebase 或强制推送。
+- R-002 任务卡和 L 级 QA 分别安全归档到 `docs/archive/task-cards/` 与 `docs/archive/qa/`；
+  活动状态、实施计划和 QA 入口重置为无活动任务，roadmap 将 R-002 标记 closed。
+- Step 11 离线门禁通过：46 locked packages、Ruff format 49 files、lint、严格 mypy 28 source
+  files、pytest `96 passed, 1 skipped in 8.93s`、`git diff --check`；唯一 skip 仍是默认关闭的
+  Open-Meteo live contract。
+- 初次 Markdown 链接脚本错误递归进入未跟踪 `.runtime` 第三方目录并误判第三方示例，结果不作为
+  证据。改用 `git -c core.quotepath=false ls-files` 限定项目 Markdown，并加入本次两份新归档后，
+  精确检查 21 files、0 broken relative links。
+- 已公开的 PyPI/Registry 0.1.0、唯一 Tool、stdio、凭据 logout 和公开复验证据保持不变；
+  本 Step 未访问 Open-Meteo、未执行 publisher、未发布新版本或修改外部 Registry。

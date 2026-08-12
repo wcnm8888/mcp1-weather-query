@@ -2,13 +2,28 @@
 
 ## 当前状态
 
-- F-001、F-002、D-001 与 R-001 均已完成并关闭；`R-002` 已批准并进入活动状态。
-- 当前 Step：R-002 Step 10 已完成；Draft closure PR #12 等待用户审查并合并。
-- 本地 `main == origin/main == 900f71133ad9525ff65965d0822a1e92d06faead`；PR #11 已合并。
+- F-001、F-002、D-001、R-001、R-002 均已完成并关闭；当前无活动任务。
+- R-002 Step 11 已完成：PR #12 合并后同步 `main`、归档任务卡与 QA，并重置活动入口。
+- Step 11 起始同步事实：`main == origin/main == aedc397264844957ac1b52ee193eef6cc28f42c7`。
 - 起始基线：`main == origin/main == 2fae2579517ebb5f7154f9646b54b4f174be6ffa`；
   `v0.1.0` 解引用到 `bb24624dcc8eb2efce5f4c49c80c850542c4d2b3`。
 - `mcp-weather-query==0.1.0` 仍已公开；Official MCP Registry 的唯一 active 0.1.0 条目、
   PyPI 引用和新的公开安装/stdio 复验均已通过。
+
+## 最近完成：R-002 Step 11
+
+- 用户确认 PR #12 已合并并明确允许进入 Step 11；GitHub 复核 PR 状态为 `MERGED`，合并时间
+  `2026-08-12T09:54:58Z`，merge commit 为 `aedc397264844957ac1b52ee193eef6cc28f42c7`。
+- 本地从 `agent/r-002-step10-registry-closure` 切换到 `main`，以 fast-forward-only 同步到
+  `origin/main`；同步后两者一致，未重写或重置历史。
+- R-002 完整任务卡归档到 `docs/archive/task-cards/R-002-Official-MCP-Registry登记.md`，
+  L 级 QA 归档到 `docs/archive/qa/R-002-Official-MCP-Registry登记-QA.md`；历史证据未删除。
+- `current-task.md`、`implementation-plan.md` 和活动 QA 入口已重置为无活动任务；roadmap、
+  文档地图和项目规则已标记 R-002 完成并关闭。
+- 收口门禁通过：46 locked packages、Ruff format 49 files、lint、严格 mypy 28 source files、
+  pytest `96 passed, 1 skipped`、`git diff --check`；唯一 skip 仍是显式 live contract。
+- 只扫描项目跟踪 Markdown 与本次两份新归档后，相对链接检查为 21 files、0 broken links。
+  第一次通用扫描误包含未跟踪 `.runtime` 第三方文档，结果已丢弃，未作为项目证据。
 
 ## 最近完成：R-002 Step 4
 

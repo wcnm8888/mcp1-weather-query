@@ -19,8 +19,8 @@
 - 已归档任务卡：[`archive/task-cards/`](archive/task-cards/)
 - 已归档 QA：[`archive/qa/`](archive/qa/)
 
-F-001、F-002、D-001 与 R-001 的完整任务卡均已归档并关闭。R-001 的 L 级 QA 清单也已
-归档；当前活动任务为已批准的 R-002，唯一状态入口是 `current-task.md`。
+F-001、F-002、D-001、R-001 与 R-002 的完整任务卡均已归档并关闭。R-001、R-002 的
+L 级 QA 清单也已归档；当前无活动任务，唯一状态入口是 `current-task.md`。
 
 ## 权威文档映射
 
@@ -53,9 +53,8 @@ F-001、F-002、D-001 与 R-001 的完整任务卡均已归档并关闭。R-001 
 
 ## 当前状态
 
-- 活动任务：`R-002` Official MCP Registry 登记；Step 10 已完成，Draft closure PR #12
-  等待用户审查并合并。
-- roadmap：已批准；F-001、F-002、D-001、R-001 均已关闭，R-002 Step 0–4 已完成。
+- 活动任务：无；R-002 Official MCP Registry 登记已完成并关闭。
+- roadmap：已批准；F-001、F-002、D-001、R-001、R-002 均已关闭。
 - Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；`v0.1.0` 指向发布提交
   `bb24624dcc8eb2efce5f4c49c80c850542c4d2b3`。
 - 实现/测试：唯一 `get_current_weather` MCP Tool、固定候选 wheel/sdist、双干净安装和
@@ -65,4 +64,4 @@ F-001、F-002、D-001 与 R-001 的完整任务卡均已归档并关闭。R-001 
 - readiness PR #11 已合并；Official Registry 中唯一 active 的
   `io.github.wcnm8888/mcp1-weather-query==0.1.0` 已由官方 API 复核，公开 PyPI 安装后的
   installed-package stdio 也已通过。publisher 管理的本机认证文件已由官方 logout 移除；
-  当前停止在 PR #12 合并门禁，不得重复 publish、自行合并或跨入 Step 11。
+  closure PR #12 也已合并，R-002 任务卡与 QA 已归档。

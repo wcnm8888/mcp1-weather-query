@@ -4,9 +4,8 @@
 
 ## 当前阶段
 
-- 生命周期：roadmap 已批准；F-001、F-002、D-001、R-001 均已关闭；R-002 Step 0–10 已完成，
-  Draft closure PR #12 等待用户审查并合并；合并前不得进入 Step 11 或关闭任务。
-- 项目整体等级：M；当前活动任务 `R-002` 按 L 级外部登记风险管理。
+- 生命周期：roadmap 已批准；F-001、F-002、D-001、R-001、R-002 均已完成并关闭；当前无活动任务。
+- 项目整体等级：M；新的任务必须由用户明确选择并独立批准。
 - 当前状态：`mcp-weather-query==0.1.0` 已通过 Trusted Publishing 发布到生产 PyPI，
   `io.github.wcnm8888/mcp1-weather-query==0.1.0` 也已登记到 Official MCP Registry；
   官方 API、公开 PyPI 安装和 installed-package stdio 已验证。
@@ -22,9 +21,9 @@
 
 ## 工作流与外部操作
 
-- 当前停止在 R-002 closure PR #12 的用户合并门禁；不得跨入 Step 11 或执行新的 Registry 操作。
-- Step 10 凭据处置、发布后 QA 与 Draft PR 已完成。已发布的 `0.1.0` 不得重复 publish，
-  closure PR 不得由代理自行合并。
+- R-002 readiness PR #11 与 closure PR #12 均已合并，Step 11 已同步、归档并关闭任务。
+- 当前不授权新的 Registry 操作。已发布的 `0.1.0` 不得重复 publish；新版本、metadata 更新、
+  deprecated/deleted 状态变更或重新认证均需新任务和用户明确授权。
 - 未经对应 Step 授权，不得运行 `mcp-publisher validate/login/publish`、接受 Registry Terms
   或写入外部 Registry。
 - 后续 PyPI 版本、MCP Registry 实际登录/登记、GitHub Release 或公开仓库变更仍需对应 Step
