@@ -1,6 +1,6 @@
 # R-001 L 级 QA 清单
 
-> 状态：`active / step_5_completed / awaiting_pr_review_merge`。本清单用于 R-001 的独立 QA 与发布授权审计；勾选项必须
+> 状态：`active / step_6_completed / awaiting_step_7_authorization`。本清单用于 R-001 的独立 QA 与发布授权审计；勾选项必须
 > 有可复核证据。它不是发布证明，也不授权任何外部写入。
 
 ## 身份与公开边界
@@ -30,9 +30,10 @@
 
 ## 外部授权与发布
 
-- [ ] 用户单独授权 PyPI 登录和 Pending Publisher 配置。
-- [ ] PyPI verified email、2FA、项目名和 Publisher tuple 已由用户核对。
-- [ ] GitHub environment `pypi` 可用；若不可用已停止而非降级。
+- [x] 用户单独授权并完成 PyPI 登录和 Pending Publisher 配置。
+- [x] PyPI 项目名和 Publisher tuple 已由用户在官方页面核对并成功添加。
+- [ ] 最终 tag 前由用户确认 PyPI verified email 和 2FA 仍可用。
+- [x] GitHub environment `pypi` 可用；没有 secrets，当前无额外保护规则。
 - [ ] 用户在最终 diff、CI 和 Publisher 就绪后再次精确授权创建/推送 `v0.1.0`。
 - [ ] GitHub Actions 发布 run 成功，且仅发布 wheel/sdist 两个预期文件。
 

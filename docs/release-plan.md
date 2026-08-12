@@ -29,8 +29,8 @@ tag `v0.1.0` 的 push 才允许 publish job 运行。build job 只具备 `conten
 只下载 build job 的 wheel/sdist，再调用官方 PyPA action；所有 action 使用完整提交 SHA。
 Trusted Publishing 的 attestation 保持默认开启，不配置 `attestations: false`。
 
-当前只建立本地 workflow 和文档契约，尚未提交或触发 GitHub Actions，也未登录 PyPI、
-创建 Pending Publisher、创建 environment、tag 或上传制品。后续授权分两层：
+安全 workflow 已经 PR #7 合并；GitHub environment `pypi` 和 PyPI Pending Publisher 已按
+精确身份配置。尚未创建 tag、触发发布或上传制品。外部发布授权仍分两层：
 
 1. PR 合并并复核公开包名后，用户单独授权登录 PyPI、配置 Pending Publisher 和
    GitHub environment；配置失败时停止，不降级为长期 Token。
@@ -177,9 +177,13 @@ Step 5 没有重建制品，而是固定使用上节两个文件，在项目外�
 署名；仓库保持 private；只使用生产 PyPI Pending Trusted Publisher；不使用 Token、
 人工上传或 TestPyPI；接受 Open-Meteo 非商业免费层、10,000 次/日和无 SLA 限制。
 
-尚未授权的动作只有：用户登录 PyPI、创建 Pending Publisher、配置 GitHub `pypi`
-environment，以及在全部 QA/PR 门禁通过后创建并推送 `v0.1.0`。任何一步失败都必须停止，
-不得擅自切换认证方案、公开仓库或扩大到 Registry。
+Step 6 已完成：GitHub `pypi` environment 已创建，用户已在 PyPI 官方页面创建并复核
+Pending Publisher。仍未授权的动作是进入 Step 7、创建/推送 `v0.1.0` 和由此触发的上传；
+任何一步失败都必须停止，不得擅自切换认证方案、公开仓库或扩大到 Registry。
+
+PyPI 当前公开 JSON 查询对 `mcp-weather-query` 返回 404，但 Pending Publisher 在首次使用
+前不会创建项目或预留名称。最终 tag 前必须再次复核名称。Publisher tuple 必须保持为：
+`mcp-weather-query` / `wcnm8888` / `mcp1-weather-query` / `release.yml` / `pypi`。
 
 ## R-001 Step 3 固定候选
 

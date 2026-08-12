@@ -5,9 +5,9 @@
 - F-001：已完成、合并、归档并关闭。
 - F-002：已完成、合并、归档并关闭；PR #3 与收口 PR #4 均已合并。
 - D-001：已完成、合并、归档并关闭；PR #5 已合并。
-- R-001：任务卡已批准，Step 5 已完成，Draft PR #7 等待用户审查/合并。
-- 当前分支：`release/r-001-pypi-0.1.0`（仅本地，尚未提交或推送）。
-- 起点基线：`main == origin/main == 0d5d7be9271b71143cdbcdf768bfbde5ed4393d0`。
+- R-001：任务卡已批准，PR #7 已合并；Step 6 已完成，等待 Step 7 明确授权。
+- 当前分支：`main`。
+- 当前基线：`main == origin/main == 7cc304b47a094a33ccb90b13f411547a6a255e99`。
 - 外部发布：未授权、未执行。
 
 ## R-001 Step 0 结果
@@ -28,7 +28,7 @@
 - 排除故意红灯后既有回归：`76 passed, 1 skipped`；lock、Ruff、严格 mypy 和 diff 通过。
 - 未创建 workflow/tag，未修改发布元数据或业务代码，未构建、登录、配置或上传。
 
-## R-001 当前门禁
+## R-001 Step 5 Git/PR 结果
 
 R-001 Step 4 的独立 QA、新 live contract 和用户 UAT 已完成。用户已允许 Step 5 的精确
 commit、push、Draft PR 和 PR 检查；仍不授权发布 job、PyPI 登录/配置/上传或 tag。
@@ -38,7 +38,19 @@ commit、push、Draft PR 和 PR 检查；仍不授权发布 job、PyPI 登录/�
 - 首次 PR build 成功且 publish skipped，但发现 upload action 的 Node.js 20 弃用告警；已将
   upload/download 更新到官方最新 Node.js 24 action SHA 并保持 9 项静态契约全绿。
 - 修复后 run `31516139712` 的 build/QA、制品检查与 artifact 上传全部成功，publish job
-  明确 skipped，annotations 为空；Step 5 已完成，等待用户审查/合并 Draft PR #7。
+  明确 skipped，annotations 为空；Step 5 随 PR #7 合并完成，后续状态见 Step 6 结果。
+
+## R-001 Step 6 结果
+
+- PR #7 已合并，merge commit `7cc304b47a094a33ccb90b13f411547a6a255e99`；本地
+  `main == origin/main`，工作树起点干净。
+- 合并后离线门禁通过：lock、Ruff format/lint、严格 mypy、`85 passed, 1 skipped`、diff。
+- PyPI 官方 JSON endpoint 对 `mcp-weather-query` 返回 404；当前没有公开项目，但名称未被预留。
+- GitHub private 仓库的 `pypi` environment 已成功创建；无 secrets、无保护规则。
+- 用户已在 PyPI 官方 Publishing 页面成功添加 Pending Publisher；页面显示的精确 tuple 为
+  `mcp-weather-query` / `wcnm8888` / `mcp1-weather-query` / `release.yml` / `pypi`。
+- Pending Publisher 不会在首次发布前创建项目或预留名称；当前仍没有公开 PyPI 项目。
+- 未创建或推送 `v0.1.0`，未触发 publish job，未上传制品；等待 Step 7 明确授权。
 
 ## R-001 Step 2 结果
 

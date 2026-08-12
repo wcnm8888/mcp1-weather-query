@@ -3,10 +3,10 @@
 ## 生命周期状态
 
 - 任务编号：`R-001`
-- 状态：`approved / step_5_completed / awaiting_pr_review_merge`
+- 状态：`approved / step_6_completed / awaiting_step_7_authorization`
 - 风险等级：`L`（公开发布、供应链配置和不可覆盖版本）
 - 起点提交：`0d5d7be9271b71143cdbcdf768bfbde5ed4393d0`
-- 本地分支：`release/r-001-pypi-0.1.0`
+- 本地分支：`main`
 - PR 目标：`main`
 - 外部发布：尚未授权、尚未执行
 
@@ -20,9 +20,9 @@
 
 - 已有：可构建 wheel/sdist、稳定 console entry point、唯一只读 Tool、发布候选文档、
   `server.json` 草案、项目外双安装和 UAT。
-- 已新增安全 workflow 和公开发布说明，并完成项目外候选制品、双干净安装、
-  installed-package stdio、独立 QA、新 live contract、用户 UAT 和 PR 非发布 CI；尚待
-  用户审查/合并、Trusted Publisher 绑定、公开 PyPI 页面、attestation 或发布后收口。
+- 已完成安全 workflow、项目外候选、独立 QA、live/UAT、PR 非发布 CI 和 PR #7 合并；
+  GitHub `pypi` environment 与 PyPI Pending Publisher 已按精确 tuple 配置。尚待 Step 7
+  明确授权、公开 PyPI 页面、attestation、公共安装验证和发布后收口。
 - `CHANGELOG.md` 的 `0.1.0` 仍是 `Unreleased`；任何本地候选都不能冒充最终公开制品。
 
 ## 已批准决策
@@ -124,7 +124,7 @@
 - [x] Step 3：本地重建、制品审查和双干净安装。
 - [x] Step 4：独立 QA、新 live contract 和用户 UAT。
 - [x] Step 5：Git/PR 交付；PR CI 只能检查，不能发布。
-- [ ] Step 6：合并后同步、公开名称复核和 Pending Publisher 配置；需要单独授权。
+- [x] Step 6：合并后同步、公开名称复核和 Pending Publisher 配置；已单独授权并完成。
 - [ ] Step 7：最终发布门禁与精确 `v0.1.0` tag；需要再次明确授权。
 - [ ] Step 8：公开 PyPI 文件、attestation、安装和 stdio 验证。
 - [ ] Step 9：发布后文档、Git 收口；停止在 R-002 之前。
@@ -163,14 +163,16 @@ attestation 已核验、公共安装和 stdio 验证通过、文档/Git 收口�
 ## 批准记录
 
 用户已批准本任务卡的目标、范围、非目标、L 级风险判断、Trusted Publishing 方案、
-测试矩阵、Step 地图、完成定义和 16 项决策，并已依次允许进入 Step 0 至 Step 4。
-Step 4 的独立 QA、新 live contract 和用户 UAT 已通过；用户已明确允许进入 Step 5
-Git/PR 交付。当前批准仍不授权：进入 Step 6、登录 PyPI、配置 Pending Publisher、创建或
-推送 tag、上传任何制品、触发发布 job 或进入 R-002。
+测试矩阵、Step 地图、完成定义和 16 项决策，并已依次允许进入 Step 0 至 Step 6。
+Step 4 的独立 QA、新 live contract 和用户 UAT 已通过；Step 5 Git/PR 已交付并合并；
+Step 6 的环境与 Publisher 配置已完成。当前批准仍不授权：进入 Step 7、创建或推送 tag、
+上传任何制品、触发发布 job 或进入 R-002。
 
-Step 5 已推送 `release/r-001-pypi-0.1.0` 并创建以 `main` 为目标的 Draft PR #7。最新功能
-提交 `b5b1ff3430bd6ea15be735ec0e925e664bceb9d3` 的 PR build/QA 全部成功，publish job
-明确 skipped，annotations 为空；当前等待用户审查/合并。后续 Publisher 配置仍是独立门禁。
+PR #7 已由用户合并，merge commit 为 `7cc304b47a094a33ccb90b13f411547a6a255e99`；本地
+`main` 已 fast-forward 到同一提交。用户已允许 Step 6；公开 PyPI JSON 查询为 404，说明
+当前没有公开项目，且 Pending Publisher 不会预留名称。GitHub `pypi` environment 已创建并
+可读取；用户已在 PyPI 官方页面成功添加精确 Pending Publisher：`mcp-weather-query` /
+`wcnm8888` / `mcp1-weather-query` / `release.yml` / `pypi`。Step 6 已完成，等待 Step 7 明确授权。
 
 ## 历史任务卡
 
