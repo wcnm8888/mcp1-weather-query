@@ -1218,3 +1218,28 @@ D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没�
 - 页面同时明确提示 Pending Publisher 不会预留名称；项目需在首次可信发布成功后才创建。
 - 未创建或推送 `v0.1.0`，未触发 publish job，未上传 wheel/sdist，项目仍未发布。
 - Step 6 已完成，当前等待用户明确授权 Step 7；本证据不授权 tag 或发布。
+
+## R-001 / Step 7 发布元数据修复门禁
+
+日期：2026-08-12
+
+- 用户明确授权进入 Step 7，并确认 PyPI 邮箱已验证。PR #8 已合并，merge commit 为
+  `fb986bdda4fdba41327165f2f569fdd8c7d9d6a7`；本地 `main` 已 fast-forward 到同一提交。
+- PR #8 build/QA 成功、publish job 在 PR 事件中明确 skipped；本地和远程都不存在
+  `v0.1.0`。PyPI 官方 JSON endpoint 再次返回 404，说明名称仍未被公开项目占用。
+- 最终离线门禁初次通过 `85 passed, 1 skipped` 和发布契约 `9 passed`，随后发现一个发布
+  阻断缺陷：嵌入 PyPI 长描述的 README 仍称“当前尚未发布”，CHANGELOG 仍为
+  `0.1.0 - Unreleased`，且制品/发布契约强制保留该状态。
+- 因 PyPI 已上传版本文件不可覆盖，在 tag 前停止；用户授权创建独立发布元数据修复 PR。
+- 修复将 README 改为由 PyPI 官方项目页核验公开可用性、文件和 attestation，将 CHANGELOG
+  日期固定为 `2026-08-12`，同步制品/发布契约，并继续明确 MCP Registry 尚未登记。
+- 定向契约结果为 `29 passed`。项目外以 `uv build --no-sources --offline` 重建：wheel
+  15 files / 16,485 bytes / SHA-256 `48909c4c...3e4387`；sdist 14 files / 12,066 bytes /
+  SHA-256 `ea8fa9cb...77b0c`。文件白名单、Core Metadata 2.4、README、LICENSE/NOTICE、
+  wheel RECORD、本机路径和敏感信息扫描全部通过。
+- 候选目录：
+  `E:\mcp-weather-query-release-candidate\0.1.0\r001-step7-metadata-20260812T132608`。
+- 修复后的完整离线门禁通过：46 packages、Ruff format 44 files、lint、严格 mypy 27 files、
+  pytest `85 passed, 1 skipped in 5.71s`、`git diff --check`；唯一 skip 为显式 live contract。
+  仍恰好一个 Tool，源码/包配置没有 HTTP/SSE，候选哈希复审不变。
+- 本阶段尚未创建 tag、触发 publish job 或上传 PyPI；等待修复 PR CI 与用户合并。

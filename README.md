@@ -11,14 +11,15 @@
 - 本地打包能力：项目可生成并审查 wheel/sdist，也已在两个项目外独立环境完成无 `PYTHONPATH` 安装与 stdio 验证；实时任务状态以 `docs/project-management/current-task.md` 为准。
 - 代码：领域/服务/Open-Meteo 适配器已实现；官方 v2 `MCPServer` 只注册 `get_current_weather`，并提供输入/输出 Schema、只读 annotations、结构化成功结果和稳定 Tool execution error。
 - Git：private 仓库为 [wcnm8888/mcp1-weather-query](https://github.com/wcnm8888/mcp1-weather-query)；[PR #1](https://github.com/wcnm8888/mcp1-weather-query/pull/1) 已把 `feat/f-001-local-weather-tool` 合并到 `main`，原本地和远程功能分支已删除。
-- 制品/发布：已生成本地 wheel/sdist 并通过内容审查；未上传、未注册任何外部条目，不代表已经发布。
-- 测试：最近一次完整默认门禁为 `76 passed, 1 skipped`；唯一 skip 是显式 opt-in 的 live contract。此前 live contract 为 `1 passed`，Inspector 已完成唯一 Tool 的发现、成功和错误路径验证。
+- 制品/发布：已生成本地 wheel/sdist 并通过内容审查；PyPI 的公开可用性、文件与
+  attestation 只以 [PyPI 官方项目页](https://pypi.org/project/mcp-weather-query/) 为准。
+- 测试：最近一次完整默认门禁为 `85 passed, 1 skipped`；唯一 skip 是显式 opt-in 的 live contract。此前 live contract 为 `1 passed`，Inspector 已完成唯一 Tool 的发现、成功和错误路径验证。
 - 启动边界：项目已注册 `mcp-weather-query` console command；wheel 与 sdist 已分别在项目外独立环境安装，并在无 `PYTHONPATH`、非源码工作目录下启动同一 stdio Server。
 - Node 兼容性：项目独立 Node 24.19.0 已通过官方 SHA256 校验，Inspector 2.1.0 不再产生 engine warning；系统 Node 22.16.0 未改变。
 - 协议证据：官方 Python SDK v2 `Client(mode="auto")` 通过生产 stdio 入口完成 `server/discover`，协商 MCP 2026-07-28，且未执行 Legacy initialize；同一 Server 继续允许 Inspector 2.1.0 以 Legacy MCP 2025-11-25 调试。
 - F-002 packaging：版本 `0.1.0`、`uv_build`、console script、MIT LICENSE 和 Open-Meteo NOTICE 已转绿；Step 3 生成的本地 wheel/sdist 已完成制品审查，Step 4 双干净安装验证通过。
 - 安装证据：两个环境都从约定制品安装 `mcp-weather-query==0.1.0`，只发现 `get_current_weather`；生产 console 的 stdout 仅含 MCP 消息、退出码为 0，确定性离线调用返回合法 `structuredContent`。
-- 交付边界：这些都是本地构建、安装和测试证据，不代表已经上传到 PyPI、登记 MCP Registry 或完成其他外部发布。
+- 交付边界：本地构建、安装和测试证据不能替代 PyPI 公开文件、attestation 或公共安装验证。
 
 ## 安装与启动
 
@@ -36,10 +37,9 @@ mcp-weather-query
 editable install、项目源码目录或 `PYTHONPATH`。`mcp-weather-query` 必须位于当前
 `PATH`；可用 `uv tool dir --bin` 查看 uv 的工具命令目录。
 
-### PyPI 发布后的临时运行方式
+### 从 PyPI 运行固定版本
 
-以下命令只描述用户明确授权并完成 PyPI 发布后的预期用法；当前尚未发布到 PyPI，
-现在执行不会得到本项目的已发布包：
+当 PyPI 官方项目页已提供 `0.1.0` 时，可直接运行固定版本：
 
 ```powershell
 uvx --from mcp-weather-query==0.1.0 mcp-weather-query
@@ -64,17 +64,18 @@ Server 通过 stdin/stdout 交换 MCP 协议消息；普通诊断只写入 stder
 配置文件位置和外层字段可能不同，但 command 不应改为源码路径，也不应注入
 `PYTHONPATH`。
 
-## 发布状态
+## 发布与登记状态
 
-- `mcp-weather-query==0.1.0` 当前只是本地发布候选，尚未发布到 PyPI。
+- `mcp-weather-query==0.1.0` 的公开可用性、文件和 attestation 以
+  [PyPI 官方项目页](https://pypi.org/project/mcp-weather-query/) 为准，不从本地候选推断。
 - Registry 候选名称为 `io.github.wcnm8888/mcp1-weather-query`，尚未登记 MCP Registry。
-- README 顶部的 `mcp-name` 注释只为未来 PyPI ownership verification 准备，不代表
+- README 顶部的 `mcp-name` 注释用于 PyPI ownership verification，不代表
   Registry 条目已经存在。
-- 任何 PyPI 上传、Registry 登录/发布、Git tag 或 GitHub Release 都需要新的用户授权。
+- 后续版本发布、Registry 登录/发布或 GitHub Release 仍需要独立用户授权。
 
 ## 已交付能力
 
-首个闭环拟提供一个只读 MCP Tool：`get_current_weather`。它接收地点名称和可选国家代码，通过固定天气数据源解析地点并返回带单位、时间、解析后地点和数据来源的结构化当前天气结果。
+首个闭环提供一个只读 MCP Tool：`get_current_weather`。它接收地点名称和可选国家代码，通过固定天气数据源解析地点并返回带单位、时间、解析后地点和数据来源的结构化当前天气结果。
 
 ## 明确非目标
 

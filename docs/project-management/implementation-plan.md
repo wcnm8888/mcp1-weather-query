@@ -4,10 +4,10 @@
 
 - 活动任务：R-001 PyPI 首次外部发布
 - 等级：L
-- 状态：`step_6_completed / awaiting_step_7_authorization`
-- 当前基线：`main == origin/main == 7cc304b47a094a33ccb90b13f411547a6a255e99`
-- 本地分支：`main`
-- 外部发布：未授权、未执行
+- 状态：`step_7_metadata_remediation / awaiting_pr_ci_merge`
+- 当前基线：`main == origin/main == fb986bdda4fdba41327165f2f569fdd8c7d9d6a7`
+- 本地分支：`agent/r-001-step7-release-metadata`
+- 外部发布：Step 7 已授权；tag/上传尚未执行
 
 ## R-001 Step 地图
 
@@ -113,13 +113,26 @@
   OIDC 发布、PyPI 登录、Publisher 配置或制品上传到 PyPI。
 - [x] Draft PR #7 保持 Draft、merge state clean，等待用户审查/合并。
 
+## Step 7 发布元数据修复
+
+- [x] 用户明确授权进入 Step 7，并确认 PyPI 邮箱已验证。
+- [x] PR #8 已合并，本地 `main == origin/main == fb986bd`；本地/远程均无 `v0.1.0`。
+- [x] 公开 PyPI JSON 查询仍为 404；Pending Publisher tuple 与 `pypi` environment 已就绪。
+- [x] 最终门禁发现 README、CHANGELOG 和契约仍固化“尚未发布 / Unreleased”，会使首发
+  PyPI 页面立即陈旧，因此在 tag 前停止。
+- [x] 用户授权独立修复 PR；README 改为由 PyPI 官方项目页核验公开状态，CHANGELOG 日期
+  固定为 `2026-08-12`，相关制品/发布契约同步更新，Registry 仍明确未登记。
+- [x] 项目外重建候选到
+  `E:\mcp-weather-query-release-candidate\0.1.0\r001-step7-metadata-20260812T132608`；
+  wheel 为 15 files / 16,485 bytes / SHA-256 `48909c4c...3e4387`，sdist 为
+  14 files / 12,066 bytes / SHA-256 `ea8fa9cb...77b0c`，静态制品审查通过。
+- [x] 完整离线门禁通过：lock、Ruff format/lint、严格 mypy、`85 passed, 1 skipped`、
+  diff、唯一 Tool、无 HTTP/SSE、制品复审；唯一 skip 为显式 live contract。
+
 ## 当前门禁
 
-PR #7 已合并并同步；GitHub `pypi` environment 已创建。用户已在 PyPI 官方 Publishing
-页面成功添加精确 Pending Publisher：`mcp-weather-query` / `wcnm8888` /
-`mcp1-weather-query` / `release.yml` / `pypi`。公开 PyPI 名称查询仍为 404，符合 Pending
-Publisher 首次使用前不创建项目、不预留名称的边界。Step 6 已完成；未获明确授权前不得
-创建 tag、触发 publish、上传或进入 Step 7。
+等待 Step 7 发布元数据修复 PR 的 CI 与用户合并。合并前不得创建或推送 `v0.1.0`；合并后
+必须同步 `main`、复核包名/Pending Publisher/tag 唯一性并重跑最终门禁，才能执行已授权 tag。
 
 ## 历史计划
 

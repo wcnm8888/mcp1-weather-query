@@ -1,7 +1,7 @@
 # Roadmap（已批准）
 
-> 状态：`approved`。F-001、F-002、D-001 已完成并关闭；R-001 PR #7 已合并，Step 6
-> Publisher 配置已完成，等待 Step 7 明确授权。本文件不授权创建 tag、执行发布或进入 R-002。
+> 状态：`approved`。F-001、F-002、D-001 已完成并关闭；R-001 Step 7 已获授权，当前等待
+> 发布元数据修复 PR 的 CI/合并。本文件不授权绕过门禁或进入 R-002。
 
 ## 推荐顺序
 
@@ -10,14 +10,13 @@
 | F-001 | 一个 Tool 的本地天气闭环 | **已完成并关闭** | 用户能在 Inspector/Host 通过 stdio 查询当前天气并获得结构化结果 | Python 工程基线、官方 SDK v2、Open-Meteo 适配器、一个 Tool、错误映射、现代/Legacy stdio 测试、Inspector 人工验收 | 打包发布、第二 Tool、HTTP、Agent | PR #1 已合并；关闭证据已收口 | M 内的首个垂直切片 |
 | F-002 | 可安装与可构建闭环 | **已完成并关闭** | 用户能从 wheel/sdist 在干净环境安装并启动同一 Server | console entry point、包元数据、License/署名、`uv build`、artifact 审查、干净安装 smoke | 真实上传、Registry 登记 | PR #3、收口 PR #4 已合并；归档和复验完成 | S |
 | D-001 | 发布候选与发布前审查 | **已完成并关闭** | 用户获得可审查、不会误发布的发布材料 | README 安装示例、CHANGELOG、发布清单、`server.json` 草案/校验、命名检查、安全审查 | 外部上传和注册 | QA/UAT 已通过；PR #5 已合并；任务卡已归档 | S |
-| R-001 | PyPI 外部发布 | **已批准；Step 6 已完成** | 外部用户可通过 Python 包索引安装 Server | Trusted Publishing workflow、最终候选、分段授权发布、公开制品与安装验证 | TestPyPI、npm、Registry、GitHub Release、远程托管 | D-001；PyPI Pending Trusted Publisher 已配置；Step 7 需再次明确授权 | L |
+| R-001 | PyPI 外部发布 | **Step 7 元数据修复 PR** | 外部用户可通过 Python 包索引安装 Server | Trusted Publishing workflow、最终候选、分段授权发布、公开制品与安装验证 | TestPyPI、npm、Registry、GitHub Release、远程托管 | Pending Publisher 已配置；Step 7 已授权；修复 PR 合并后才可 tag | L |
 | R-002 | Official MCP Registry 登记 | 待选择、需外部授权 | MCP 客户端/目录可发现已发布 Server | 命名空间认证、发布 Registry 元数据、验证包引用 | 修改业务代码、社区多平台铺开 | R-001；GitHub/DNS/HTTP 认证；用户再次授权 | 高影响发布动作 |
 
 ## 当前任务
 
-当前活动任务为 R-001；PR #7 已合并，Step 6 已完成。状态入口见
-`docs/project-management/current-task.md`。当前等待 Step 7 明确授权；不得创建 tag、上传
-或进入 R-002。
+当前活动任务为 R-001；Step 7 已获授权，但最终门禁要求先合并发布元数据修复 PR。状态入口
+见 `docs/project-management/current-task.md`。修复 PR 合并前不得创建 tag、上传或进入 R-002。
 
 ## 暂不进入路线的候选
 
