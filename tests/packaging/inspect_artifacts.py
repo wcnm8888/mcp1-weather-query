@@ -137,7 +137,14 @@ def validate_metadata(message: Message, description: str, *, source: str) -> Non
         f"mcp-name: {REGISTRY_SERVER_NAME}" in description,
         f"{source}: Registry ownership marker is missing",
     )
-    require("尚未发布到 PyPI" in description, f"{source}: PyPI state is overstated")
+    require(
+        "PyPI 官方项目页" in description,
+        f"{source}: public PyPI verification boundary is missing",
+    )
+    require(
+        "当前尚未发布到 PyPI" not in description,
+        f"{source}: embedded README contains stale pre-release wording",
+    )
     require("尚未登记 MCP Registry" in description, f"{source}: Registry state is overstated")
     require(
         description.replace("\r\n", "\n") == EXPECTED_README.replace("\r\n", "\n"),

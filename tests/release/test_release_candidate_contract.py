@@ -103,16 +103,17 @@ def test_existing_distribution_identity_remains_the_approved_release_identity() 
     assert (PROJECT_ROOT / "src" / IMPORT_PACKAGE / "__init__.py").is_file()
 
 
-def test_changelog_records_the_real_initial_candidate_without_claiming_publication() -> None:
-    """Step 2 must add an honest 0.1.0 candidate history."""
+def test_changelog_records_the_frozen_initial_release_and_registry_boundary() -> None:
+    """The initial release must have a fixed date without overstating Registry status."""
     assert CHANGELOG_PATH.is_file(), "D-001 requires a root CHANGELOG.md"
 
     changelog = read_text(CHANGELOG_PATH)
     assert "0.1.0" in changelog
     assert "get_current_weather" in changelog
-    assert "尚未发布" in changelog
+    assert "## [0.1.0] - 2026-08-12" in changelog
+    assert "Unreleased" not in changelog
     assert "PyPI" in changelog
-    assert "MCP Registry" in changelog
+    assert "MCP Registry 尚未登记" in changelog
 
 
 def test_readme_documents_installation_from_the_local_candidate_wheel() -> None:
@@ -124,12 +125,13 @@ def test_readme_documents_installation_from_the_local_candidate_wheel() -> None:
     assert "不需要" in readme or "无需" in readme
 
 
-def test_readme_labels_the_future_pypi_command_as_unavailable_until_authorized_release() -> None:
-    """Show the eventual user command without pretending the package is already public."""
+def test_readme_documents_the_version_pinned_public_pypi_command() -> None:
+    """Document the public command while making availability externally verifiable."""
     readme = read_text(README_PATH)
 
     assert "uvx --from mcp-weather-query==0.1.0 mcp-weather-query" in readme
-    assert "PyPI 发布后" in readme or "发布到 PyPI 后" in readme
+    assert "从 PyPI 运行固定版本" in readme
+    assert "PyPI 官方项目页" in readme
 
 
 def test_readme_has_a_source_independent_stdio_host_configuration() -> None:
@@ -140,12 +142,13 @@ def test_readme_has_a_source_independent_stdio_host_configuration() -> None:
     assert '"args": []' in readme
 
 
-def test_readme_contains_registry_ownership_marker_and_explicit_unpublished_boundaries() -> None:
-    """Prepare PyPI ownership proof while keeping publication state truthful."""
+def test_readme_contains_registry_marker_and_stable_publication_boundaries() -> None:
+    """Keep PyPI verification external while Registry remains explicitly unregistered."""
     readme = read_text(README_PATH)
 
     assert f"mcp-name: {REGISTRY_SERVER_NAME}" in readme
-    assert "尚未发布到 PyPI" in readme
+    assert "当前尚未发布到 PyPI" not in readme
+    assert "公开可用性、文件和 attestation" in readme
     assert "尚未登记 MCP Registry" in readme
 
 

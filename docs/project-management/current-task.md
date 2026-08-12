@@ -3,12 +3,12 @@
 ## 生命周期状态
 
 - 任务编号：`R-001`
-- 状态：`approved / step_6_completed / awaiting_step_7_authorization`
+- 状态：`approved / step_7_metadata_remediation / awaiting_pr_merge`
 - 风险等级：`L`（公开发布、供应链配置和不可覆盖版本）
 - 起点提交：`0d5d7be9271b71143cdbcdf768bfbde5ed4393d0`
-- 本地分支：`main`
+- 本地分支：`agent/r-001-step7-release-metadata`
 - PR 目标：`main`
-- 外部发布：尚未授权、尚未执行
+- 外部发布：Step 7 已授权；尚未创建 tag、触发或执行上传
 
 ## 用户目标与业务价值
 
@@ -20,10 +20,11 @@
 
 - 已有：可构建 wheel/sdist、稳定 console entry point、唯一只读 Tool、发布候选文档、
   `server.json` 草案、项目外双安装和 UAT。
-- 已完成安全 workflow、项目外候选、独立 QA、live/UAT、PR 非发布 CI 和 PR #7 合并；
-  GitHub `pypi` environment 与 PyPI Pending Publisher 已按精确 tuple 配置。尚待 Step 7
-  明确授权、公开 PyPI 页面、attestation、公共安装验证和发布后收口。
-- `CHANGELOG.md` 的 `0.1.0` 仍是 `Unreleased`；任何本地候选都不能冒充最终公开制品。
+- 已完成安全 workflow、项目外候选、独立 QA、live/UAT、PR 非发布 CI、PR #7/#8 合并、
+  GitHub `pypi` environment 与精确 Pending Publisher 配置。
+- Step 7 最终门禁发现 README/CHANGELOG 仍含发布前陈旧措辞；当前修复已把公开可用性改为
+  PyPI 官方页面可核验状态，并把 `0.1.0` 日期冻结为 `2026-08-12`。尚待修复 PR 的 CI/合并、
+  精确 tag、公开 PyPI/attestation、公共安装验证和发布后收口。
 
 ## 已批准决策
 
@@ -163,16 +164,19 @@ attestation 已核验、公共安装和 stdio 验证通过、文档/Git 收口�
 ## 批准记录
 
 用户已批准本任务卡的目标、范围、非目标、L 级风险判断、Trusted Publishing 方案、
-测试矩阵、Step 地图、完成定义和 16 项决策，并已依次允许进入 Step 0 至 Step 6。
+测试矩阵、Step 地图、完成定义和 16 项决策，并已依次允许进入 Step 0 至 Step 7。
 Step 4 的独立 QA、新 live contract 和用户 UAT 已通过；Step 5 Git/PR 已交付并合并；
-Step 6 的环境与 Publisher 配置已完成。当前批准仍不授权：进入 Step 7、创建或推送 tag、
-上传任何制品、触发发布 job 或进入 R-002。
+Step 6 的环境与 Publisher 配置已完成。用户已确认 PyPI 邮箱已验证并授权 Step 7；该授权
+不允许跳过修复 PR、最终门禁或扩大到 R-002。
 
 PR #7 已由用户合并，merge commit 为 `7cc304b47a094a33ccb90b13f411547a6a255e99`；本地
 `main` 已 fast-forward 到同一提交。用户已允许 Step 6；公开 PyPI JSON 查询为 404，说明
 当前没有公开项目，且 Pending Publisher 不会预留名称。GitHub `pypi` environment 已创建并
 可读取；用户已在 PyPI 官方页面成功添加精确 Pending Publisher：`mcp-weather-query` /
-`wcnm8888` / `mcp1-weather-query` / `release.yml` / `pypi`。Step 6 已完成，等待 Step 7 明确授权。
+`wcnm8888` / `mcp1-weather-query` / `release.yml` / `pypi`。PR #8 已合并为 `fb986bd`。
+Step 7 首次最终门禁因公开元数据仍写“未发布”而停止；用户随后授权本修复 PR。修复 PR
+已创建为 Draft PR #9；首个 CI run `31566777632` 的 build/QA 成功且 publish job skipped。
+合并前不得创建或推送 `v0.1.0`。
 
 ## 历史任务卡
 

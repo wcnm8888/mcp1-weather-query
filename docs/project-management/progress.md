@@ -5,10 +5,10 @@
 - F-001：已完成、合并、归档并关闭。
 - F-002：已完成、合并、归档并关闭；PR #3 与收口 PR #4 均已合并。
 - D-001：已完成、合并、归档并关闭；PR #5 已合并。
-- R-001：任务卡已批准，PR #7 已合并；Step 6 已完成，等待 Step 7 明确授权。
-- 当前分支：`main`。
-- 当前基线：`main == origin/main == 7cc304b47a094a33ccb90b13f411547a6a255e99`。
-- 外部发布：未授权、未执行。
+- R-001：Step 7 已授权；发布元数据修复 Draft PR #9 CI 已通过，等待用户合并。
+- 当前分支：`agent/r-001-step7-release-metadata`。
+- 当前基线：`main == origin/main == fb986bdda4fdba41327165f2f569fdd8c7d9d6a7`。
+- 外部发布：tag/上传尚未执行。
 
 ## R-001 Step 0 结果
 
@@ -50,7 +50,21 @@ commit、push、Draft PR 和 PR 检查；仍不授权发布 job、PyPI 登录/�
 - 用户已在 PyPI 官方 Publishing 页面成功添加 Pending Publisher；页面显示的精确 tuple 为
   `mcp-weather-query` / `wcnm8888` / `mcp1-weather-query` / `release.yml` / `pypi`。
 - Pending Publisher 不会在首次发布前创建项目或预留名称；当前仍没有公开 PyPI 项目。
-- 未创建或推送 `v0.1.0`，未触发 publish job，未上传制品；等待 Step 7 明确授权。
+- Step 6 未创建或推送 `v0.1.0`，未触发 publish job，未上传制品；后续 Step 7 已另行授权。
+
+## R-001 Step 7 发布元数据修复
+
+- 用户明确授权 Step 7 并确认 PyPI 邮箱已验证；PR #8 已合并，`main` 同步到 `fb986bd`。
+- 最终门禁发现 README/CHANGELOG 与契约仍固化发布前措辞，因此在创建 tag 前停止。
+- README 已改为稳定的 PyPI 官方页面核验边界；CHANGELOG `0.1.0` 日期固定为
+  `2026-08-12`；Registry 继续明确未登记。
+- 对应制品检查器和发布契约同步更新，定向测试为 `29 passed`。
+- 项目外新候选位于 `E:\mcp-weather-query-release-candidate\0.1.0\r001-step7-metadata-20260812T132608`；
+  wheel/sdist 均通过文件、元数据、README、法律文本、RECORD 和敏感信息检查。
+- 完整离线门禁通过：`85 passed, 1 skipped`；lock、Ruff、严格 mypy、diff、唯一 Tool、
+  无 HTTP/SSE 和制品复审均通过，唯一 skip 为显式 live contract。
+- 创建 Draft PR #9；run `31566777632` 的 build/QA 成功，publish job skipped。
+- 合并前没有 tag、OIDC publish 或 PyPI 上传。
 
 ## R-001 Step 2 结果
 

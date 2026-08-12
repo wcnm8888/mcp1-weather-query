@@ -1,9 +1,8 @@
 # Changelog
 
-本文件记录用户可见的发布候选变化。日期保持 `Unreleased`，直到用户明确授权并完成
-真实外部发布。
+本文件记录用户可见的版本变化。版本日期在对应发布内容冻结、进入最终 tag 门禁时确定。
 
-## [0.1.0] - Unreleased
+## [0.1.0] - 2026-08-12
 
 ### Added
 
@@ -23,5 +22,5 @@
 
 ### Publication status
 
-版本 `0.1.0` 尚未发布到 PyPI，也尚未登记 MCP Registry；本地构建、安装和验证证据
-不等于外部发布。
+版本 `0.1.0` 是生产 PyPI 首发内容；公开可用性、文件和 attestation 以 PyPI 官方项目页
+为准。MCP Registry 尚未登记，本次 PyPI 发布不等于 Registry 登记。

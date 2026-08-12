@@ -6,8 +6,8 @@
 
 - 生命周期：roadmap 已批准；F-001、F-002、D-001 均已关闭；R-001 任务卡已批准。
 - 项目整体等级：M；当前任务 R-001 按 L 级风险流程管理。
-- 当前状态：R-001 Step 6 已完成；PR #7 已合并，本地 `main` 已同步，GitHub `pypi`
-  environment 和 PyPI Pending Publisher 已按批准的精确 tuple 配置，等待用户明确授权 Step 7。
+- 当前状态：R-001 Step 7 已获授权；发布元数据修复 Draft PR #9 的 CI 已通过且 publish
+  job skipped，当前等待用户审查/合并。
 - 禁止把“文档已建立”“本地可运行”“已构建”写成“已发布”。
 
 ## 范围边界
@@ -20,8 +20,9 @@
 
 ## 工作流与外部操作
 
-- 当前只允许记录和复核 Step 6 完成事实；不得创建 tag、触发发布或进入 R-002。
-- R-001 采用生产 PyPI Trusted Publishing；当前批准不授权进入 Step 7、创建/推送 tag 或上传制品。
+- 当前只允许交付 Step 7 发布元数据修复 PR；该 PR 合并前不得创建 tag、触发发布或进入 R-002。
+- R-001 采用生产 PyPI Trusted Publishing；用户已授权 Step 7，但精确 `v0.1.0` tag 必须
+  等待修复 PR 合并、同步 `main` 和最终门禁通过后才能创建并推送。
 - 本项目只使用 `docs/` 作为长期文档目录，不创建重复的 `memory-bank/`。
 - commit、push、PR、PyPI/TestPyPI 上传、MCP Registry 注册、社区平台发布、公开仓库创建均需用户明确授权。
 - 不删除项目文件或目录；需要归档、迁移或清理时先列出影响并等待确认。

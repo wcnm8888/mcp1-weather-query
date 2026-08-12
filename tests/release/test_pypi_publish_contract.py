@@ -1,9 +1,8 @@
 """Executable R-001 contract for a least-privilege PyPI release workflow.
 
-Step 1 intentionally leaves the workflow and final public-release documentation
-unimplemented.  The red tests in this module must therefore fail only on those
-approved gaps; the existing package identity and honest unpublished state remain
-green guards.  The contract performs static, offline checks and never contacts PyPI.
+The contract preserves the approved least-privilege workflow and final release
+metadata through the exact tag gate. It performs static, offline checks and never
+contacts PyPI.
 """
 
 from __future__ import annotations
@@ -81,12 +80,14 @@ def test_public_release_identity_remains_exactly_the_approved_package() -> None:
     assert (PROJECT_ROOT / "src" / IMPORT_PACKAGE / "__init__.py").is_file()
 
 
-def test_changelog_remains_honestly_unreleased_before_the_external_tag_gate() -> None:
-    """Step 1/2 preparation must not claim that the public release already happened."""
+def test_changelog_freezes_the_approved_initial_release_before_the_tag_gate() -> None:
+    """The tag must contain dated release metadata without stale pre-release wording."""
     changelog = read_text(CHANGELOG_PATH)
 
-    assert "## [0.1.0] - Unreleased" in changelog
-    assert "尚未发布到 PyPI" in changelog
+    assert "## [0.1.0] - 2026-08-12" in changelog
+    assert "Unreleased" not in changelog
+    assert "公开可用性、文件和 attestation 以 PyPI 官方项目页" in changelog
+    assert "MCP Registry 尚未登记" in changelog
 
 
 def test_dedicated_release_workflow_exists_at_the_publisher_identity_path() -> None:
