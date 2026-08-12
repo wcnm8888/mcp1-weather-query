@@ -19,7 +19,7 @@
 - 已归档任务卡：[`archive/task-cards/`](archive/task-cards/)
 
 F-001、F-002 与 D-001 的完整任务卡均已归档并关闭。R-001 是唯一活动任务；Step 7
-已获授权，当前交付发布元数据修复 PR，尚未创建 tag 或发布。
+已获授权，发布元数据修复 Draft PR #9 的 CI 已通过，等待用户合并。
 
 ## 权威文档映射
 
@@ -51,7 +51,7 @@ F-001、F-002 与 D-001 的完整任务卡均已归档并关闭。R-001 是唯�
 
 ## 当前状态
 
-- 活动任务：R-001 PyPI 首次外部发布；Step 7 发布元数据修复 PR 待 CI/用户合并。
+- 活动任务：R-001 PyPI 首次外部发布；Step 7 发布元数据修复 Draft PR #9 待用户合并。
 - roadmap：已批准；F-001、F-002、D-001 均已关闭，R-001 已批准，R-002 未启动。
 - Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；PR #8 已合并为 `fb986bd`，
   当前修复分支为 `agent/r-001-step7-release-metadata`。

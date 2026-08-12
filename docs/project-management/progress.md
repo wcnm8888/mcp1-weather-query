@@ -5,7 +5,7 @@
 - F-001：已完成、合并、归档并关闭。
 - F-002：已完成、合并、归档并关闭；PR #3 与收口 PR #4 均已合并。
 - D-001：已完成、合并、归档并关闭；PR #5 已合并。
-- R-001：Step 7 已授权；当前交付发布元数据修复 PR，等待 CI/用户合并。
+- R-001：Step 7 已授权；发布元数据修复 Draft PR #9 CI 已通过，等待用户合并。
 - 当前分支：`agent/r-001-step7-release-metadata`。
 - 当前基线：`main == origin/main == fb986bdda4fdba41327165f2f569fdd8c7d9d6a7`。
 - 外部发布：tag/上传尚未执行。
@@ -63,7 +63,8 @@ commit、push、Draft PR 和 PR 检查；仍不授权发布 job、PyPI 登录/�
   wheel/sdist 均通过文件、元数据、README、法律文本、RECORD 和敏感信息检查。
 - 完整离线门禁通过：`85 passed, 1 skipped`；lock、Ruff、严格 mypy、diff、唯一 Tool、
   无 HTTP/SSE 和制品复审均通过，唯一 skip 为显式 live contract。
-- 本阶段先交付修复 PR；合并前没有 tag、publish job 或 PyPI 上传。
+- 创建 Draft PR #9；run `31566777632` 的 build/QA 成功，publish job skipped。
+- 合并前没有 tag、OIDC publish 或 PyPI 上传。
 
 ## R-001 Step 2 结果
 

@@ -3,7 +3,7 @@
 ## 生命周期状态
 
 - 任务编号：`R-001`
-- 状态：`approved / step_7_metadata_remediation / awaiting_pr_ci_merge`
+- 状态：`approved / step_7_metadata_remediation / awaiting_pr_merge`
 - 风险等级：`L`（公开发布、供应链配置和不可覆盖版本）
 - 起点提交：`0d5d7be9271b71143cdbcdf768bfbde5ed4393d0`
 - 本地分支：`agent/r-001-step7-release-metadata`
@@ -175,6 +175,7 @@ PR #7 已由用户合并，merge commit 为 `7cc304b47a094a33ccb90b13f411547a6a2
 可读取；用户已在 PyPI 官方页面成功添加精确 Pending Publisher：`mcp-weather-query` /
 `wcnm8888` / `mcp1-weather-query` / `release.yml` / `pypi`。PR #8 已合并为 `fb986bd`。
 Step 7 首次最终门禁因公开元数据仍写“未发布”而停止；用户随后授权本修复 PR。修复 PR
+已创建为 Draft PR #9；首个 CI run `31566777632` 的 build/QA 成功且 publish job skipped。
 合并前不得创建或推送 `v0.1.0`。
 
 ## 历史任务卡

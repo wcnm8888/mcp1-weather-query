@@ -1242,4 +1242,8 @@ D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没�
 - 修复后的完整离线门禁通过：46 packages、Ruff format 44 files、lint、严格 mypy 27 files、
   pytest `85 passed, 1 skipped in 5.71s`、`git diff --check`；唯一 skip 为显式 live contract。
   仍恰好一个 Tool，源码/包配置没有 HTTP/SSE，候选哈希复审不变。
-- 本阶段尚未创建 tag、触发 publish job 或上传 PyPI；等待修复 PR CI 与用户合并。
+- 创建提交 `8a74760` 并推送 `agent/r-001-step7-release-metadata`，形成 Draft PR #9。
+  PR 正文回读问号乱码为 0，变更精确为 14 个获准文件。
+- run `31566777632` 的 `Validate and build distributions` 成功；
+  `Publish distributions to production PyPI` 在 PR 事件上明确 skipped。
+- 本阶段尚未创建 tag、触发 OIDC publish 或上传 PyPI；当前等待用户合并 PR #9。

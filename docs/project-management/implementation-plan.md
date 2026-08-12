@@ -4,7 +4,7 @@
 
 - 活动任务：R-001 PyPI 首次外部发布
 - 等级：L
-- 状态：`step_7_metadata_remediation / awaiting_pr_ci_merge`
+- 状态：`step_7_metadata_remediation / awaiting_pr_merge`
 - 当前基线：`main == origin/main == fb986bdda4fdba41327165f2f569fdd8c7d9d6a7`
 - 本地分支：`agent/r-001-step7-release-metadata`
 - 外部发布：Step 7 已授权；tag/上传尚未执行
@@ -128,10 +128,12 @@
   14 files / 12,066 bytes / SHA-256 `ea8fa9cb...77b0c`，静态制品审查通过。
 - [x] 完整离线门禁通过：lock、Ruff format/lint、严格 mypy、`85 passed, 1 skipped`、
   diff、唯一 Tool、无 HTTP/SSE、制品复审；唯一 skip 为显式 live contract。
+- [x] 创建 Draft PR #9；run `31566777632` 的 build/QA 成功，生产 PyPI publish job 明确
+  skipped，没有 OIDC 上传或公开制品。
 
 ## 当前门禁
 
-等待 Step 7 发布元数据修复 PR 的 CI 与用户合并。合并前不得创建或推送 `v0.1.0`；合并后
+等待用户审查并合并 Draft PR #9。合并前不得创建或推送 `v0.1.0`；合并后
 必须同步 `main`、复核包名/Pending Publisher/tag 唯一性并重跑最终门禁，才能执行已授权 tag。
 
 ## 历史计划

@@ -1,6 +1,6 @@
 # R-001 L 级 QA 清单
 
-> 状态：`active / step_7_metadata_remediation / awaiting_pr_ci_merge`。本清单用于 R-001 的独立 QA 与发布授权审计；勾选项必须
+> 状态：`active / step_7_metadata_remediation / awaiting_pr_merge`。本清单用于 R-001 的独立 QA 与发布授权审计；勾选项必须
 > 有可复核证据。它不是发布证明，也不授权任何外部写入。
 
 ## 身份与公开边界
