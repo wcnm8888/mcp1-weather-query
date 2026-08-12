@@ -53,7 +53,7 @@ F-001、F-002、D-001 与 R-001 的完整任务卡均已归档并关闭。R-001 
 
 ## 当前状态
 
-- 活动任务：`R-002` Official MCP Registry 登记；Step 5 readiness Git/PR 已获授权并正在交付。
+- 活动任务：`R-002` Official MCP Registry 登记；Step 5 Draft readiness PR #11 已创建并等待 CI。
 - roadmap：已批准；F-001、F-002、D-001、R-001 均已关闭，R-002 Step 0–4 已完成。
 - Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；`v0.1.0` 指向发布提交
   `bb24624dcc8eb2efce5f4c49c80c850542c4d2b3`。

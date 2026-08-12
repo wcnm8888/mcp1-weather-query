@@ -3,7 +3,7 @@
 ## 当前状态
 
 - 活动任务：`R-002` Official MCP Registry 登记，L 级。
-- 当前 Step：Step 5 readiness Git/PR 已获授权，正在交付。
+- 当前 Step：Step 5 Draft readiness PR #11 已创建，等待最终 CI。
 - 分支：本地 `release/r-002-mcp-registry-0.1.0`，从同步后的
   `2fae2579517ebb5f7154f9646b54b4f174be6ffa` 创建；尚未提交或推送。
 - Step 0 离线基线：lock、Ruff format/lint、严格 mypy、`85 passed, 1 skipped` 和 diff 检查通过；
@@ -19,7 +19,7 @@
 | 2 | 最小实现使 Step 1 红灯转绿 | **完成：10 passed** | 已获批准 |
 | 3 | 固定 publisher/schema 核验和联网 `validate` | **完成** | 已获批准；退出码 0，无写入 |
 | 4 | 独立 QA、元数据冻结、PyPI marker 复核与 UAT | **完成** | QA/UAT 均通过 |
-| 5 | readiness Git/PR 交付 | **进行中** | QA/UAT 通过；用户已授权；不登录/发布 |
+| 5 | readiness Git/PR 交付 | **进行中：Draft PR #11，CI 待完成** | QA/UAT 通过；用户已授权；不登录/发布 |
 | 6 | 合并后同步、Registry 空状态与 Terms/认证边界 | 未开始 | 用户已合并 readiness PR |
 | 7 | 官方 GitHub OAuth login | 未开始 | 用户单独授权；完成后停止 |
 | 8 | 单次 Registry publish | 未开始 | 用户单独授权冻结元数据 |

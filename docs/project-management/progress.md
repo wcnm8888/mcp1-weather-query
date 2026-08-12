@@ -3,8 +3,8 @@
 ## 当前状态
 
 - F-001、F-002、D-001 与 R-001 均已完成并关闭；`R-002` 已批准并进入活动状态。
-- 当前 Step：R-002 Step 5 readiness Git/PR 已获授权，正在交付。
-- 本地分支：`release/r-002-mcp-registry-0.1.0`；将只交付冻结的 R-002 readiness 变更。
+- 当前 Step：R-002 Step 5 Draft readiness PR #11 已创建，等待最终 CI。
+- 本地分支：`release/r-002-mcp-registry-0.1.0`；首个交付提交为 `4d262c3`。
 - 起始基线：`main == origin/main == 2fae2579517ebb5f7154f9646b54b4f174be6ffa`；
   `v0.1.0` 解引用到 `bb24624dcc8eb2efce5f4c49c80c850542c4d2b3`。
 - `mcp-weather-query==0.1.0` 仍已公开并完成外部安装复验；Official MCP Registry 仍未登记。
@@ -27,4 +27,9 @@
 - 未执行 login、publish、Terms 接受或 Registry 写入；未修改 manifest、源码、workflow、
   依赖、锁文件或系统环境。
 
-用户已明确允许 Step 5 readiness Git/PR；本 Step 不执行 Terms、OAuth、login、publish、Registry 写入或 PR 合并。
+## 当前交付：R-002 Step 5
+
+- 精确提交并推送 13 个已审查的 readiness 文件，提交为 `4d262c3`。
+- Draft PR #11：`https://github.com/wcnm8888/mcp1-weather-query/pull/11`，目标为 `main`。
+- PR 创建时 GitHub Actions `release / Validate and build distributions` 已启动；等待最终结果。
+- 本 Step 不执行 Terms、OAuth、login、publish、Registry 写入或 PR 合并。

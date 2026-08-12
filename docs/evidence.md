@@ -1459,4 +1459,9 @@ D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没�
   `release/r-002-mcp-registry-0.1.0` 和创建 Draft PR；不授权自行合并。
 - 本 Step 不接受 Registry Terms，不执行 GitHub OAuth、`mcp-publisher login/publish` 或任何
   Registry 写入，也不修改 `server.json`、业务源码、workflow、依赖或锁文件。
-- 提交、PR 与最终 CI 证据将在实际完成后补充；在此之前 Step 5 仍为进行中。
+- 精确提交 13 个已审查文件，首个提交为
+  `4d262c3648cb0f13b0b8cd350a94717d88b2c0a8`（`feat(registry): prepare R-002 readiness`），
+  并推送到 `origin/release/r-002-mcp-registry-0.1.0`。
+- GitHub 连接器因私有仓库可见性返回 404；按交付流程回退到已认证的 GitHub CLI，成功创建
+  Draft PR #11：`https://github.com/wcnm8888/mcp1-weather-query/pull/11`，目标为 `main`。
+- PR 创建后只启动既有 `release / Validate and build distributions` 检查；最终 CI 证据待完成。

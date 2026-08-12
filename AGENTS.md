@@ -4,7 +4,7 @@
 
 ## 当前阶段
 
-- 生命周期：roadmap 已批准；F-001、F-002、D-001、R-001 均已关闭；R-002 Step 0–4 已完成，Step 5 readiness Git/PR 已获授权并正在交付。
+- 生命周期：roadmap 已批准；F-001、F-002、D-001、R-001 均已关闭；R-002 Step 0–4 已完成，Step 5 Draft readiness PR #11 已创建并等待 CI。
 - 项目整体等级：M；当前活动任务 `R-002` 按 L 级外部登记风险管理。
 - 当前状态：`mcp-weather-query==0.1.0` 已通过 Trusted Publishing 发布到生产 PyPI，
   公开制品、attestations 和双干净安装 stdio 已验证；MCP Registry 尚未登记。
