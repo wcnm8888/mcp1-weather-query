@@ -3,7 +3,7 @@
 ## 当前状态
 
 - F-001、F-002、D-001 与 R-001 均已完成并关闭；`R-002` 已批准并进入活动状态。
-- 当前 Step：R-002 Step 10 已获授权；官方 logout 已完成，正在收口发布后文档、测试与 closure PR。
+- 当前 Step：R-002 Step 10 已完成；Draft closure PR #12 等待用户审查并合并。
 - 本地 `main == origin/main == 900f71133ad9525ff65965d0822a1e92d06faead`；PR #11 已合并。
 - 起始基线：`main == origin/main == 2fae2579517ebb5f7154f9646b54b4f174be6ffa`；
   `v0.1.0` 解引用到 `bb24624dcc8eb2efce5f4c49c80c850542c4d2b3`。
@@ -83,8 +83,8 @@
 - Step 9 收口门禁通过：46 个锁定包、Ruff format 47 files、lint、严格 mypy 28 files、
   默认 pytest `95 passed, 1 skipped`、Registry 定向契约 `14 passed` 和 `git diff --check`；
   唯一 skip 仍是未启用的 Open-Meteo live contract。
-- 当前停止在 Step 10 Git 交付前门禁；Registry 凭据已由官方 logout 处置，未重复 publish，
-  closure PR 尚未创建。
+- 当前停止在 PR #12 用户合并门禁；Registry 凭据已由官方 logout 处置，未重复 publish，
+  未进入 Step 11。
 
 ## 当前执行：R-002 Step 10
 
@@ -99,3 +99,5 @@
   通过更新后的 README、Core Metadata、RECORD、法律文件、源码一致性和敏感信息审查；没有上传。
 - 当前分支为 `agent/r-002-step10-registry-closure`，起点为 `origin/main` 的 PR #11 merge commit
   `900f71133ad9525ff65965d0822a1e92d06faead`。
+- 首个 closure 提交 `73c3f0b` 已推送；Draft PR #12 已创建，目标为 `main`：
+  `https://github.com/wcnm8888/mcp1-weather-query/pull/12`。代理没有合并 PR。

@@ -53,8 +53,8 @@ F-001、F-002、D-001 与 R-001 的完整任务卡均已归档并关闭。R-001 
 
 ## 当前状态
 
-- 活动任务：`R-002` Official MCP Registry 登记；Step 10 已获授权，官方 logout 已完成，
-  当前正在收口发布后文档、测试与 closure PR。
+- 活动任务：`R-002` Official MCP Registry 登记；Step 10 已完成，Draft closure PR #12
+  等待用户审查并合并。
 - roadmap：已批准；F-001、F-002、D-001、R-001 均已关闭，R-002 Step 0–4 已完成。
 - Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；`v0.1.0` 指向发布提交
   `bb24624dcc8eb2efce5f4c49c80c850542c4d2b3`。
@@ -65,4 +65,4 @@ F-001、F-002、D-001 与 R-001 的完整任务卡均已归档并关闭。R-001 
 - readiness PR #11 已合并；Official Registry 中唯一 active 的
   `io.github.wcnm8888/mcp1-weather-query==0.1.0` 已由官方 API 复核，公开 PyPI 安装后的
   installed-package stdio 也已通过。publisher 管理的本机认证文件已由官方 logout 移除；
-  当前只允许创建并审查 Step 10 closure PR，不得重复 publish 或跨入 Step 11。
+  当前停止在 PR #12 合并门禁，不得重复 publish、自行合并或跨入 Step 11。

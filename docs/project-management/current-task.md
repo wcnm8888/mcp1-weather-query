@@ -2,7 +2,7 @@
 
 ## 生命周期
 
-- 状态：`active / Step 10 QA passed / closure PR pending`。
+- 状态：`active / Step 10 complete / awaiting closure PR #12 merge`。
 - 等级：L；原因是首次向 Official MCP Registry 写入公开、同版本不可原地覆盖的元数据，
   并涉及 GitHub OAuth、公开条款和失败恢复。
 - readiness 合并基线：`main` 与 `origin/main` 均为
@@ -28,8 +28,9 @@
 - 已有：当前 Registry schema、公开身份、OAuth 边界、不可变版本和失败恢复已有本地契约证据。
 - 已完成：Step 10 已获凭据处置与 closure PR 授权；固定官方 logout 已成功移除 publisher
   管理的本机认证文件。
-- 缺口：发布后 README/CHANGELOG/release plan、测试契约与治理文档需通过离线门禁并形成
-  closure PR；该 PR 尚未由用户合并，任务仍不得关闭。
+- 已完成：发布后 README/CHANGELOG/release plan、测试契约与治理文档已通过离线门禁，并形成
+  Draft closure PR #12。
+- 缺口：PR #12 尚未由用户合并，Step 11 同步、归档和关闭尚未执行。
 
 ## 已批准身份契约
 
@@ -134,7 +135,7 @@
 | 7 | 经单独授权执行 GitHub OAuth login，随后停止 | **已完成** |
 | 8 | 经单独授权执行唯一一次 Registry publish | **已完成：单次 publish 成功** |
 | 9 | 官方 API、PyPI 引用、安装与 stdio 公开复验 | **已完成** |
-| 10 | 经授权处置凭据、更新发布后文档/测试并创建 closure PR | **进行中：QA 通过，PR 待创建** |
+| 10 | 经授权处置凭据、更新发布后文档/测试并创建 closure PR | **已完成：Draft PR #12** |
 | 11 | 用户合并 closure PR 后同步、归档并关闭 R-002 | 未开始 |
 
 Step 7、8、9 不得合并执行；每一 Step 完成后停止。
@@ -191,8 +192,8 @@ PyPI 安装/stdio 复验通过、凭据处置已决定、closure PR 已由用户
   `mcp-publisher v1.8.1 logout` 已退出 0，认证文件已由官方工具移除且无遗留 publisher 进程。
 - 发布后定向契约 `30 passed`；完整离线门禁 `96 passed, 1 skipped`，唯一 skip 仍是 live
   contract。项目外重建 wheel/sdist 通过当前 README、metadata、法律文件和内容白名单审查。
-- 当前门禁：完成离线质量门禁并创建 Draft closure PR 后停止；不得自行合并、归档任务或进入
-  Step 11。
+- Draft closure PR #12 已创建：`https://github.com/wcnm8888/mcp1-weather-query/pull/12`。
+  当前门禁是用户审查并合并；不得自行合并、归档任务或进入 Step 11。
 
 ## Step 4 用户 UAT 记录
 

@@ -1585,7 +1585,7 @@ D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没�
   GitHub Release 或社区目录条目，也未重复 Registry publish。Step 9 已完成，等待用户单独
   允许 Step 10 凭据处置、发布后文档/测试与 closure PR。
 
-## R-002 / Step 10 凭据处置与发布后收口（closure PR 待创建）
+## R-002 / Step 10 凭据处置、发布后收口与 Draft closure PR
 
 日期：2026-08-12
 
@@ -1607,5 +1607,8 @@ D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没�
   `E:\mcp-weather-query-release-verification\0.1.0\r002-step10-final-20260812T174654\dist`
   离线重建 wheel/sdist。更新后的制品检查器通过：wheel 15 files、SHA-256
   `cbb2728f...c3e9e5`；sdist 14 files、SHA-256 `bc01a2ff...2c6547`。制品未上传或提交。
-- 从 `origin/main` 创建 `agent/r-002-step10-registry-closure`；当前正在修正文档并等待离线质量
-  门禁与 Draft closure PR，R-002 仍为 active，不能标记 closed。
+- 从 `origin/main` 创建 `agent/r-002-step10-registry-closure`；精确提交 18 个已审查文件为
+  `73c3f0b`（`docs(registry): record R-002 publication closure`）并推送远程分支。
+- 通过已认证 GitHub CLI 创建 Draft closure PR #12，目标为 `main`：
+  `https://github.com/wcnm8888/mcp1-weather-query/pull/12`。没有自行合并；R-002 仍为 active，
+  只有用户合并后才可进入 Step 11 同步、归档和关闭。

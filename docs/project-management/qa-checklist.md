@@ -1,6 +1,6 @@
 # R-002 L 级 QA 清单
 
-> 状态：`active / Step 10 QA passed / closure PR pending`。勾选项必须有本任务的新证据；历史 R-001 或草案不能
+> 状态：`active / Step 10 passed / closure PR #12 awaiting merge`。勾选项必须有本任务的新证据；历史 R-001 或草案不能
 > 冒充 Registry 登记证据。本清单不授权 validate、login、publish 或任何外部写入。
 
 ## Step 0 基线
@@ -53,5 +53,6 @@
 
 - [x] 用户已决定官方 logout/凭据处置；固定 publisher logout 成功，没有手工删除未知认证文件。
 - [x] 发布后文档、测试和证据与 Registry/PyPI/Git 事实一致。
+- [x] Draft closure PR #12 已创建，目标为 `main`，没有自行合并。
 - [ ] closure PR 已由用户审查并合并。
 - [ ] `main == origin/main`、工作树干净，R-002 任务卡与本清单归档后才标记 closed。
