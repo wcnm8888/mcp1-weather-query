@@ -53,7 +53,7 @@ F-001、F-002、D-001 与 R-001 的完整任务卡均已归档并关闭。R-001 
 
 ## 当前状态
 
-- 活动任务：`R-002` Official MCP Registry 登记；Step 5 Draft readiness PR #11 已创建并等待 CI。
+- 活动任务：`R-002` Official MCP Registry 登记；Step 5 已完成，Draft readiness PR #11 等待用户审查/合并。
 - roadmap：已批准；F-001、F-002、D-001、R-001 均已关闭，R-002 Step 0–4 已完成。
 - Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；`v0.1.0` 指向发布提交
   `bb24624dcc8eb2efce5f4c49c80c850542c4d2b3`。
@@ -61,5 +61,5 @@ F-001、F-002、D-001 与 R-001 的完整任务卡均已归档并关闭。R-001 
   历史安装复验均已完成；当前默认门禁为 `95 passed, 1 skipped`，唯一 skip 是显式 live contract。
 - 构建/发布：`mcp-weather-query==0.1.0` 已发布到生产 PyPI；公开 wheel/sdist、
   attestations、双干净安装和 installed-package stdio 已验证。
-- 当前只执行 Step 5 readiness Git/PR；该 PR 的 CI 不得执行 Registry login 或 publish，
+- 当前停止在用户审查/合并 Draft PR #11 的门禁；其 CI 未执行 Registry login 或 publish，
   PR 合并也不授权后续 Terms、OAuth 或登记。

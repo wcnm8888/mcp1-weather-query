@@ -1464,4 +1464,10 @@ D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没�
   并推送到 `origin/release/r-002-mcp-registry-0.1.0`。
 - GitHub 连接器因私有仓库可见性返回 404；按交付流程回退到已认证的 GitHub CLI，成功创建
   Draft PR #11：`https://github.com/wcnm8888/mcp1-weather-query/pull/11`，目标为 `main`。
-- PR 创建后只启动既有 `release / Validate and build distributions` 检查；最终 CI 证据待完成。
+- 提交 `00488f27627f2c7bc8167ec24009a9f513449e32` 记录 PR 交付事实；其 GitHub Actions
+  run `31575380396` 成功，`Validate and build distributions` 的 lock、Ruff、严格 mypy、默认
+  离线测试、patch whitespace、wheel/sdist 构建与制品审查全部通过。
+- 同一 PR run 的 `Publish distributions to production PyPI` 作业明确跳过；没有 Registry
+  login/publish 作业或命令，也没有外部 Registry 写入。
+- Step 5 已完成，当前停止在用户审查/合并 Draft PR #11 的门禁；合并不授权 Step 6 及后续
+  Terms、OAuth、login 或 publish。

@@ -2,7 +2,7 @@
 
 ## 生命周期
 
-- 状态：`active / Step 5 Draft readiness PR #11 / CI pending`。
+- 状态：`active / Step 5 complete / Draft readiness PR #11 awaiting user review and merge`。
 - 等级：L；原因是首次向 Official MCP Registry 写入公开、同版本不可原地覆盖的元数据，
   并涉及 GitHub OAuth、公开条款和失败恢复。
 - 起点：`main` 与 `origin/main` 均为
@@ -24,7 +24,7 @@
 - 已有：根目录 `server.json` 已通过静态契约和固定 publisher validate，公开包 README 含
   `mcp-name` ownership marker。
 - 已有：当前 Registry schema、公开身份、OAuth 边界、不可变版本和失败恢复已有本地契约证据。
-- 缺口：尚未完成 Draft readiness PR #11 的 CI/用户合并、Terms 接受、OAuth login、publish 或
+- 缺口：尚未完成 Draft readiness PR #11 的用户合并、Terms 接受、OAuth login、publish 或
   Registry API 公开条目复验。
 
 ## 已批准身份契约
