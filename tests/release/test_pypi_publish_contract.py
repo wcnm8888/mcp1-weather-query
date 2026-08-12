@@ -87,7 +87,9 @@ def test_changelog_freezes_the_approved_initial_release_before_the_tag_gate() ->
     assert "## [0.1.0] - 2026-08-12" in changelog
     assert "Unreleased" not in changelog
     assert "公开可用性、文件和 attestation 以 PyPI 官方项目页" in changelog
-    assert "MCP Registry 尚未登记" in changelog
+    assert "io.github.wcnm8888/mcp1-weather-query" in changelog
+    assert "已登记到 Official MCP Registry" in changelog
+    assert "MCP Registry 尚未登记" not in changelog
 
 
 def test_dedicated_release_workflow_exists_at_the_publisher_identity_path() -> None:

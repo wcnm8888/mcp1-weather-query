@@ -23,4 +23,5 @@
 ### Publication status
 
 版本 `0.1.0` 是生产 PyPI 首发内容；公开可用性、文件和 attestation 以 PyPI 官方项目页
-为准。MCP Registry 尚未登记，本次 PyPI 发布不等于 Registry 登记。
+为准。`io.github.wcnm8888/mcp1-weather-query==0.1.0` 已登记到 Official MCP Registry，
+并通过官方 API 与公开 PyPI 安装后的 stdio 复验。

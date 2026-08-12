@@ -2,7 +2,9 @@
 
 ## 结论
 
-推荐顺序是：**先完成可安装的 Python 包 → 发布到 PyPI → 再登记 Official MCP Registry**。npm 不作为 Python 实现的首发渠道；MCP Registry 是发现/元数据层，不托管 Python wheel/sdist，不能替代 PyPI。
+推荐顺序是：**先完成可安装的 Python 包 → 发布到 PyPI → 再登记 Official MCP Registry**。
+`0.1.0` 已按该顺序完成 PyPI 发布、Registry 登记和公开安装复验。npm 不作为 Python 实现的
+首发渠道；MCP Registry 是发现/元数据层，不托管 Python wheel/sdist，不能替代 PyPI。
 
 任何 TestPyPI/PyPI 上传、Registry 注册、GitHub 公共仓库创建或社区平台发布都属于外部写入，执行前必须获得用户明确确认。
 
@@ -48,6 +50,28 @@ R-002 Step 3 已于 2026-08-12 完成：GitHub 官方 Releases API 确认 latest
 未加入 PATH。官方 schema URL 返回 200，`$id` 与 `server.json` 的 `$schema` 一致。
 唯一一次 `mcp-publisher validate` 退出码为 0 并返回 `server.json is valid`；manifest 哈希和
 Git 状态前后不变。该结果不包含 OAuth、Terms、login、publish 或 Registry 条目写入。
+
+R-002 readiness PR #11 已由用户合并；Step 6 将本地 `main` 以 fast-forward-only 同步到
+`900f71133ad9525ff65965d0822a1e92d06faead`。Official Registry 包含 deleted 的精确名称搜索
+仍为 0 条，精确 `0.1.0` detail 为 404；Terms 有效日期、SHA-256、preview、CC0 和公开身份
+边界均未漂移。该结果不接受 Terms、不启动 OAuth，也不授权或执行 login/publish。
+
+R-002 Step 7 已由用户单独授权并完成：固定 `mcp-publisher v1.8.1` 通过 GitHub device flow
+认证为 `wcnm8888`，Registry JWT 权限仅覆盖 `publish io.github.wcnm8888/*`，随后立即停止。
+JWT 有效期只有 300 秒；Step 8 若在过期后获得授权，必须同时明确允许一次重新 login。登录
+没有创建 Registry 条目，精确名称搜索仍为空，也不构成 publish 授权。
+
+R-002 Step 8 已由用户分段授权并完成：发布前重新核对冻结 manifest，随后固定
+`mcp-publisher v1.8.1` 仅执行一次 `publish`。CLI 退出码为 0，明确发布
+`io.github.wcnm8888/mcp1-weather-query==0.1.0`；没有第二次 publish 或其他 Registry 写入。
+
+R-002 Step 9 已完成公开复验：Official Registry API 精确返回唯一 `active`/latest 的
+`0.1.0`，metadata 与冻结 `server.json` 一致；从生产 PyPI 全新安装 `mcp-weather-query==0.1.0`
+后，Legacy/现代 stdio、唯一 Tool、结构化结果、stdout/stderr、退出和无遗留进程均通过。
+
+R-002 Step 10 已按用户授权使用固定官方命令 `mcp-publisher logout` 处置本机凭据。命令退出码
+为 0，publisher 管理的认证文件已移除，且没有遗留 publisher 进程；没有手工删除未知文件，
+也没有改变已经公开的 Registry 条目。
 
 ### 不可变版本与失败恢复
 
@@ -249,8 +273,9 @@ private；首发只使用生产 PyPI Trusted Publishing，没有 Token、人工�
 - 两个公开制品分别完成项目外干净安装和 installed-package stdio 复验。
 
 后续 PyPI 版本、yank、GitHub Release 或仓库公开范围变化仍需独立任务和用户授权。
-R-002 已进入本地准备阶段；当前 `server.json` 仍只是待登记 manifest，尚未执行 Registry
-login 或 publish。
+R-002 已完成 `0.1.0` 的 Official MCP Registry 单次登记与公开复验；当前 `server.json`
+是该公开条目的冻结来源。任何后续版本、metadata 更新、deprecated/deleted 状态变更或
+重新认证/发布都需要新的任务和用户授权。
 
 ## R-001 Step 3 固定候选
 

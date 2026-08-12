@@ -14,7 +14,7 @@
 - 制品/发布：`mcp-weather-query==0.1.0` 已通过 GitHub Actions Trusted Publishing 发布到
   [生产 PyPI](https://pypi.org/project/mcp-weather-query/0.1.0/)；wheel、sdist、公开元数据、
   SHA-256 与 attestations 已复核。
-- 测试：最近一次完整默认门禁为 `95 passed, 1 skipped`；唯一 skip 是显式 opt-in 的 live contract。此前 live contract 为 `1 passed`，Inspector 已完成唯一 Tool 的发现、成功和错误路径验证。
+- 测试：最近一次完整默认门禁为 `96 passed, 1 skipped`；唯一 skip 是显式 opt-in 的 live contract。此前 live contract 为 `1 passed`，Inspector 已完成唯一 Tool 的发现、成功和错误路径验证。
 - 启动边界：项目已注册 `mcp-weather-query` console command；wheel 与 sdist 已分别在项目外独立环境安装，并在无 `PYTHONPATH`、非源码工作目录下启动同一 stdio Server。
 - Node 兼容性：项目独立 Node 24.19.0 已通过官方 SHA256 校验，Inspector 2.1.0 不再产生 engine warning；系统 Node 22.16.0 未改变。
 - 协议证据：官方 Python SDK v2 `Client(mode="auto")` 通过生产 stdio 入口完成 `server/discover`，协商 MCP 2026-07-28，且未执行 Legacy initialize；同一 Server 继续允许 Inspector 2.1.0 以 Legacy MCP 2025-11-25 调试。
@@ -22,8 +22,8 @@
 - 安装证据：公开 wheel 与 sdist 已分别在项目外全新环境安装；两者都只发现
   `get_current_weather`，生产 console 的 stdout 仅含 MCP 消息、退出码为 0，确定性离线
   调用返回合法 `structuredContent`。
-- 交付边界：PyPI 首发闭环已验证；R-002 Official MCP Registry 登记任务已进入准备阶段，
-  但尚未登记 MCP Registry，GitHub Release 未创建。任务启动不代表 Registry 条目已经存在。
+- 登记状态：`io.github.wcnm8888/mcp1-weather-query==0.1.0` 已登记到 Official MCP Registry；
+  官方 API 返回唯一 `active`/latest 记录，公开 PyPI 安装后的 installed-package stdio 复验通过。
 
 ## 安装与启动
 
@@ -72,12 +72,14 @@ Server 通过 stdin/stdout 交换 MCP 协议消息；普通诊断只写入 stder
 
 - `mcp-weather-query==0.1.0` 已发布；公开可用性、文件和 attestation 以
   [PyPI 官方项目页](https://pypi.org/project/mcp-weather-query/0.1.0/) 为准。
-- Registry 候选名称为 `io.github.wcnm8888/mcp1-weather-query`，尚未登记 MCP Registry。
-- R-002 已使用固定官方 `mcp-publisher v1.8.1` 完成无写入 validate；尚未执行 GitHub
-  OAuth login 或 publish，validate 通过不代表 Registry 已登记。
-- README 顶部的 `mcp-name` 注释用于 PyPI ownership verification，不代表
-  Registry 条目已经存在。
-- 后续版本发布、Registry 登录/发布或 GitHub Release 仍需要独立用户授权。
+- `io.github.wcnm8888/mcp1-weather-query==0.1.0` 已登记到
+  [Official MCP Registry](https://registry.modelcontextprotocol.io/)；官方 API 已复核为唯一
+  `active`/latest 条目，且 PyPI package、`uvx`、stdio、仓库元数据与冻结的 `server.json` 一致。
+- README 顶部的 `mcp-name` 注释继续作为 PyPI ownership verification marker；它与公开
+  Registry 身份保持一致，但 Registry 不托管 wheel/sdist，安装来源仍是 PyPI。
+- R-002 只对冻结的 `server.json` 执行过一次 publish。发布后已通过官方 API 和全新 PyPI
+  安装环境复验，并使用官方 `mcp-publisher logout` 处置本机短期认证文件。
+- 后续版本发布、Registry metadata 更新、状态变更或 GitHub Release 仍需要新的独立用户授权。
 
 ## 已交付能力
 

@@ -2,14 +2,16 @@
 
 ## 生命周期
 
-- 状态：`active / Step 5 complete / Draft readiness PR #11 awaiting user review and merge`。
+- 状态：`active / Step 10 complete / awaiting closure PR #12 merge`。
 - 等级：L；原因是首次向 Official MCP Registry 写入公开、同版本不可原地覆盖的元数据，
   并涉及 GitHub OAuth、公开条款和失败恢复。
-- 起点：`main` 与 `origin/main` 均为
-  `2fae2579517ebb5f7154f9646b54b4f174be6ffa`。
-- 当前本地分支：`release/r-002-mcp-registry-0.1.0`；提交 `4d262c3` 已推送，Draft readiness PR #11 已创建。
+- readiness 合并基线：`main` 与 `origin/main` 均为
+  `900f71133ad9525ff65965d0822a1e92d06faead`（PR #11 merge commit）。
+- 当前本地分支：`agent/r-002-step10-registry-closure`；起点与 `origin/main` 均为
+  `900f71133ad9525ff65965d0822a1e92d06faead`。
 - 交付策略：同一任务分两次 PR；readiness PR 先交付登记准备，closure PR 仅在公开登记复验后收口。
-- 外部状态：PyPI `mcp-weather-query==0.1.0` 已公开；Official MCP Registry 尚未登记。
+- 外部状态：PyPI `mcp-weather-query==0.1.0` 已公开；Official MCP Registry 中唯一 active 的
+  `io.github.wcnm8888/mcp1-weather-query==0.1.0` 已登记并完成官方 API 与公开安装复验。
 
 ## 用户目标与业务价值
 
@@ -24,8 +26,11 @@
 - 已有：根目录 `server.json` 已通过静态契约和固定 publisher validate，公开包 README 含
   `mcp-name` ownership marker。
 - 已有：当前 Registry schema、公开身份、OAuth 边界、不可变版本和失败恢复已有本地契约证据。
-- 缺口：尚未完成 Draft readiness PR #11 的用户合并、Terms 接受、OAuth login、publish 或
-  Registry API 公开条目复验。
+- 已完成：Step 10 已获凭据处置与 closure PR 授权；固定官方 logout 已成功移除 publisher
+  管理的本机认证文件。
+- 已完成：发布后 README/CHANGELOG/release plan、测试契约与治理文档已通过离线门禁，并形成
+  Draft closure PR #12。
+- 缺口：PR #12 尚未由用户合并，Step 11 同步、归档和关闭尚未执行。
 
 ## 已批准身份契约
 
@@ -125,12 +130,12 @@
 | 2 | 最小修正 `server.json`、文档和契约，使红灯转绿 | **已完成：10 passed** |
 | 3 | 核验固定 publisher/schema 并运行联网但不写入的 validate | **已完成** |
 | 4 | 独立 QA、最终元数据冻结、公开 PyPI marker 复核与 UAT | **已完成** |
-| 5 | readiness Git/PR；CI 不得 login/publish | 未开始 |
-| 6 | 合并后同步 main、确认 Registry 仍为空、Terms 与认证边界 | 未开始 |
-| 7 | 经单独授权执行 GitHub OAuth login，随后停止 | 未开始 |
-| 8 | 经单独授权执行唯一一次 Registry publish | 未开始 |
-| 9 | 官方 API、PyPI 引用、安装与 stdio 公开复验 | 未开始 |
-| 10 | 经授权处置凭据、更新发布后文档/测试并创建 closure PR | 未开始 |
+| 5 | readiness Git/PR；CI 不得 login/publish | **已完成：PR #11 已合并** |
+| 6 | 合并后同步 main、确认 Registry 仍为空、Terms 与认证边界 | **已完成** |
+| 7 | 经单独授权执行 GitHub OAuth login，随后停止 | **已完成** |
+| 8 | 经单独授权执行唯一一次 Registry publish | **已完成：单次 publish 成功** |
+| 9 | 官方 API、PyPI 引用、安装与 stdio 公开复验 | **已完成** |
+| 10 | 经授权处置凭据、更新发布后文档/测试并创建 closure PR | **已完成：Draft PR #12** |
 | 11 | 用户合并 closure PR 后同步、归档并关闭 R-002 | 未开始 |
 
 Step 7、8、9 不得合并执行；每一 Step 完成后停止。
@@ -175,7 +180,20 @@ PyPI 安装/stdio 复验通过、凭据处置已决定、closure PR 已由用户
 - Step 0–4 未执行 Registry login/publish、Terms 接受、外部写入、
   commit、push 或 PR。
 - 用户已明确确认 `R-002 Step 4 UAT 通过`，并随后明确允许进入 `R-002 Step 5` readiness Git/PR。
-- Step 5 授权仅覆盖当前冻结变更的精确提交、功能分支推送和 Draft PR；不授权合并、Terms、OAuth、login 或 publish。
+- Step 5 readiness PR #11 已由用户合并；Step 6 已同步 `main`，并只读确认 Registry 精确名称仍为空、Terms 与认证边界未漂移。
+- Step 7 使用固定 `mcp-publisher v1.8.1` 完成 GitHub OAuth；JWT 声明确认身份为 `wcnm8888`，
+  权限仅为 `publish io.github.wcnm8888/*`，随后立即停止，Registry 精确名称仍为空。
+- Step 8 在用户分段授权下完成一次且仅一次 publish；固定 publisher 返回 exit code 0，并明确
+  发布 `io.github.wcnm8888/mcp1-weather-query` 版本 `0.1.0`。发布前原始与规范化语义哈希均匹配。
+- Step 9 官方 API 精确返回唯一 active/latest 的 `0.1.0`，PyPI/uvx/stdio/private repository
+  元数据与冻结 manifest 一致；新的项目外公开 PyPI 安装通过 Legacy/现代 stdio、唯一 Tool、
+  确定性结构化调用、stdout/stderr、退出与无残留进程复验。
+- 用户已明确允许 Step 10 的凭据处置、发布后文档/测试和 closure PR。固定
+  `mcp-publisher v1.8.1 logout` 已退出 0，认证文件已由官方工具移除且无遗留 publisher 进程。
+- 发布后定向契约 `30 passed`；完整离线门禁 `96 passed, 1 skipped`，唯一 skip 仍是 live
+  contract。项目外重建 wheel/sdist 通过当前 README、metadata、法律文件和内容白名单审查。
+- Draft closure PR #12 已创建：`https://github.com/wcnm8888/mcp1-weather-query/pull/12`。
+  当前门禁是用户审查并合并；不得自行合并、归档任务或进入 Step 11。
 
 ## Step 4 用户 UAT 记录
 

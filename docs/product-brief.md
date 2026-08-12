@@ -43,7 +43,8 @@ Datawhale 案例适合作为学习动机，但其天气实现使用 HelloAgents 
 - 单元测试、MCP 协议集成测试、stdio 子进程冒烟测试和可选 live contract 测试。
 - `pyproject.toml`、锁文件、wheel/sdist 和干净环境安装验证流程。
 - README、架构、测试、发布、路线、任务状态和最终证据文档。
-- 经用户单独授权后，可能的 PyPI 包和 MCP Registry 元数据条目。
+- 经用户分段授权后已交付的生产 PyPI `mcp-weather-query==0.1.0` 和 Official MCP Registry
+  `io.github.wcnm8888/mcp1-weather-query==0.1.0` 元数据条目。
 
 ## 成功标准
 

@@ -1,6 +1,6 @@
 # R-002 L 级 QA 清单
 
-> 状态：`active / Step 4 QA and UAT passed`。勾选项必须有本任务的新证据；历史 R-001 或草案不能
+> 状态：`active / Step 10 passed / closure PR #12 awaiting merge`。勾选项必须有本任务的新证据；历史 R-001 或草案不能
 > 冒充 Registry 登记证据。本清单不授权 validate、login、publish 或任何外部写入。
 
 ## Step 0 基线
@@ -34,24 +34,25 @@
 
 ## Git 与认证（Step 5–7）
 
-- [ ] readiness PR 精确包含获准文件，CI 不执行 Registry login/publish。
-- [ ] readiness PR 已由用户合并，本地 main 同步且 Registry 精确名称仍为空。
-- [ ] 用户在官方界面复核 Terms 与认证边界，并单独授权 GitHub OAuth login。
-- [ ] OAuth 身份为 `wcnm8888`，没有 token、Cookie、设备码或认证缓存进入日志、文档或 Git。
-- [ ] login 后停止；没有把认证成功当作 publish 授权。
+- [x] readiness PR 精确包含获准文件，CI 不执行 Registry login/publish。
+- [x] readiness PR 已由用户合并，本地 main 同步且 Registry 精确名称仍为空。
+- [x] 用户在官方界面复核 Terms 与认证边界，并单独授权 GitHub OAuth login。
+- [x] OAuth 身份为 `wcnm8888`，没有 token、Cookie、设备码或认证缓存进入日志、文档或 Git。
+- [x] login 后停止；没有把认证成功当作 publish 授权。
 
 ## 登记与公开复验（Step 8–9）
 
-- [ ] 用户单独授权单次 publish，待发布文件哈希/内容与冻结版本一致。
-- [ ] publish 结果明确；若不确定，先查官方 API 且没有盲目重试。
-- [ ] 官方 API 只出现精确名称和 0.1.0，PyPI、stdio/uvx、仓库元数据一致。
-- [ ] 从公开 PyPI 安装后仍只发现 `get_current_weather`，stdio/structuredContent/
+- [x] 用户单独授权单次 publish，待发布文件哈希/内容与冻结版本一致。
+- [x] publish 结果明确；若不确定，先查官方 API 且没有盲目重试。
+- [x] 官方 API 只出现精确名称和 0.1.0，PyPI、stdio/uvx、仓库元数据一致。
+- [x] 从公开 PyPI 安装后仍只发现 `get_current_weather`，stdio/structuredContent/
   stdout/stderr/退出继续通过。
-- [ ] 未创建新 PyPI 版本、第二 Tool、HTTP/SSE、GitHub Release 或社区目录条目。
+- [x] 未创建新 PyPI 版本、第二 Tool、HTTP/SSE、GitHub Release 或社区目录条目。
 
 ## 凭据、关闭与完成（Step 10–11）
 
-- [ ] 用户已决定官方 logout/凭据处置；没有手工删除未知认证文件。
-- [ ] 发布后文档、测试和证据与 Registry/PyPI/Git 事实一致。
+- [x] 用户已决定官方 logout/凭据处置；固定 publisher logout 成功，没有手工删除未知认证文件。
+- [x] 发布后文档、测试和证据与 Registry/PyPI/Git 事实一致。
+- [x] Draft closure PR #12 已创建，目标为 `main`，没有自行合并。
 - [ ] closure PR 已由用户审查并合并。
 - [ ] `main == origin/main`、工作树干净，R-002 任务卡与本清单归档后才标记 closed。
