@@ -1,13 +1,13 @@
 # R-001 L 级 QA 清单
 
-> 状态：`active / step_5_pr_open / awaiting_pr_ci`。本清单用于 R-001 的独立 QA 与发布授权审计；勾选项必须
+> 状态：`active / step_5_completed / awaiting_pr_review_merge`。本清单用于 R-001 的独立 QA 与发布授权审计；勾选项必须
 > 有可复核证据。它不是发布证明，也不授权任何外部写入。
 
 ## 身份与公开边界
 
 - [x] distribution/import/console/version/tag 全部一致。
 - [ ] PyPI 页面公开内容仅包含批准的项目、License 和 Open-Meteo 限制说明。
-- [ ] 仓库继续 private，R-002、TestPyPI、GitHub Release、npm/MCPB 不在范围。
+- [x] 仓库继续 private，R-002、TestPyPI、GitHub Release、npm/MCPB 不在范围。
 
 ## Workflow 与供应链安全
 
@@ -26,7 +26,7 @@
 - [x] Step 3 wheel/sdist 双干净安装与 installed-package stdio 通过。
 - [x] Step 4 独立 QA 和新的显式 Open-Meteo live contract 通过。
 - [x] 用户在固定 wheel 环境完成 UAT 并明确确认通过。
-- [ ] PR CI 通过且有“未执行发布”的证据。
+- [x] PR CI 通过且 publish job 明确 skipped，没有执行发布。
 
 ## 外部授权与发布
 

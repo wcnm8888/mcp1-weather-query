@@ -4,7 +4,7 @@
 
 - 活动任务：R-001 PyPI 首次外部发布
 - 等级：L
-- 状态：`step_5_pr_open / awaiting_pr_ci`
+- 状态：`step_5_completed / awaiting_pr_review_merge`
 - 起点：`main == origin/main == 0d5d7be9271b71143cdbcdf768bfbde5ed4393d0`
 - 本地分支：`release/r-001-pypi-0.1.0`
 - 外部发布：未授权、未执行
@@ -16,7 +16,7 @@
 - [x] Step 2：实现最终发布元数据和安全 CI workflow。
 - [x] Step 3：本地重建、制品审查和双干净安装。
 - [x] Step 4：独立 QA、新 live contract 和用户 UAT。
-- [ ] Step 5：Git/PR 交付；PR CI 只能检查，不能发布。
+- [x] Step 5：Git/PR 交付；PR CI 只能检查，不能发布。
 - [ ] Step 6：合并后同步、公开名称复核和 Pending Publisher 配置；单独授权。
 - [ ] Step 7：最终发布门禁与精确 `v0.1.0` tag；再次明确授权。
 - [ ] Step 8：公开 PyPI 文件、attestation、安装和 stdio 验证。
@@ -102,13 +102,21 @@
   `structuredContent`、stdout/stderr 和退出码均符合验收。
 - [x] 未触发 Actions、未登录/配置/上传 PyPI，未创建 tag、commit、push 或 PR。
 
+## R-001 Step 5 结果
+
+- [x] 精确提交并推送 13 个 R-001 文件，创建以 `main` 为目标的 Draft PR #7。
+- [x] 首次 PR run 发现 artifact actions 的 Node.js 20 弃用告警；以官方最新不可变 SHA
+  更新 upload v7.0.1 和 download v8.0.1，二者均使用 Node.js 24。
+- [x] 最新功能提交 `b5b1ff3430bd6ea15be735ec0e925e664bceb9d3` 的 run
+  `31516139712` 成功：build/QA、wheel/sdist、制品检查和 artifact 上传全部通过。
+- [x] `Publish distributions to production PyPI` 明确 skipped，annotations 为空；没有 tag、
+  OIDC 发布、PyPI 登录、Publisher 配置或制品上传到 PyPI。
+- [x] Draft PR #7 保持 Draft、merge state clean，等待用户审查/合并。
+
 ## 当前门禁
 
-Step 5 已创建并推送提交 `5f245ee6acc382400b28c557388a4aa114a9fb53`，Draft PR #7
-以 `main` 为目标。首次 CI build 成功且 publish skipped，但暴露 artifact actions 的 Node.js 20
-弃用告警；已按官方最新 Node.js 24 版本最小修复。当前等待修复提交的 PR CI，必须确认
-PR 只运行 build/QA、没有执行 publish 且不再出现该告警；
-不得进入 Step 6、登录 PyPI、配置 Publisher、创建 tag 或上传。
+Step 5 已完成。等待用户审查并决定是否合并 Draft PR #7；不得自动合并、进入 Step 6、
+登录 PyPI、配置 Publisher、创建 tag 或上传。
 
 ## 历史计划
 
@@ -250,9 +258,8 @@ PR 只运行 build/QA、没有执行 publish 且不再出现该告警；
 
 ## 下一门禁
 
-等待 Draft PR #7 的最新 CI。通过后记录“PR 只检查、不发布”证据并停在用户审查/合并
-门禁；不得自动进入 Step 6、登录 PyPI、配置 Pending Publisher、创建/推送 tag、上传制品
-或进入 R-002。
+等待用户审查并决定是否合并 Draft PR #7。合并后仍需用户明确允许进入 Step 6；不得
+自动登录 PyPI、配置 Pending Publisher、创建/推送 tag、上传制品或进入 R-002。
 
 ## 当前验证
 

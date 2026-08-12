@@ -5,7 +5,7 @@
 - F-001：已完成、合并、归档并关闭。
 - F-002：已完成、合并、归档并关闭；PR #3 与收口 PR #4 均已合并。
 - D-001：已完成、合并、归档并关闭；PR #5 已合并。
-- R-001：任务卡已批准，Step 5 Draft PR #7 已创建，等待最新 PR CI。
+- R-001：任务卡已批准，Step 5 已完成，Draft PR #7 等待用户审查/合并。
 - 当前分支：`release/r-001-pypi-0.1.0`（仅本地，尚未提交或推送）。
 - 起点基线：`main == origin/main == 0d5d7be9271b71143cdbcdf768bfbde5ed4393d0`。
 - 外部发布：未授权、未执行。
@@ -37,7 +37,8 @@ commit、push、Draft PR 和 PR 检查；仍不授权发布 job、PyPI 登录/�
 - 创建 Draft PR #7：`https://github.com/wcnm8888/mcp1-weather-query/pull/7`，目标为 `main`。
 - 首次 PR build 成功且 publish skipped，但发现 upload action 的 Node.js 20 弃用告警；已将
   upload/download 更新到官方最新 Node.js 24 action SHA 并保持 9 项静态契约全绿。
-- 当前 PR 检查仍只有 `Validate and build distributions`；等待修复提交对应的最终结果。
+- 修复后 run `31516139712` 的 build/QA、制品检查与 artifact 上传全部成功，publish job
+  明确 skipped，annotations 为空；Step 5 已完成，等待用户审查/合并 Draft PR #7。
 
 ## R-001 Step 2 结果
 

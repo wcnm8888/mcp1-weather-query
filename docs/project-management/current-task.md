@@ -3,7 +3,7 @@
 ## 生命周期状态
 
 - 任务编号：`R-001`
-- 状态：`approved / step_5_pr_open / awaiting_pr_ci`
+- 状态：`approved / step_5_completed / awaiting_pr_review_merge`
 - 风险等级：`L`（公开发布、供应链配置和不可覆盖版本）
 - 起点提交：`0d5d7be9271b71143cdbcdf768bfbde5ed4393d0`
 - 本地分支：`release/r-001-pypi-0.1.0`
@@ -20,9 +20,9 @@
 
 - 已有：可构建 wheel/sdist、稳定 console entry point、唯一只读 Tool、发布候选文档、
   `server.json` 草案、项目外双安装和 UAT。
-- 已新增本地安全 workflow 和公开发布说明，并完成新的项目外候选制品、双干净安装、
-  installed-package stdio 复验、独立 QA 和新的 live contract；尚待用户 UAT、PR CI、
-  Trusted Publisher 绑定、公开 PyPI 页面、attestation 或发布后收口。
+- 已新增安全 workflow 和公开发布说明，并完成项目外候选制品、双干净安装、
+  installed-package stdio、独立 QA、新 live contract、用户 UAT 和 PR 非发布 CI；尚待
+  用户审查/合并、Trusted Publisher 绑定、公开 PyPI 页面、attestation 或发布后收口。
 - `CHANGELOG.md` 的 `0.1.0` 仍是 `Unreleased`；任何本地候选都不能冒充最终公开制品。
 
 ## 已批准决策
@@ -123,7 +123,7 @@
 - [x] Step 2：实现最终发布元数据和安全 CI workflow。
 - [x] Step 3：本地重建、制品审查和双干净安装。
 - [x] Step 4：独立 QA、新 live contract 和用户 UAT。
-- [ ] Step 5：Git/PR 交付；PR CI 只能检查，不能发布。
+- [x] Step 5：Git/PR 交付；PR CI 只能检查，不能发布。
 - [ ] Step 6：合并后同步、公开名称复核和 Pending Publisher 配置；需要单独授权。
 - [ ] Step 7：最终发布门禁与精确 `v0.1.0` tag；需要再次明确授权。
 - [ ] Step 8：公开 PyPI 文件、attestation、安装和 stdio 验证。
@@ -168,9 +168,9 @@ Step 4 的独立 QA、新 live contract 和用户 UAT 已通过；用户已明�
 Git/PR 交付。当前批准仍不授权：进入 Step 6、登录 PyPI、配置 Pending Publisher、创建或
 推送 tag、上传任何制品、触发发布 job 或进入 R-002。
 
-Step 5 已创建提交 `5f245ee6acc382400b28c557388a4aa114a9fb53`，推送
-`release/r-001-pypi-0.1.0` 并创建以 `main` 为目标的 Draft PR #7。当前等待最新 PR CI；
-用户审查/合并以及后续 Publisher 配置仍是独立门禁。
+Step 5 已推送 `release/r-001-pypi-0.1.0` 并创建以 `main` 为目标的 Draft PR #7。最新功能
+提交 `b5b1ff3430bd6ea15be735ec0e925e664bceb9d3` 的 PR build/QA 全部成功，publish job
+明确 skipped，annotations 为空；当前等待用户审查/合并。后续 Publisher 配置仍是独立门禁。
 
 ## 历史任务卡
 

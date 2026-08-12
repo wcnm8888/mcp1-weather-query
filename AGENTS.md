@@ -6,7 +6,7 @@
 
 - 生命周期：roadmap 已批准；F-001、F-002、D-001 均已关闭；R-001 任务卡已批准。
 - 项目整体等级：M；当前任务 R-001 按 L 级风险流程管理。
-- 当前状态：R-001 Draft PR #7 已创建，等待最新 PR CI 完成。
+- 当前状态：R-001 Step 5 已完成，Draft PR #7 等待用户审查/合并。
 - 禁止把“文档已建立”“本地可运行”“已构建”写成“已发布”。
 
 ## 范围边界
@@ -19,7 +19,7 @@
 
 ## 工作流与外部操作
 
-- 当前只允许执行 R-001 Step 5 Git/PR 交付；不得进入 Step 6 或 R-002。
+- 当前停在 Draft PR #7 用户审查/合并门禁；不得自动合并、进入 Step 6 或 R-002。
 - R-001 采用生产 PyPI Trusted Publishing，但当前批准不授权登录 PyPI、配置 Pending Publisher、创建/推送 tag 或上传制品。
 - 本项目只使用 `docs/` 作为长期文档目录，不创建重复的 `memory-bank/`。
 - commit、push、PR、PyPI/TestPyPI 上传、MCP Registry 注册、社区平台发布、公开仓库创建均需用户明确授权。

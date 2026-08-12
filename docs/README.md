@@ -18,8 +18,8 @@
 - 验收证据：[`evidence.md`](evidence.md)
 - 已归档任务卡：[`archive/task-cards/`](archive/task-cards/)
 
-F-001、F-002 与 D-001 的完整任务卡均已归档并关闭。R-001 是唯一活动任务；Draft PR #7
-已创建，等待最新 PR CI 完成。
+F-001、F-002 与 D-001 的完整任务卡均已归档并关闭。R-001 是唯一活动任务；Step 5
+已完成，Draft PR #7 等待用户审查/合并。
 
 ## 权威文档映射
 
@@ -51,11 +51,11 @@ F-001、F-002 与 D-001 的完整任务卡均已归档并关闭。R-001 是唯�
 
 ## 当前状态
 
-- 活动任务：R-001 PyPI 首次外部发布；Step 5 Draft PR #7 等待 CI。
+- 活动任务：R-001 PyPI 首次外部发布；Step 5 已完成，Draft PR #7 等待用户处理。
 - roadmap：已批准；F-001、F-002、D-001 均已关闭，R-001 已批准，R-002 未启动。
 - Git：private `origin` 为 `wcnm8888/mcp1-weather-query`；R-001 起点为同步后的 `0d5d7be`，当前仅本地分支 `release/r-001-pypi-0.1.0`。
 - 实现/测试：唯一 `get_current_weather` MCP Tool、固定候选 wheel/sdist、双干净安装和
   Step 4 独立复验均已完成；当前默认门禁为 `85 passed, 1 skipped`，唯一 skip 是显式 live contract。
 - 构建/发布：独立 QA 修复发布文档陈旧状态后生成新的 QA wheel/sdist，并分别完成项目外离线安装和 installed-package stdio 复验；未上传或发布。
-- 唯一下一步：完成 R-001 Step 5 Draft PR 和非发布 CI 证据；不得登录、配置 Publisher、
-  创建 tag、发布或自动进入 Step 6。
+- 唯一下一步：用户审查并决定是否合并 Draft PR #7；不得自动合并、登录、配置 Publisher、
+  创建 tag、发布或进入 Step 6。

@@ -1185,3 +1185,11 @@ D-001 Step 0 已完成。变更只涉及任务治理和历史状态文档；没�
 - 为避免当前 build 告警和未来 publish job 的同类风险，最小更新 upload/download 两个
   action SHA 及静态 allowlist；定向契约 `9 passed`，完整离线门禁仍为
   `85 passed, 1 skipped`。等待该修复提交对应的新 PR CI，不复用旧 run 冒充最终证据。
+- 修复提交 `b5b1ff3430bd6ea15be735ec0e925e664bceb9d3` 对应 PR run
+  `31516139712` 完成且结论为 success。`Validate and build distributions` 的 setup、锁文件、
+  Ruff、严格 mypy、默认离线测试、patch whitespace、wheel/sdist 构建、制品检查与 artifact
+  上传全部成功；`Publish distributions to production PyPI` 结论为 skipped、零步骤。
+- build check annotations 返回空数组，旧 Node.js 20 告警已消失。PR #7 保持 Draft，目标
+  `main`、merge state clean；未创建 tag、未请求发布 OIDC、未登录/配置 PyPI 或上传公开制品。
+- Step 5 已完成，当前停止在用户审查/合并 Draft PR #7 的门禁；PR 合并不等于 PyPI 发布，
+  合并后仍需用户明确允许进入 Step 6。
