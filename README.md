@@ -93,6 +93,9 @@ Server 通过 stdin/stdout 交换 MCP 协议消息；普通诊断只写入 stder
 - 项目源代码采用 [MIT License](LICENSE)。
 - 天气与地理编码数据由 [Open-Meteo](https://open-meteo.com/) 提供，数据依照
   [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 使用。
+- 本学习项目只使用 Open-Meteo 非商业免费 API。公开免费层限制为每分钟 600 次、
+  每小时 5,000 次、每天 10,000 次请求，且无 SLA；不应把本工具视为商业或生产级
+  天气服务。限额和服务条款可能由上游调整，使用前应复核 Open-Meteo 官方说明。
 - 本项目会把选定的上游字段规范化为结构化 MCP Tool 输出，不改变底层测量值；
   详细第三方数据说明见 [NOTICE](NOTICE)。
 
